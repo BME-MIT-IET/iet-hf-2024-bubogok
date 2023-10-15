@@ -1,55 +1,43 @@
 package temalab.test;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
 
 public class Vehicle {
-	Vector2 pos;
+	Field pos;
 	Color color;
-	Vector2 target;
+	Field target;
 	float size = 20;
-	float speed, direction;
 	
 	
-	public Vehicle(Vector2 pos, String team) {
-		this.pos = pos;
-		this.target = pos;
-		this.speed = 0;
-		this.direction = 0;
+	public Vehicle(String team) {
 		if(team == "green") {
-			this.color = new Color(0, 255, 0, 255);
+			this.color = new Color(0, 1, 0, 1);
 		} else if(team == "red") {
-			this.color = new Color(255, 0, 0, 255);
+			this.color = new Color(1, 0, 0, 1);
 		} else {
-			this.color = new Color(100, 100, 100, 255);
+			this.color = new Color(.3f, .3f, .3f, 1);
 		}
 	}
 	
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
 		sr.begin(ShapeRenderer.ShapeType.Filled);
-		if(!this.nearlyEquals(target)) {
-			this.move();
-			sr.setColor(new Color(255, 255, 255, 255));
-			sr.line(pos, target);
-		}
 		sr.setColor(this.color);
-		sr.rect(this.pos.x - this.size/2, this.pos.y - this.size/2, this.size, this.size);
+		sr.rect(this.pos.getCenter().x - this.size/2, this.pos.getCenter().y - this.size/2, this.size, this.size);
 		sr.end();
 	}
 	
 	public void move() {
-		//Vector2 heading = this.target.sub(this.pos);
-		//this.pos.add(heading);
 		
 	}
 	
-	public void setTarget(Vector2 tar) {
+	public void setTarget(Field tar) {
 		this.target = tar;
 	}
 	
-	public boolean nearlyEquals(Vector2 target) {
-		return pos.epsilonEquals(target, 1.5f*size);
+	public void setPos(Field pos) {
+		this.pos = pos;
 	}
+
 }
