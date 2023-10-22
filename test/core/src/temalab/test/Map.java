@@ -12,11 +12,13 @@ public class Map {
 	private int mapSize;
 	private int numberOfSquares;
 	private Field[][] fields;
+	private Vehicle[][] units;
 	
 	
 	public Map(int size, int nos) {
 		this.numberOfSquares = nos;
 		this.fields = new Field[numberOfSquares][numberOfSquares];
+		this.units = new Vehicle[numberOfSquares][numberOfSquares];
 		this.mapSize = size;
 	}
 	
@@ -24,8 +26,12 @@ public class Map {
 		for(int i = 0; i < fields.length / 2; i++) {
 			for(int j = 0; j < fields[i].length/ 2; j++) {
 				float squareSize = mapSize / numberOfSquares;
-				fields[i][j] = new Field(new Vector2((float)1.5*squareSize + 2 * i * squareSize, (float)1.5*squareSize + 2 * j * squareSize), (int)squareSize, Type.FOREST);			}
-			
+				fields[i][j] = new Field(
+						new Vector2((float)1.5*squareSize + 2 * i * squareSize, 
+									(float)1.5*squareSize + 2 * j * squareSize), 
+						(int)squareSize, 
+						Type.FOREST);			
+			}
 		}
 	}
 	
@@ -33,12 +39,16 @@ public class Map {
 		for(int i = 0; i < fields.length / 2; i++) {
 			for(int j = 0; j < fields[i].length / 2; j++) {
 				fields[i][j].render(sr, sb, bf);
+				//TODO: nullcheck csúnya, kellene valami okosabb
+				if(units[i][j] != null) {
+					units[i][j].render(sr, sb, bf);					
+				}
 			}
 			
 		}
 	}
 	public void addVehicle(Vehicle v, int x, int y) {
-		fields[x][y].addCurrent(v);
+		units[x][y] = v;
 		v.setPos(fields[x][y]);
 	}
 }

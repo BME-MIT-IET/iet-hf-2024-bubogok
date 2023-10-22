@@ -17,7 +17,7 @@ public class Vehicle {
 		} else if(team == "red") {
 			this.color = new Color(1, 0, 0, 1);
 		} else {
-			this.color = new Color(.3f, .3f, .3f, 1);
+			this.color = new Color(.8f, .8f, .8f, 1);
 		}
 	}
 	

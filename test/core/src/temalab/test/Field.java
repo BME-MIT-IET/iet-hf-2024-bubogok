@@ -12,17 +12,16 @@ public class Field {
 	private Vector2 center;
 	private int size;
 	private Color color;
-	private Vehicle current;
 	private Type type;
 	
 	public enum Type {
 		GRASS,
 		WATER,
-		FOREST
+		FOREST,
+		BUILDING
 	}
 	
 	public Field(Vector2 pos, int s, Type t) {
-		this.current = null;
 		this.center = pos;
 		this.size = s;
 		this.type = t;
@@ -34,7 +33,9 @@ public class Field {
 			this.color = new Color(0, 0, 1, 1);
 		} else if(t == Type.FOREST) {
 			this.color = new Color(0.11f, 0.5f, 0.11f, 1);
-		} */
+		} else if(t == Type.BUILDING) {
+			this.color = new Color(0.2f, 0.2f, 0.2f, 1);
+			*/
 		
 		Random rnd = new Random();
 		float r = rnd.nextFloat();
@@ -43,21 +44,13 @@ public class Field {
 	}
 	
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
-		if(this.current == null) {
-			sr.begin(ShapeRenderer.ShapeType.Filled);
-			sr.setColor(this.color);
-			sr.rect(this.center.x - this.size/2, this.center.y - this.size/2, this.size, this.size);
-			sr.end();
-		} else {
-			current.render(sr, sb, bf);
-		}
+		sr.begin(ShapeRenderer.ShapeType.Filled);
+		sr.setColor(this.color);
+		sr.rect(this.center.x - this.size/2, this.center.y - this.size/2, this.size, this.size);
+		sr.end();
 	}
 	
 	public Vector2 getCenter() {
 		return this.center;
-	}
-	
-	public void addCurrent(Vehicle v) {
-		this.current = v;
 	}
 }
