@@ -2,42 +2,43 @@ package temalab.test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class TeamLeader {
 	
-	private String team;
+	private Team team;
 	CommMaster cm = null;
+	private Scanner input;
 	
-	public TeamLeader(String t) {
+	public TeamLeader(Team t) {
 		this.team = t;
-		
-		ProcessBuilder processBuilder = new ProcessBuilder("python", "python/test.py");
-      Process process = null;
-      try {
-          process = processBuilder.start();
-      } catch (IOException e) {
-          throw new RuntimeException(e);
-      }
+//		ProcessBuilder processBuil      
+//      try {
+//          process = processBuilder.start();
+//      } catch (IOException e) {
+//          throw new RuntimeException(e);
+//      }
+//
+//      cm = new CommMaster(process.getInputStream(),
+//              process.getOutputStream(),
+//              process.getErrorStream());
 
-      cm = new CommMaster(process.getInputStream(),
-              process.getOutputStream(),
-              process.getErrorStream());
-
-      try {
-          ArrayList<String> answer = cm.getAnswer(String.format("{" +
-                          "\"player_index\": %d, " +
-                          "\"board_size\": [%d, %d], " +
-                          "\"n_to_connect\": %d}",
-                  playerIndex, boardSize[0], boardSize[1], nToConnect));
-      } catch (IOException e) {
-          throw new RuntimeException(e);
-      }
+      //    	  ArrayList<String> answer = cm.getAnswer(); 
 	}
 	
-	public String getTeam() {
+	public void sendMessage(List<Integer> ids) {
+		System.out.println(ids.toString());
+	}
+	public String[] getInput() {
+		input = new Scanner(System.in);
+		String answer = input.nextLine();
+		String[] split = answer.split(" ");
+		return split;
+	}
+	
+	public Team getTeam() {
 		return this.team;
 	}
-	
-	//TODO: move fuggvenyt kitalalni
-
 }

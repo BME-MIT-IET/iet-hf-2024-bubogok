@@ -2,13 +2,17 @@ package temalab.test;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+
+
 import com.badlogic.gdx.graphics.g2d.*;
 
 public class Vehicle {
+	private int ID;
 	private Vector pos;
 	private Team team;	
 	
 	public Vehicle(Vector pos, Team team) {
+		this.ID = Test.r.nextInt(1000000);
 		this.pos = pos;
 		this.team = team;
 	}
@@ -26,6 +30,10 @@ public class Vehicle {
 	}
 	
 	public void move(int x, int y) {
-		
+		this.pos = new Vector(x, y);
+	}
+	
+	public int getUUID() {
+		return this.ID;
 	}
 }

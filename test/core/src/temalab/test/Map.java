@@ -1,11 +1,12 @@
 package temalab.test;
 
 
-import java.util.ArrayList;
+import java.util.*;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 
 import temalab.test.Field.Type;
 
@@ -14,7 +15,7 @@ public final class Map {
 	private int mapSize;
 	private int numberOfSquares;
 	private Field[][] fields;
-	private ArrayList<Vehicle> units;
+	private ArrayList<Vehicle> units; 
 	private float squareSize;
 	
 	public static Map instance() throws RuntimeException {
@@ -64,5 +65,22 @@ public final class Map {
 	}
 	public float squareSize() {
 		return this.squareSize;
+	}
+	
+	public List<Integer> getUUIDs() {
+		List<Integer> asdf = new ArrayList<Integer>();
+		for(var u : units) {
+			asdf.add(u.getUUID());
+		}
+		return asdf;
+	}
+	
+	public Vehicle findByUUID(int id) {
+		for(var u : units) {
+			if(u.getUUID() == id) {
+				return u;
+			}
+		}
+		return null;
 	}
 }

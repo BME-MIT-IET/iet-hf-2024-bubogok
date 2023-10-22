@@ -14,7 +14,6 @@ public final class Field {
 	private Vector2 center;	
 	private Color color;
 	private Type type;
-	private ArrayList<Field> neighbours;
 	
 	public enum Type {
 		GRASS,
