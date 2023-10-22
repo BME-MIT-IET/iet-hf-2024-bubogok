@@ -12,7 +12,6 @@ public class Test extends ApplicationAdapter {
 	SpriteBatch batch;
 	BitmapFont font;
 	
-	//Vehicle v;
 	Map m;
 	
 	@Override
@@ -20,6 +19,9 @@ public class Test extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
 		m = new Map(1000, 64);
 		m.makeRandomMap();
+		
+		//TODO: ez is csúnya, mert létre lehet hozni vehiclet, ami csak lóg a levegőben,
+		//létrehozáskor kellene neki adni helyet
 		m.addVehicle(new Vehicle("green"), 0, 0);
 		Vehicle v = new Vehicle("red");
 		m.addVehicle(v, 1, 1);
@@ -29,22 +31,11 @@ public class Test extends ApplicationAdapter {
 	public void render() {
 		Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		 /*
-		if(Gdx.input.justTouched()) {
-			v.setTarget(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()));
-		}
-
-		v.render(shapeRenderer, batch, font);
-		*/
 		m.render(shapeRenderer, batch, font);
-		
-		
-		
 	}
 	
 	@Override
 	public void dispose() {
 		shapeRenderer.dispose();
-		
 	}
 }

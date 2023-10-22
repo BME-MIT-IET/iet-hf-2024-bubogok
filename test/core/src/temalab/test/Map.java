@@ -1,6 +1,8 @@
 package temalab.test;
 
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -23,6 +25,7 @@ public class Map {
 	}
 	
 	public void makeRandomMap() {
+		//TODO: miért csak a feléig megyünk????
 		for(int i = 0; i < fields.length / 2; i++) {
 			for(int j = 0; j < fields[i].length/ 2; j++) {
 				float squareSize = mapSize / numberOfSquares;

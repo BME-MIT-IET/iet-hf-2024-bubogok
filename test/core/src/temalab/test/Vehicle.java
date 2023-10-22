@@ -5,11 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
 
 public class Vehicle {
-	Field pos;
-	Color color;
-	Field target;
-	float size = 20;
-	
+	private Field pos;
+	private Color color;
+	private float size = 20;	
 	
 	public Vehicle(String team) {
 		if(team == "green") {
@@ -28,16 +26,11 @@ public class Vehicle {
 		sr.end();
 	}
 	
-	public void move() {
+	public void move(int x, int y) {
 		
 	}
 	
-	public void setTarget(Field tar) {
-		this.target = tar;
-	}
-	
 	public void setPos(Field pos) {
-		this.pos = pos;
+		this.pos = pos;	
 	}
-
 }

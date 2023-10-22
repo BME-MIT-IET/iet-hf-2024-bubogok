@@ -1,5 +1,6 @@
 package temalab.test;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
@@ -9,10 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public class Field {
-	private Vector2 center;
+	private Vector2 center;	
 	private int size;
 	private Color color;
 	private Type type;
+	private ArrayList<Field> neighbours;
 	
 	public enum Type {
 		GRASS,
@@ -35,12 +37,12 @@ public class Field {
 			this.color = new Color(0.11f, 0.5f, 0.11f, 1);
 		} else if(t == Type.BUILDING) {
 			this.color = new Color(0.2f, 0.2f, 0.2f, 1);
-			*/
+		}
+		*/
 		
 		Random rnd = new Random();
 		float r = rnd.nextFloat();
 		this.color = new Color(r, r, r, 1);
-		
 	}
 	
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
