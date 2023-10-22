@@ -7,7 +7,6 @@ public class TeamLeader {
 	
 	private String team;
 	CommMaster cm = null;
-	private Field[][] percievedMap;
 	
 	public TeamLeader(String t) {
 		this.team = t;

@@ -6,34 +6,45 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 
 import temalab.test.Field.Type;
 
-public class Map {
+public final class Map {
+	private static Map instance;
 	private int mapSize;
 	private int numberOfSquares;
 	private Field[][] fields;
-	private Vehicle[][] units;
+	private ArrayList<Vehicle> units;
+	private float squareSize;
 	
+	public static Map instance() throws RuntimeException {
+		if(instance == null) {
+			throw new RuntimeException("not inited");
+		}
+		return instance;
+	}
 	
-	public Map(int size, int nos) {
+	public static Map init(int size, int nos) throws RuntimeException {
+		if(instance == null) {
+			instance = new Map(size, nos);
+			return instance;
+		} else {
+			throw new RuntimeException("already inited");
+		}
+	}
+	
+	private Map(int size, int nos) {
 		this.numberOfSquares = nos;
 		this.fields = new Field[numberOfSquares][numberOfSquares];
-		this.units = new Vehicle[numberOfSquares][numberOfSquares];
+		this.units = new ArrayList<Vehicle>();
 		this.mapSize = size;
+		this.squareSize = mapSize / numberOfSquares;
 	}
 	
 	public void makeRandomMap() {
-		//TODO: miért csak a feléig megyünk????
 		for(int i = 0; i < fields.length / 2; i++) {
 			for(int j = 0; j < fields[i].length/ 2; j++) {
-				float squareSize = mapSize / numberOfSquares;
-				fields[i][j] = new Field(
-						new Vector2((float)1.5*squareSize + 2 * i * squareSize, 
-									(float)1.5*squareSize + 2 * j * squareSize), 
-						(int)squareSize, 
-						Type.FOREST);			
+				fields[i][j] = new Field(new Vector(i, j), Type.FOREST);			
 			}
 		}
 	}
@@ -42,16 +53,16 @@ public class Map {
 		for(int i = 0; i < fields.length / 2; i++) {
 			for(int j = 0; j < fields[i].length / 2; j++) {
 				fields[i][j].render(sr, sb, bf);
-				//TODO: nullcheck csúnya, kellene valami okosabb
-				if(units[i][j] != null) {
-					units[i][j].render(sr, sb, bf);					
-				}
 			}
-			
+		}
+		for(var u : units) {
+			u.render(sr, sb, bf);
 		}
 	}
-	public void addVehicle(Vehicle v, int x, int y) {
-		units[x][y] = v;
-		v.setPos(fields[x][y]);
+	public void addVehicle(Vehicle v) {
+		units.add(v);
+	}
+	public float squareSize() {
+		return this.squareSize;
 	}
 }

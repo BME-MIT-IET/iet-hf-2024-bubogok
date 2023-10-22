@@ -12,19 +12,18 @@ public class Test extends ApplicationAdapter {
 	SpriteBatch batch;
 	BitmapFont font;
 	
-	Map m;
-	
+	static Map m;
+	Team t1;
+	Team t2;
 	@Override
 	public void create() {
 		shapeRenderer = new ShapeRenderer();
-		m = new Map(1000, 64);
+		m = Map.init(1000, 64);
 		m.makeRandomMap();
-		
-		//TODO: ez is csúnya, mert létre lehet hozni vehiclet, ami csak lóg a levegőben,
-		//létrehozáskor kellene neki adni helyet
-		m.addVehicle(new Vehicle("green"), 0, 0);
-		Vehicle v = new Vehicle("red");
-		m.addVehicle(v, 1, 1);
+		t1 = new Team("green");
+		t2 = new Team("red");
+		m.addVehicle(new Vehicle(new Vector(0, 0), t1));
+		m.addVehicle(new Vehicle(new Vector(1, 1), t2));
 	}
 	
 	@Override

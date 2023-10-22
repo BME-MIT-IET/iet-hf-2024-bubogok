@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class Field {
+public final class Field {
+	private Vector pos;
 	private Vector2 center;	
-	private int size;
 	private Color color;
 	private Type type;
 	private ArrayList<Field> neighbours;
@@ -23,9 +23,11 @@ public class Field {
 		BUILDING
 	}
 	
-	public Field(Vector2 pos, int s, Type t) {
-		this.center = pos;
-		this.size = s;
+	public Field(Vector pos, Type t) {
+		this.pos = pos;
+		float size = Map.instance().squareSize();
+		this.center = new Vector2((float)1.5 * size + 2 * pos.x() * size, 
+								  (float)1.5 * size + 2 * pos.y() * size);
 		this.type = t;
 		
 		/*
@@ -46,9 +48,13 @@ public class Field {
 	}
 	
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
+		float size = Map.instance().squareSize();
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(this.color);
-		sr.rect(this.center.x - this.size/2, this.center.y - this.size/2, this.size, this.size);
+		sr.rect(this.center.x - size/2,
+				this.center.y - size/2, 
+				size, 
+				size);
 		sr.end();
 	}
 	
