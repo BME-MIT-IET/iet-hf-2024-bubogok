@@ -1,39 +1,49 @@
 package temalab.test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
+import java.io.*;
 
 public class TeamLeader {
-	
+    private final OutputStream outputStream;
+    private final InputStream inputStream;
 	private Team team;
-	CommMaster cm = null;
-	private Scanner input;
+	private Scanner sc;
 	
 	public TeamLeader(Team t) {
 		this.team = t;
-//		ProcessBuilder processBuil      
-//      try {
-//          process = processBuilder.start();
-//      } catch (IOException e) {
-//          throw new RuntimeException(e);
-//      }
-//
-//      cm = new CommMaster(process.getInputStream(),
-//              process.getOutputStream(),
-//              process.getErrorStream());
-
-      //    	  ArrayList<String> answer = cm.getAnswer(); 
+		ProcessBuilder processBuilder = new ProcessBuilder("python3", "../test.py");
+//		processBuilder.redirectInput();
+//		processBuilder.redirectOutput();
+		Process process = null;
+		try {
+		    process = processBuilder.start();
+		} catch (IOException e) {
+		    throw new RuntimeException(e);
+		}
+		outputStream = process.getOutputStream();
+		inputStream = process.getInputStream();
+		try {
+			System.out.println(process.isAlive());
+			System.out.println(inputStream.available());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sc = new Scanner(inputStream);
 	}
 	
-	public void sendMessage(List<Integer> ids) {
-		System.out.println(ids.toString());
-	}
-	public String[] getInput() {
-		input = new Scanner(System.in);
-		String answer = input.nextLine();
+	public String[] getAnswer(List<Integer> ids) {
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream/*, UTF_8*/), true);
+		out.println(ids.toString());
+		if (!sc.hasNext()) {
+			System.out.println("helo");
+		}
+		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
 		return split;
 	}

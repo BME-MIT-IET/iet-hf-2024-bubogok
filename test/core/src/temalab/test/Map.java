@@ -70,10 +70,9 @@ public final class Map {
 	public List<Integer> getUUIDs(Team t) {
 		List<Integer> asdf = new ArrayList<Integer>();
 		for(var u : units) {
-			System.out.println(u.getTeam() + " " + t);
 			if(u.getTeam().equals(t)) {
 				
-				asdf.add(u.getUUID());				
+				asdf.add(u.getUUID());
 			}
 		}
 		return asdf;

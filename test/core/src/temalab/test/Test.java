@@ -25,14 +25,13 @@ public class Test extends ApplicationAdapter {
 		m.makeRandomMap();
 		Team t1 = new Team("green");
 		Team t2 = new Team("red");
-		tl = new TeamLeader(t1);
 		m.addVehicle(new Vehicle(new Vector(0, 0), t1));
 		m.addVehicle(new Vehicle(new Vector(1, 1), t2));
 		new Thread() {
 			public void run() {
+				tl = new TeamLeader(t1);
 				while(true) {
-					tl.sendMessage(m.getUUIDs(tl.getTeam()));
-					String[] commands = tl.getInput();
+					String[] commands = tl.getAnswer(m.getUUIDs(tl.getTeam()));
 					int id = Integer.parseInt(commands[0]);
 					Vector vec = new Vector(Integer.parseInt(commands[1]), Integer.parseInt(commands[2]));
 					Vehicle v = m.findByUUID(id);
