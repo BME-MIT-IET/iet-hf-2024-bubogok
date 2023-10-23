@@ -43,16 +43,16 @@ public final class Map {
 	}
 	
 	public void makeRandomMap() {
-		for(int i = 0; i < fields.length / 2; i++) {
-			for(int j = 0; j < fields[i].length/ 2; j++) {
+		for(int i = 0; i < fields.length; i++) {
+			for(int j = 0; j < fields[i].length; j++) {
 				fields[i][j] = new Field(new Vector(i, j), Type.FOREST);			
 			}
 		}
 	}
 	
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
-		for(int i = 0; i < fields.length / 2; i++) {
-			for(int j = 0; j < fields[i].length / 2; j++) {
+		for(int i = 0; i < fields.length; i++) {
+			for(int j = 0; j < fields[i].length; j++) {
 				fields[i][j].render(sr, sb, bf);
 			}
 		}

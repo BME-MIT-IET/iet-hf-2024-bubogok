@@ -1,6 +1,4 @@
 package temalab.test;
-
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -16,9 +14,7 @@ public class TeamLeader {
 	
 	public TeamLeader(Team t) {
 		this.team = t;
-		ProcessBuilder processBuilder = new ProcessBuilder("python3", "../test.py");
-//		processBuilder.redirectInput();
-//		processBuilder.redirectOutput();
+		ProcessBuilder processBuilder = new ProcessBuilder("python3", "test.py");
 		Process process = null;
 		try {
 		    process = processBuilder.start();
@@ -27,22 +23,12 @@ public class TeamLeader {
 		}
 		outputStream = process.getOutputStream();
 		inputStream = process.getInputStream();
-		try {
-			System.out.println(process.isAlive());
-			System.out.println(inputStream.available());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		sc = new Scanner(inputStream);
 	}
 	
 	public String[] getAnswer(List<Integer> ids) {
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream/*, UTF_8*/), true);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		out.println(ids.toString());
-		if (!sc.hasNext()) {
-			System.out.println("helo");
-		}
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
 		return split;

@@ -31,6 +31,12 @@ public class Test extends ApplicationAdapter {
 			public void run() {
 				tl = new TeamLeader(t1);
 				while(true) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					String[] commands = tl.getAnswer(m.getUUIDs(tl.getTeam()));
 					int id = Integer.parseInt(commands[0]);
 					Vector vec = new Vector(Integer.parseInt(commands[1]), Integer.parseInt(commands[2]));
