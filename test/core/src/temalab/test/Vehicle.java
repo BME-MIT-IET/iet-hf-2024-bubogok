@@ -36,4 +36,8 @@ public class Vehicle {
 	public int getUUID() {
 		return this.ID;
 	}
+	
+	public Team getTeam() {
+		return this.team;
+	}
 }

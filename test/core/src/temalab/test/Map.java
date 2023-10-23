@@ -67,10 +67,14 @@ public final class Map {
 		return this.squareSize;
 	}
 	
-	public List<Integer> getUUIDs() {
+	public List<Integer> getUUIDs(Team t) {
 		List<Integer> asdf = new ArrayList<Integer>();
 		for(var u : units) {
-			asdf.add(u.getUUID());
+			System.out.println(u.getTeam() + " " + t);
+			if(u.getTeam().equals(t)) {
+				
+				asdf.add(u.getUUID());				
+			}
 		}
 		return asdf;
 	}
