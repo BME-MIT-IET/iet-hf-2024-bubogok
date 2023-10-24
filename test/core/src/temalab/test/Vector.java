@@ -15,4 +15,7 @@ public final class Vector {
 	public int y() {
 		return y;
 	}
+	public String toString() {
+		return "x: " + x + " y: " + y;
+	}
 }

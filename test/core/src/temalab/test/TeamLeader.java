@@ -2,9 +2,9 @@ package temalab.test;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Scanner;
 import java.io.*;
+
 
 public class TeamLeader {
     private final OutputStream outputStream;
@@ -26,12 +26,17 @@ public class TeamLeader {
 		sc = new Scanner(inputStream);
 	}
 	
-	public String[] getAnswer(List<Integer> ids) {
+	public String[] getAnswer() {
+		var ids = team.unitIDs();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		out.println(ids.toString());
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
 		return split;
+	}
+	
+	public void doMagic() {
+		this.team.doAction(getAnswer());
 	}
 	
 	public Team getTeam() {

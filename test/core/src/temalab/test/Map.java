@@ -15,7 +15,7 @@ public final class Map {
 	private int mapSize;
 	private int numberOfSquares;
 	private Field[][] fields;
-	private ArrayList<Vehicle> units; 
+	private ArrayList<Team> teams; 
 	private float squareSize;
 	
 	public static Map instance() throws RuntimeException {
@@ -37,7 +37,7 @@ public final class Map {
 	private Map(int size, int nos) {
 		this.numberOfSquares = nos;
 		this.fields = new Field[numberOfSquares][numberOfSquares];
-		this.units = new ArrayList<Vehicle>();
+		this.teams = new ArrayList<Team>();
 		this.mapSize = size;
 		this.squareSize = mapSize / numberOfSquares;
 	}
@@ -56,17 +56,21 @@ public final class Map {
 				fields[i][j].render(sr, sb, bf);
 			}
 		}
-		for(var u : units) {
-			u.render(sr, sb, bf);
+		for(Team t : teams) {
+			for(Vehicle u : t.units()) {
+				
+				u.render(sr, sb, bf, t.getColor());				
+			}
 		}
 	}
-	public void addVehicle(Vehicle v) {
-		units.add(v);
+	
+	public void addTeam(Team t) {
+		teams.add(t);
 	}
 	public float squareSize() {
 		return this.squareSize;
 	}
-	
+	/*
 	public List<Integer> getUUIDs(Team t) {
 		List<Integer> asdf = new ArrayList<Integer>();
 		for(var u : units) {
@@ -85,5 +89,5 @@ public final class Map {
 			}
 		}
 		return null;
-	}
+	}*/
 }

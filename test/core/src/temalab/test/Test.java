@@ -1,7 +1,6 @@
 package temalab.test;
 
 import java.util.Random;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -25,8 +24,10 @@ public class Test extends ApplicationAdapter {
 		m.makeRandomMap();
 		Team t1 = new Team("green");
 		Team t2 = new Team("red");
-		m.addVehicle(new Vehicle(new Vector(0, 0), t1));
-		m.addVehicle(new Vehicle(new Vector(1, 1), t2));
+		m.addTeam(t1);
+		m.addTeam(t2);
+		t1.addUnit(new Vehicle(new Vector(0, 0)));
+		t2.addUnit(new Vehicle(new Vector(1, 1)));
 		new Thread() {
 			public void run() {
 				tl = new TeamLeader(t1);
@@ -37,11 +38,13 @@ public class Test extends ApplicationAdapter {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					String[] commands = tl.getAnswer(m.getUUIDs(tl.getTeam()));
+					tl.doMagic();
+					/*
+					String[] commands = tl.getAnswer();
 					int id = Integer.parseInt(commands[0]);
 					Vector vec = new Vector(Integer.parseInt(commands[1]), Integer.parseInt(commands[2]));
 					Vehicle v = m.findByUUID(id);
-					v.move(vec.x(), vec.y());					
+					v.move(vec.x(), vec.y());		*/			
 				}
 			}
 		}.start();
