@@ -38,13 +38,7 @@ public class Test extends ApplicationAdapter {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					tl.doMagic();
-					/*
-					String[] commands = tl.getAnswer();
-					int id = Integer.parseInt(commands[0]);
-					Vector vec = new Vector(Integer.parseInt(commands[1]), Integer.parseInt(commands[2]));
-					Vehicle v = m.findByUUID(id);
-					v.move(vec.x(), vec.y());		*/			
+					tl.doMagic();		
 				}
 			}
 		}.start();

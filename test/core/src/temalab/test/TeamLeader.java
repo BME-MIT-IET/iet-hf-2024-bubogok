@@ -24,8 +24,9 @@ public class TeamLeader {
 		outputStream = process.getOutputStream();
 		inputStream = process.getInputStream();
 		sc = new Scanner(inputStream);
+		
 	}
-	
+	//TODO: ki kellene javítani, ez így végtelen bohóckodás
 	public String[] getAnswer() {
 		var ids = team.unitIDs();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
@@ -34,7 +35,7 @@ public class TeamLeader {
 		String[] split = answer.split(" ");
 		return split;
 	}
-	
+	//TODO: ki kellene javítani, ez így végtelen bohóckodás
 	public void doMagic() {
 		this.team.doAction(getAnswer());
 	}

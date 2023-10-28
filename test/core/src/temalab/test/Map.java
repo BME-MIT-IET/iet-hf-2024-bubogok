@@ -56,11 +56,8 @@ public final class Map {
 				fields[i][j].render(sr, sb, bf);
 			}
 		}
-		for(Team t : teams) {
-			for(Vehicle u : t.units()) {
-				
-				u.render(sr, sb, bf, t.getColor());				
-			}
+		for(var t : teams) {
+			t.render(sr, sb, bf);
 		}
 	}
 	

@@ -2,7 +2,6 @@ from typing import List
 
 i = 0
 while(True):
-	
 	line = input()
 	line = line.replace('[', '', 1)
 	line = line.replace(']', '', 1)
