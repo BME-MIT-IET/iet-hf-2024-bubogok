@@ -1,4 +1,4 @@
-package temalab.test;
+package temalab;
 
 
 import java.util.*;
@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-
-import temalab.test.Field.Type;
+import temalab.Field.Type;
 
 public final class Map {
 	private static Map instance;
@@ -45,7 +44,7 @@ public final class Map {
 	public void makeRandomMap() {
 		for(int i = 0; i < fields.length; i++) {
 			for(int j = 0; j < fields[i].length; j++) {
-				fields[i][j] = new Field(new Vector(i, j), Type.FOREST);			
+				fields[i][j] = new Field(new Position(i, j), Type.values()[new Random().nextInt(Type.values().length)]);			
 			}
 		}
 	}
@@ -64,27 +63,8 @@ public final class Map {
 	public void addTeam(Team t) {
 		teams.add(t);
 	}
+	
 	public float squareSize() {
 		return this.squareSize;
 	}
-	/*
-	public List<Integer> getUUIDs(Team t) {
-		List<Integer> asdf = new ArrayList<Integer>();
-		for(var u : units) {
-			if(u.getTeam().equals(t)) {
-				
-				asdf.add(u.getUUID());
-			}
-		}
-		return asdf;
-	}
-	
-	public Vehicle findByUUID(int id) {
-		for(var u : units) {
-			if(u.getUUID() == id) {
-				return u;
-			}
-		}
-		return null;
-	}*/
 }

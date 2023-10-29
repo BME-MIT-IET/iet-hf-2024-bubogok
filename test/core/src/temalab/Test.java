@@ -1,4 +1,4 @@
-package temalab.test;
+package temalab;
 
 import java.util.Random;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -16,18 +16,19 @@ public class Test extends ApplicationAdapter {
 	
 	static Map m;
 	TeamLeader tl;
+	
 	@Override
 	public void create() {
 		r = new Random();
 		shapeRenderer = new ShapeRenderer();
-		m = Map.init(1000, 64);
+		m = Map.init(1000, 32);
 		m.makeRandomMap();
-		Team t1 = new Team("green");
+		Team t1 = new Team("black");
 		Team t2 = new Team("red");
 		m.addTeam(t1);
 		m.addTeam(t2);
-		t1.addUnit(new Vehicle(new Vector(0, 0)));
-		t2.addUnit(new Vehicle(new Vector(1, 1)));
+		t1.addUnit(new Unit(new Position(0, 0)));
+		t2.addUnit(new Unit(new Position(1, 1)));
 		new Thread() {
 			public void run() {
 				tl = new TeamLeader(t1);
@@ -35,10 +36,9 @@ public class Test extends ApplicationAdapter {
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					tl.doMagic();		
+					tl.getAnswer();		
 				}
 			}
 		}.start();

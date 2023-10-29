@@ -1,4 +1,4 @@
-package temalab.test;
+package temalab;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -12,8 +12,8 @@ public class TeamLeader {
 	private Team team;
 	private Scanner sc;
 	
-	public TeamLeader(Team t) {
-		this.team = t;
+	public TeamLeader(Team team) {
+		this.team = team;
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", "test.py");
 		Process process = null;
 		try {
@@ -27,20 +27,16 @@ public class TeamLeader {
 		
 	}
 	//TODO: ki kellene javítani, ez így végtelen bohóckodás
-	public String[] getAnswer() {
+	public void getAnswer() {
 		var ids = team.unitIDs();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		out.println(ids.toString());
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
-		return split;
-	}
-	//TODO: ki kellene javítani, ez így végtelen bohóckodás
-	public void doMagic() {
-		this.team.doAction(getAnswer());
+		team.doAction(split);
 	}
 	
 	public Team getTeam() {
-		return this.team;
+		return team;
 	}
 }
