@@ -26,8 +26,8 @@ public class TeamLeader {
 		sc = new Scanner(inputStream);
 		
 	}
-	//TODO: ki kellene javítani, ez így végtelen bohóckodás
-	public void getAnswer() {
+	//TODO: Itt kellene parsolni
+	public void communicate() {
 		var ids = team.unitIDs();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		out.println(ids.toString());

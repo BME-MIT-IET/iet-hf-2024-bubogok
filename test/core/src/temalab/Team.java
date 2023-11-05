@@ -44,13 +44,11 @@ public final class Team {
 		return ids;
 	}
 	
-	//TODO: ki kellene javítani, ez így végtelen bohóckodás
 	//TODO: parsolni csak a TeamLeaderben kellene
 	public void doAction(String[] answer) {
-		
-		
 		Unit v = units.get(Integer.parseInt(answer[0]));
 		Position vec = new Position(Integer.parseInt(answer[1]), Integer.parseInt(answer[2]));
+		v.updatePercievedWorld();
 		v.move(vec.x(), vec.y());
 	}
 }

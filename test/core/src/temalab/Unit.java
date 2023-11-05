@@ -2,17 +2,24 @@ package temalab;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
 
 public class Unit {
 	private int ID;
 	private Position pos;
+	private int viewRange = 5;
+	private Field[][] seenFields;
+	private ArrayList<Unit> seenUnits;
 	
 	public Unit(Position pos) {
-		this.ID = Test.r.nextInt(1000000);
+		seenFields = new Field[2*viewRange][2*viewRange];
+		seenUnits = new ArrayList<Unit>();
+		ID = Test.r.nextInt(1000000);
 		this.pos = pos;
 	}
+	
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf, Color c) {
 		float size = Map.instance().squareSize();
 		Vector2 center = pos.screenCoords();
@@ -21,12 +28,15 @@ public class Unit {
 		sr.rect(center.x - size/2, center.y - size/2, size, size);
 		sr.end();
 	}
-	
+
+	//TODO: nem mozog,mert ...
 	public void move(int x, int y) {
-		if((Math.abs(pos.x() - x) == 1 && pos.y() == y) 
-			|| (Math.abs(pos.y() - y) == 1 && pos.x() == x)) {
-			this.pos = new Position(x, y);			
-		}
+		
+	}
+
+	public void updatePercievedWorld() {
+		seenFields = Map.instance().requestFileds(pos, 2*viewRange);
+		seenUnits = Map.instance().requestUnits();		
 	}
 	
 	public int getUUID() {

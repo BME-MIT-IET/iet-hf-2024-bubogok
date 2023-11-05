@@ -25,4 +25,11 @@ public final class Position {
 		return new Vector2((float)(1.5 * size + 1.5 * x * size), 
 				  			(float)(1.5 * size + 1.5 * y * size));
 	}
+
+	public boolean inDistance(int x, int y, int dist) {
+		Vector2 temp = new Position(x, y).screenCoords();
+		float tempDist = dist * Map.instance().squareSize();
+		return this.screenCoords().dst(temp) < tempDist;
+
+	}
 }

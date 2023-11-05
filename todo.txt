@@ -1,5 +1,4 @@
 control pointokat beletenni,
-mocsár terület
 egységek deiniálása gyalogsag, tank, tuzerség, (legvédelmi dolgok)
 zoom,
 kommunikáció letisztázása

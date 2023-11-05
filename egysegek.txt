@@ -1,0 +1,35 @@
+felderítő:
+	70 élet, 20 látótáv, 20 lőtáv, 0 sebzés, 0 töltény, 100 benzin, 6 fogyasztás
+	erdőn, épületen, vizen nem tud átmenni
+	körönként 5 egységpont
+	ár: 250
+
+kétéltű tank:
+	70 élet, 10 látótáv, 7 lőtáv, 20 sebzés, 10 töltény, 100 benzin, 8 fogyasztás
+	erdőn, épületen nem tud keresztülmenni
+	körönként 3 egységpont
+	ár: 300
+
+tank:
+	80 élet, 8 látótáv, 7 lőtáv, 30 sebzés, 6 töltény, 100 benzin, 10 fogyasztás
+	erdőn, épületen, vizen nem tud átmenni
+	körönként 2 egységpont
+	ár: 400
+	
+gyalogos:
+	20 élet, 11 látótáv, 9 lőtáv, 10 sebzés, 20 töltény, 100 benzin, 4 fogyasztás
+	mindenen keresztül tud menni, ha épületben van, dupla sebzés
+	körönként 2 egységpont
+	ár: 100
+
+rakétavető:
+	75 élet, 9 látótáv, 11 lőtáv, 40 sebzés, 6 töltény, 100 benzin, 12 fogyasztás
+	erdőn, épületen, vizen nem tud átmenni
+	körönként 3 egységpont
+	ár: 650
+
+löveg:
+	75 élet, 8 látótáv, 25 lőtáv, 40 sebzés, 6 töltény, 100 benzin, 12 fogyasztás
+	erdőn, épületen, vizen nem tud átmenni
+	körönként 2 egységpont
+	ár: 500

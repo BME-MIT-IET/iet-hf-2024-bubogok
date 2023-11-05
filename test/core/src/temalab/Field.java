@@ -11,6 +11,7 @@ public final class Field {
 	private Position pos;
 	private Vector2 center;	
 	private Color color;
+	private Type type;
 	
 	public enum Type {
 		GRASS,
@@ -21,6 +22,7 @@ public final class Field {
 	}
 	
 	public Field(Position pos, Type t) {
+		type = t;
 		this.pos = pos;
 		this.center = pos.screenCoords();
 		if(t == Type.GRASS) {
@@ -45,14 +47,14 @@ public final class Field {
 		float size = Map.instance().squareSize();
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(this.color);
-		sr.rect(this.center.x - size/2,
-				this.center.y - size/2, 
-				size, 
-				size);
+		sr.rect(this.center.x - size/2, this.center.y - size/2,	size, size);
 		sr.end();
 	}
 	
 	public Vector2 getCenter() {
 		return this.center;
+	}
+	public String toString() {
+		return this.pos.toString();
 	}
 }

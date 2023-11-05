@@ -27,7 +27,7 @@ public class Test extends ApplicationAdapter {
 		Team t2 = new Team("red");
 		m.addTeam(t1);
 		m.addTeam(t2);
-		t1.addUnit(new Unit(new Position(0, 0)));
+		t1.addUnit(new Unit(new Position(6, 6)));
 		t2.addUnit(new Unit(new Position(1, 1)));
 		new Thread() {
 			public void run() {
@@ -38,7 +38,7 @@ public class Test extends ApplicationAdapter {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					tl.getAnswer();		
+					tl.communicate();		
 				}
 			}
 		}.start();

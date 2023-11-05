@@ -44,7 +44,8 @@ public final class Map {
 	public void makeRandomMap() {
 		for(int i = 0; i < fields.length; i++) {
 			for(int j = 0; j < fields[i].length; j++) {
-				fields[i][j] = new Field(new Position(i, j), Type.values()[new Random().nextInt(Type.values().length)]);			
+				fields[i][j] = new Field(new Position(i, j),
+								Type.values()[new Random().nextInt(Type.values().length)]);			
 			}
 		}
 	}
@@ -63,8 +64,34 @@ public final class Map {
 	public void addTeam(Team t) {
 		teams.add(t);
 	}
+
+	public Field[][] requestFileds(Position pos, int size) {
+		var view = new Field[size][size];
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				var x = pos.x() + i - (size / 2);
+				var y = pos.y() + j - (size / 2);
+				if(pos.inDistance(x, y, size) && isValid(x, y)) {
+					view[i][j] = fields[x][y];
+				} 
+			}
+		}
+		return view;
+	}
 	
+	private Boolean isValid(int x, int y) {
+		return x >= 0 && y >= 0 && x < numberOfSquares && y < numberOfSquares;
+	}
+	
+	public ArrayList<Unit> requestUnits() {
+		return null;
+	}
+
+
 	public float squareSize() {
-		return this.squareSize;
+		return squareSize;
+	}
+	public int numberOfSquares() {
+		return numberOfSquares;
 	}
 }
