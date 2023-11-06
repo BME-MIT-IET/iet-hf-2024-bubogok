@@ -28,7 +28,7 @@ public class Test extends ApplicationAdapter {
 		m.addTeam(t1);
 		m.addTeam(t2);
 		t1.addUnit(new Unit(new Position(6, 6)));
-		t2.addUnit(new Unit(new Position(1, 1)));
+		t2.addUnit(new Unit(new Position(4, 4)));
 		new Thread() {
 			public void run() {
 				tl = new TeamLeader(t1);
@@ -54,5 +54,8 @@ public class Test extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		shapeRenderer.dispose();
+		System.exit(0);
 	}
+
+	
 }

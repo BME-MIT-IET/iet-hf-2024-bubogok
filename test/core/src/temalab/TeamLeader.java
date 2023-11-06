@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.io.*;
 
 
+
 public class TeamLeader {
     private final OutputStream outputStream;
     private final InputStream inputStream;

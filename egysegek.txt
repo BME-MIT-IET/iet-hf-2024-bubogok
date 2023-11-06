@@ -22,14 +22,3 @@ gyalogos:
 	körönként 2 egységpont
 	ár: 100
 
-rakétavető:
-	75 élet, 9 látótáv, 11 lőtáv, 40 sebzés, 6 töltény, 100 benzin, 12 fogyasztás
-	erdőn, épületen, vizen nem tud átmenni
-	körönként 3 egységpont
-	ár: 650
-
-löveg:
-	75 élet, 8 látótáv, 25 lőtáv, 40 sebzés, 6 töltény, 100 benzin, 12 fogyasztás
-	erdőn, épületen, vizen nem tud átmenni
-	körönként 2 egységpont
-	ár: 500

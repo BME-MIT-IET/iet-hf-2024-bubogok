@@ -2,7 +2,6 @@ package temalab;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -42,6 +41,16 @@ public final class Team {
 			ids.add(u.getUUID());
 		});
 		return ids;
+	}
+
+	public ArrayList<Unit> requestUnits(Position pos, int size) {
+		var view = new ArrayList<Unit>();
+		units.forEach((id, u) -> {
+			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
+				view.add(u);
+			}
+		});
+		return view;
 	}
 	
 	//TODO: parsolni csak a TeamLeaderben kellene

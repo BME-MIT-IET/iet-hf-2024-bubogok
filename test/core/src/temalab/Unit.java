@@ -25,7 +25,7 @@ public class Unit {
 		Vector2 center = pos.screenCoords();
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(c);
-		sr.rect(center.x - size/2, center.y - size/2, size, size);
+		sr.circle(center.x, center.y, Map.instance().universalDistanceConstant()*size/2);
 		sr.end();
 	}
 
@@ -35,11 +35,15 @@ public class Unit {
 	}
 
 	public void updatePercievedWorld() {
-		seenFields = Map.instance().requestFileds(pos, 2*viewRange);
-		seenUnits = Map.instance().requestUnits();		
+		seenFields = Map.instance().requestFileds(pos, 2*viewRange + 1);
+		seenUnits = Map.instance().requestUnits(pos,  2*viewRange + 1);	
 	}
 	
 	public int getUUID() {
 		return this.ID;
+	}
+
+	public Position pos() {
+		return pos;
 	}
 }

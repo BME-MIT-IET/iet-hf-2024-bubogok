@@ -22,14 +22,12 @@ public final class Position {
 	}
 	public Vector2 screenCoords() {
 		float size = Map.instance().squareSize();
-		return new Vector2((float)(1.5 * size + 1.5 * x * size), 
-				  			(float)(1.5 * size + 1.5 * y * size));
+		float udc = Map.instance().universalDistanceConstant();
+		return new Vector2((udc * size + udc * x * size), (udc * size + udc * y * size));
 	}
 
-	public boolean inDistance(int x, int y, int dist) {
-		Vector2 temp = new Position(x, y).screenCoords();
-		float tempDist = dist * Map.instance().squareSize();
-		return this.screenCoords().dst(temp) < tempDist;
-
+	public boolean inDistance(Position p2, int dist) {
+		float tempDist = dist / Map.instance().universalDistanceConstant() * Map.instance().squareSize();
+		return this.screenCoords().dst(p2.screenCoords()) < tempDist;
 	}
 }

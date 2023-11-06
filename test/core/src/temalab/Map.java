@@ -2,7 +2,6 @@ package temalab;
 
 
 import java.util.*;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,6 +15,7 @@ public final class Map {
 	private Field[][] fields;
 	private ArrayList<Team> teams; 
 	private float squareSize;
+	private float universalDistanceConstant = 1.5f;
 	
 	public static Map instance() throws RuntimeException {
 		if(instance == null) {
@@ -71,7 +71,8 @@ public final class Map {
 			for(int j = 0; j < size; j++) {
 				var x = pos.x() + i - (size / 2);
 				var y = pos.y() + j - (size / 2);
-				if(pos.inDistance(x, y, size) && isValid(x, y)) {
+				var temp = new Position(x, y);
+				if(pos.inDistance(temp, size) && isValid(x, y)) {
 					view[i][j] = fields[x][y];
 				} 
 			}
@@ -79,19 +80,28 @@ public final class Map {
 		return view;
 	}
 	
+	//TODO: ez itt még bajos, mert a team hashmapben tárolja el
+	// nem akarok rá egy getUnits dolgot csinálni, mert ...
+	public ArrayList<Unit> requestUnits(Position pos, int size) {
+		var view = new ArrayList<Unit>();
+		for(var t : teams) {
+			view.addAll(t.requestUnits(pos, size));
+		}
+		return view;
+	}
+	
 	private Boolean isValid(int x, int y) {
 		return x >= 0 && y >= 0 && x < numberOfSquares && y < numberOfSquares;
 	}
-	
-	public ArrayList<Unit> requestUnits() {
-		return null;
-	}
-
 
 	public float squareSize() {
 		return squareSize;
 	}
 	public int numberOfSquares() {
 		return numberOfSquares;
+	}
+
+	public float universalDistanceConstant() {
+		return universalDistanceConstant;
 	}
 }
