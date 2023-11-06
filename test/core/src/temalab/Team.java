@@ -43,7 +43,7 @@ public final class Team {
 		return ids;
 	}
 
-	public ArrayList<Unit> requestUnits(Position pos, int size) {
+	public ArrayList<Unit> requestUnits(Position pos, float size) {
 		var view = new ArrayList<Unit>();
 		units.forEach((id, u) -> {
 			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
@@ -57,7 +57,7 @@ public final class Team {
 	public void doAction(String[] answer) {
 		Unit v = units.get(Integer.parseInt(answer[0]));
 		Position vec = new Position(Integer.parseInt(answer[1]), Integer.parseInt(answer[2]));
-		v.updatePercievedWorld();
+		v.update();
 		v.move(vec.x(), vec.y());
 	}
 }

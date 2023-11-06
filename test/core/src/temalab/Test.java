@@ -23,6 +23,7 @@ public class Test extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
 		m = Map.init(1000, 32);
 		m.makeRandomMap();
+		m.addControlPoint(new ControlPoint(new Position(5, 5)));
 		Team t1 = new Team("black");
 		Team t2 = new Team("red");
 		m.addTeam(t1);
@@ -56,6 +57,4 @@ public class Test extends ApplicationAdapter {
 		shapeRenderer.dispose();
 		System.exit(0);
 	}
-
-	
 }

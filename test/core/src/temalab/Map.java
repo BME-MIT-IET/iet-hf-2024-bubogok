@@ -12,8 +12,9 @@ public final class Map {
 	private static Map instance;
 	private int mapSize;
 	private int numberOfSquares;
-	private Field[][] fields;
-	private ArrayList<Team> teams; 
+	private HashMap<Position, Field> fields;
+	private ArrayList<Team> teams;
+	private ArrayList<ControlPoint> controlPoints; 
 	private float squareSize;
 	private float universalDistanceConstant = 1.5f;
 	
@@ -34,30 +35,33 @@ public final class Map {
 	}
 	
 	private Map(int size, int nos) {
-		this.numberOfSquares = nos;
-		this.fields = new Field[numberOfSquares][numberOfSquares];
-		this.teams = new ArrayList<Team>();
-		this.mapSize = size;
-		this.squareSize = mapSize / numberOfSquares;
+		numberOfSquares = nos;
+		fields = new HashMap<Position, Field>();
+		teams = new ArrayList<Team>();
+		controlPoints = new ArrayList<ControlPoint>();
+		mapSize = size;
+		squareSize = mapSize / numberOfSquares;
 	}
 	
 	public void makeRandomMap() {
-		for(int i = 0; i < fields.length; i++) {
-			for(int j = 0; j < fields[i].length; j++) {
-				fields[i][j] = new Field(new Position(i, j),
-								Type.values()[new Random().nextInt(Type.values().length)]);			
+		for(int i = 0; i < numberOfSquares; i++) {
+			for(int j = 0; j < numberOfSquares; j++) {
+				var temPos = new Position(i, j);
+				fields.put(temPos, new Field(temPos,
+								Type.values()[new Random().nextInt(Type.values().length)]));			
 			}
 		}
 	}
 	
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
-		for(int i = 0; i < fields.length; i++) {
-			for(int j = 0; j < fields[i].length; j++) {
-				fields[i][j].render(sr, sb, bf);
-			}
-		}
+		fields.forEach((pos, f) -> {
+			//f.render(sr, sb, bf);
+		});
 		for(var t : teams) {
 			t.render(sr, sb, bf);
+		}
+		for(var cp : controlPoints) {
+			cp.render(sr, sb, bf);
 		}
 	}
 	
@@ -65,24 +69,21 @@ public final class Map {
 		teams.add(t);
 	}
 
-	public Field[][] requestFileds(Position pos, int size) {
-		var view = new Field[size][size];
-		for(int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
-				var x = pos.x() + i - (size / 2);
-				var y = pos.y() + j - (size / 2);
-				var temp = new Position(x, y);
-				if(pos.inDistance(temp, size) && isValid(x, y)) {
-					view[i][j] = fields[x][y];
-				} 
+	public void addControlPoint(ControlPoint cp) {
+		controlPoints.add(cp);
+	}
+
+	public ArrayList<Field> requestFileds(Position pos, float size) {
+		var view = new ArrayList<Field>();
+		fields.forEach((p, f) -> {
+			if(pos.inDistance(p, size)) {
+				view.add(f);
 			}
-		}
+		});
 		return view;
 	}
 	
-	//TODO: ez itt még bajos, mert a team hashmapben tárolja el
-	// nem akarok rá egy getUnits dolgot csinálni, mert ...
-	public ArrayList<Unit> requestUnits(Position pos, int size) {
+	public ArrayList<Unit> requestUnits(Position pos, float size) {
 		var view = new ArrayList<Unit>();
 		for(var t : teams) {
 			view.addAll(t.requestUnits(pos, size));

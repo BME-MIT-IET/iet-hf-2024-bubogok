@@ -1,5 +1,5 @@
 from typing import List
-
+import json
 
 
 
@@ -16,6 +16,9 @@ class Unit:
 i = 0
 while(True):
 	line = input()
+
+	#asdf = json.loads(line)
+	#print(asdf["units"], file=2)
 	line = line.replace('[', '', 1)
 	line = line.replace(']', '', 1)
 	id = line.split(", ")

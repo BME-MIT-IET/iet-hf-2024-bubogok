@@ -26,8 +26,7 @@ public final class Position {
 		return new Vector2((udc * size + udc * x * size), (udc * size + udc * y * size));
 	}
 
-	public boolean inDistance(Position p2, int dist) {
-		float tempDist = dist / Map.instance().universalDistanceConstant() * Map.instance().squareSize();
-		return this.screenCoords().dst(p2.screenCoords()) < tempDist;
+	public boolean inDistance(Position p2, float dist) {
+		return Math.pow(this.x - p2.x(), 2) + Math.pow(this.y - p2.y(), 2) <= dist * dist;
 	}
 }
