@@ -13,8 +13,8 @@ public final class Team {
 	
 	public Team(String name) {
 		units = new HashMap<Integer, Unit>();
-		if(name == "green") {
-			this.color = new Color(0, 1, 0, 1);
+		if(name == "white") {
+			this.color = new Color(1, 1, 1, 1);
 		} else if(name == "red") {
 			this.color = new Color(1, 0, 0, 1);
 		} else {
@@ -53,11 +53,17 @@ public final class Team {
 		return view;
 	}
 	
-	//TODO: parsolni csak a TeamLeaderben kellene
 	public void doAction(String[] answer) {
-		Unit v = units.get(Integer.parseInt(answer[0]));
-		Position vec = new Position(Integer.parseInt(answer[1]), Integer.parseInt(answer[2]));
-		v.update();
-		v.move(vec.x(), vec.y());
+		units.forEach((id, u) -> {
+			u.updateWorld();
+		});
+	}
+
+	public void makeShot(int damage, int x, int y) {
+		units.forEach((id, u) -> {
+			if(u.pos.equals(new Position(x, y))) {
+				u.takeShot(damage);
+			}
+		});
 	}
 }

@@ -4,7 +4,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.io.*;
-import com.google.gson.Gson;
 
 
 public class TeamLeader {
@@ -28,13 +27,12 @@ public class TeamLeader {
 		
 	}
 	//TODO: Itt kellene parsolni
+	//TODO: más unitok seenUnits és seenFieldsjét nem kellene átadni, 
+	//		vagy ki kellene venni belőle
 	public void communicate() {
-		Gson gson = new Gson();
 		var ids = team.unitIDs();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		out.println(ids.toString());
-		System.out.println(gson.toJson(team));
-		System.out.println();
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
 		team.doAction(split);

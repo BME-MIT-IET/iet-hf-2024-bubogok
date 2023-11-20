@@ -2,60 +2,110 @@ package temalab;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 
-public class Unit {
-	private int ID;
-	private Position pos;
-	private int viewRange = 5;
-	private ArrayList<Field> seenFields;
-	private ArrayList<Unit> seenUnits;
-	
-	public Unit(Position pos) {
+public abstract class Unit {
+	protected int ID;
+	protected Position pos;
+	protected ArrayList<Field> seenFields;
+	protected ArrayList<Unit> seenUnits;
+	protected ArrayList<ControlPoint> seenControlPoints;
+	protected Team team;
+	protected ArrayList<Field.Type> steppableTypes;
+
+	protected int health;
+	protected int maxHealth;
+	protected int viewRange;
+	protected int shootRange;
+	protected int damage;
+	protected int ammo;
+	protected int maxAmmo;
+	protected int fuel;
+	protected int maxFuel;
+	protected int consumption;
+	protected int price;
+	protected int actionPoints;
+
+	public Unit(Position pos, Team t) {
 		seenFields = new ArrayList<Field>();
 		seenUnits = new ArrayList<Unit>();
 		ID = Test.r.nextInt(1000000);
 		this.pos = pos;
+		team = t;
 	}
-	
+
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf, Color c) {
 		float size = Map.instance().squareSize();
 		Vector2 center = pos.screenCoords();
+
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(c);
-		sr.circle(center.x, center.y, size/2);
+		sr.circle(center.x, center.y, size / 2);
 		sr.end();
-		sr.begin(ShapeRenderer.ShapeType.Line);
-		sr.setColor(c);
-		sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * viewRange * size);
-		sr.end();
-		if(seenFields != null) {
-			for(var f : seenFields) {
-				if(f != null) {
-					f.render(sr, sb, bf);
-				}
-			}
+
+		sb.begin();
+		sb.draw(getTexture(), center.x - (size / 2), center.y - (size / 2), size, size);
+		sb.end();
+	}
+
+	public void move(int x, int y) {
+		if(fuel > 0) {
+			if(Map.instance().validateMove(steppableTypes, pos, new Position(x, y))) {
+            	pos = new Position(x, y);
+				fuel -= consumption;
+        	}
 		}
 	}
 
-	//TODO: nem mozog,mert ...
-	public void move(int x, int y) {
-		
+	public void shoot(int x, int y) {
+		if (ammo > 0) {
+			if (pos.inDistance(new Position(x, y), shootRange + 0.5f)) {
+				Map.instance().makeShot(damage, x, y);
+			}
+			this.ammo--;
+			System.out.println("Ammo:" + ammo);
+		}
+
 	}
 
-	public void update() {
+	public abstract Texture getTexture();
+
+	public void updateWorld() {
 		seenFields = Map.instance().requestFileds(pos, viewRange + 0.5f);
-		seenUnits = Map.instance().requestUnits(pos,  viewRange + 0.5f);
-		
+		seenUnits = Map.instance().requestUnits(pos, viewRange + 0.5f);
+		seenControlPoints = Map.instance().requestControlPoints(pos, viewRange + 0.5f);
 	}
-	
+
+	public void updateSelf(int percentage) {
+		if(health < maxHealth) {
+			health +=  maxHealth / percentage;
+		}
+		if(ammo < maxAmmo) {
+			ammo +=  maxAmmo / percentage;
+		}
+		if(fuel < maxFuel) {
+			fuel +=  maxFuel / percentage;
+		}
+	}
+
 	public int getUUID() {
 		return this.ID;
 	}
 
 	public Position pos() {
 		return pos;
+	}
+
+	public Team team() {
+		return team;
+	}
+
+	public void takeShot(int recievedDamage) {
+		health -= recievedDamage;
+		System.out.println("Hp: " + health);
 	}
 }

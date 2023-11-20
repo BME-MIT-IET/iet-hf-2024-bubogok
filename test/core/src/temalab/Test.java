@@ -15,31 +15,39 @@ public class Test extends ApplicationAdapter {
 	BitmapFont font;
 	
 	static Map m;
-	TeamLeader tl;
+	TeamLeader TL1;
+	TeamLeader TL2;
 	
 	@Override
 	public void create() {
 		r = new Random();
 		shapeRenderer = new ShapeRenderer();
+		batch = new SpriteBatch();
+		font = new BitmapFont();
 		m = Map.init(1000, 32);
 		m.makeRandomMap();
-		m.addControlPoint(new ControlPoint(new Position(5, 5)));
-		Team t1 = new Team("black");
+		var cp = new ControlPoint(new Position(12, 12), 10);
+		m.addControlPoint(cp);
+		Team t1 = new Team("white");
 		Team t2 = new Team("red");
 		m.addTeam(t1);
 		m.addTeam(t2);
-		t1.addUnit(new Unit(new Position(6, 6)));
-		t2.addUnit(new Unit(new Position(4, 4)));
+		t1.addUnit(new Scout(new Position(6, 6), t1));
+		t2.addUnit(new Scout(new Position(4, 4), t2));
 		new Thread() {
 			public void run() {
-				tl = new TeamLeader(t1);
+				TL1 = new TeamLeader(t1);
+				TL2 = new TeamLeader(t2);
 				while(true) {
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					tl.communicate();		
+					TL1.communicate();
+					Map.instance().ControlPointsUpdate();
+					TL2.communicate();
+					Map.instance().ControlPointsUpdate();
 				}
 			}
 		}.start();
@@ -49,7 +57,8 @@ public class Test extends ApplicationAdapter {
 	public void render() {
 		Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		m.render(shapeRenderer, batch, font);	
+		m.render(shapeRenderer, batch, font);
+
 	}
 	
 	@Override

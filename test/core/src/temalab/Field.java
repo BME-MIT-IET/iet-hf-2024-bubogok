@@ -32,7 +32,7 @@ public final class Field {
 		} else if(t == Type.FOREST) {
 			this.color = new Color(0.11f, 0.5f, 0.11f, 1);
 		} else if(t == Type.BUILDING) {
-			this.color = new Color(0.8f, 0.8f, 0.8f, 1);
+			this.color = new Color(0.5f, 0.5f, 0.5f, 1);
 		} else if(t == Type.MARSH) {
 			this.color = new Color(0.47f, 0.35f, 0.23f, 1);
 		}
@@ -56,5 +56,12 @@ public final class Field {
 	}
 	public String toString() {
 		return this.pos.toString();
+	}
+
+	public Field.Type getType() {
+		return type;
+	}
+	public Position pos() {
+		return pos;
 	}
 }

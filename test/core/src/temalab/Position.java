@@ -29,4 +29,24 @@ public final class Position {
 	public boolean inDistance(Position p2, float dist) {
 		return Math.pow(this.x - p2.x(), 2) + Math.pow(this.y - p2.y(), 2) <= dist * dist;
 	}
+
+	public boolean isNeighbouring(Position p) {
+		return Math.abs(this.x - p.x) <= 1 || Math.abs(this.y - p.y) <= 1;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash = Integer.hashCode(hash + x);
+		hash = Integer.hashCode(hash + y);
+		return hash;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Position) {
+			Position pos = (Position)obj;
+			return pos.x == this.x && pos.y == this.y;
+		}
+		return false;
+	}
 }

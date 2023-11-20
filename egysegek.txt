@@ -4,11 +4,6 @@ felderítő:
 	körönként 5 egységpont
 	ár: 250
 
-kétéltű tank:
-	70 élet, 10 látótáv, 7 lőtáv, 20 sebzés, 10 töltény, 100 benzin, 8 fogyasztás
-	erdőn, épületen nem tud keresztülmenni
-	körönként 3 egységpont
-	ár: 300
 
 tank:
 	80 élet, 8 látótáv, 7 lőtáv, 30 sebzés, 6 töltény, 100 benzin, 10 fogyasztás
@@ -21,4 +16,14 @@ gyalogos:
 	mindenen keresztül tud menni, ha épületben van, dupla sebzés
 	körönként 2 egységpont
 	ár: 100
+
+
+
+
+
+kétéltű tank:
+	70 élet, 10 látótáv, 7 lőtáv, 20 sebzés, 10 töltény, 100 benzin, 8 fogyasztás
+	erdőn, épületen nem tud keresztülmenni
+	körönként 3 egységpont	
+	ár: 300
 
