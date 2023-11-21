@@ -53,21 +53,22 @@ public abstract class Unit {
 	}
 
 	public void move(int x, int y) {
-		if(fuel > 0) {
+		if(fuel > 0 && actionPoints > 0) {
 			if(Map.instance().validateMove(steppableTypes, pos, new Position(x, y))) {
             	pos = new Position(x, y);
 				fuel -= consumption;
+				actionPoints--;
         	}
 		}
 	}
 
 	public void shoot(int x, int y) {
-		if (ammo > 0) {
+		if (ammo > 0 && actionPoints > 0) {
 			if (pos.inDistance(new Position(x, y), shootRange + 0.5f)) {
 				Map.instance().makeShot(damage, x, y);
 			}
-			this.ammo--;
-			System.out.println("Ammo:" + ammo);
+			ammo--;
+			actionPoints--;
 		}
 
 	}
@@ -106,6 +107,25 @@ public abstract class Unit {
 
 	public void takeShot(int recievedDamage) {
 		health -= recievedDamage;
-		System.out.println("Hp: " + health);
+		if(health > 0) {
+			team.unitDied(ID);
+		}
+	}
+
+	public abstract Unit shallowCopy();
+
+	@Override
+	public String toString() {
+		return ID + "; pos: "
+		+ pos.toString() 
+		+ "; seenFields: " + seenFields.toString()
+		+ "; seenUnits: " + seenUnits.toString()
+		+ health + ';' + maxHealth + ';'
+		+ viewRange + ';' + shootRange + ';'
+		+ damage + ';' + ammo + ';' + maxAmmo + ';'
+		+ fuel + ';' + maxFuel + ';' + consumption + ';'
+		+ price + ';' + actionPoints + ';'
+
+		+ team.getColor().toString() + ';';
 	}
 }

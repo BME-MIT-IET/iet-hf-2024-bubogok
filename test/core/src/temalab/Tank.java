@@ -30,5 +30,14 @@ public class Tank extends Unit {
     public Texture getTexture() {
         return new Texture(Gdx.files.internal("tank.png"));
     }
+
+    @Override
+    public Unit shallowCopy() {
+        Tank s = new Tank(pos, team);
+        s.seenUnits = new ArrayList<Unit>();
+        s.seenFields = new ArrayList<Field>();
+        s.seenControlPoints = new ArrayList<ControlPoint>();
+        return s;
+    }
     
 }

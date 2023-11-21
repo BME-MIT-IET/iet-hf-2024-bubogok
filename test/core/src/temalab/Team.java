@@ -47,7 +47,7 @@ public final class Team {
 		var view = new ArrayList<Unit>();
 		units.forEach((id, u) -> {
 			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
-				view.add(u);
+				view.add(u.shallowCopy());
 			}
 		});
 		return view;
@@ -65,5 +65,17 @@ public final class Team {
 				u.takeShot(damage);
 			}
 		});
+	}
+
+	public void unitDied(int id) {
+		units.remove(id);
+	}
+	
+	public ArrayList<String> teamMembersToString() {
+		var res = new ArrayList<String>();
+		units.forEach((id, u) -> {
+			res.add(u.toString());
+		});
+		return res;
 	}
 }

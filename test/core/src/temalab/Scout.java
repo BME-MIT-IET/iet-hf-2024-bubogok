@@ -24,11 +24,19 @@ public class Scout extends Unit {
         consumption = 6;
         actionPoints = 5;
         price = 250;
-
     }
 
     @Override
     public Texture getTexture() {
         return new Texture(Gdx.files.internal("binoculars.png"));
+    }
+
+    @Override
+    public Unit shallowCopy() {
+        Scout s = new Scout(pos, team);
+        s.seenUnits = new ArrayList<Unit>();
+        s.seenFields = new ArrayList<Field>();
+        s.seenControlPoints = new ArrayList<ControlPoint>();
+        return s;
     }
 }

@@ -34,5 +34,14 @@ public class Infantry extends Unit {
     public Texture getTexture() {
         return new Texture(Gdx.files.internal("infantry.java"));
     }
-    
+
+    @Override
+    public Unit shallowCopy() {
+        Infantry s = new Infantry(pos, team);
+        s.seenUnits = new ArrayList<Unit>();
+        s.seenFields = new ArrayList<Field>();
+        s.seenControlPoints = new ArrayList<ControlPoint>();
+        return s;
+
+    }
 }

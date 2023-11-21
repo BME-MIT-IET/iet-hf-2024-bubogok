@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.io.*;
 
-
 public class TeamLeader {
     private final OutputStream outputStream;
     private final InputStream inputStream;
@@ -30,8 +29,10 @@ public class TeamLeader {
 	//TODO: más unitok seenUnits és seenFieldsjét nem kellene átadni, 
 	//		vagy ki kellene venni belőle
 	public void communicate() {
-		var ids = team.unitIDs();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
+		var ids = team.unitIDs();
+		System.out.println("zsavan");
+		System.out.println(team.teamMembersToString().toString());
 		out.println(ids.toString());
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
