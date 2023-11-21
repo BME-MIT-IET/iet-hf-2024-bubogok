@@ -47,7 +47,17 @@ public final class Team {
 		var view = new ArrayList<Unit>();
 		units.forEach((id, u) -> {
 			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
-				view.add(u.shallowCopy());
+				view.add(u);
+			}
+		});
+		return view;
+	}
+
+	public ArrayList<UnitView> requestUnitViews(Position pos, float size) {
+		var view = new ArrayList<UnitView>();
+		units.forEach((id, u) -> {
+			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
+				view.add(u.getView());
 			}
 		});
 		return view;

@@ -36,12 +36,7 @@ public class Infantry extends Unit {
     }
 
     @Override
-    public Unit shallowCopy() {
-        Infantry s = new Infantry(pos, team);
-        s.seenUnits = new ArrayList<Unit>();
-        s.seenFields = new ArrayList<Field>();
-        s.seenControlPoints = new ArrayList<ControlPoint>();
-        return s;
-
+    public UnitView getView() {
+        return new UnitView(pos, team);
     }
 }

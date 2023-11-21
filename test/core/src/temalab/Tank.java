@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import temalab.Field.Type;
 
-public class Tank extends Unit {
+public class Tank extends Unit { 
     public Tank(Position pos, Team t) {
         super(pos, t);
         steppableTypes = new ArrayList<Field.Type>();
@@ -32,12 +32,8 @@ public class Tank extends Unit {
     }
 
     @Override
-    public Unit shallowCopy() {
-        Tank s = new Tank(pos, team);
-        s.seenUnits = new ArrayList<Unit>();
-        s.seenFields = new ArrayList<Field>();
-        s.seenControlPoints = new ArrayList<ControlPoint>();
-        return s;
+    public UnitView getView() {
+        return new UnitView(pos, team);
     }
     
 }

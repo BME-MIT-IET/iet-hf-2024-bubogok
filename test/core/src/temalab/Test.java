@@ -34,6 +34,7 @@ public class Test extends ApplicationAdapter {
 		m.addTeam(t2);
 		t1.addUnit(new Scout(new Position(6, 6), t1));
 		t2.addUnit(new Scout(new Position(4, 4), t2));
+		t1.addUnit(new Tank(new Position(7, 8), t2));
 		new Thread() {
 			public void run() {
 				TL1 = new TeamLeader(t1);

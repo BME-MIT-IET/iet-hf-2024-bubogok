@@ -32,11 +32,7 @@ public class Scout extends Unit {
     }
 
     @Override
-    public Unit shallowCopy() {
-        Scout s = new Scout(pos, team);
-        s.seenUnits = new ArrayList<Unit>();
-        s.seenFields = new ArrayList<Field>();
-        s.seenControlPoints = new ArrayList<ControlPoint>();
-        return s;
+    public UnitView getView() {
+        return new UnitView(pos, team);
     }
 }

@@ -106,6 +106,14 @@ public final class Map {
 		return view;
 	}
 
+	public ArrayList<UnitView> requestUnitViews(Position pos, float size) {
+		var view = new ArrayList<UnitView>();
+		for (var t : teams) {
+			view.addAll(t.requestUnitViews(pos, size));
+		}
+		return view;
+	}
+
 	public boolean validateMove(ArrayList<Field.Type> steppables, Position currPos, Position destPos) {
 		if(currPos.isNeighbouring(destPos)) {
 			Field destPosField = fields.get(destPos);

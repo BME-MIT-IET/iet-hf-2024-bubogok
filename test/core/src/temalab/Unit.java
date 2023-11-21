@@ -12,7 +12,7 @@ public abstract class Unit {
 	protected int ID;
 	protected Position pos;
 	protected ArrayList<Field> seenFields;
-	protected ArrayList<Unit> seenUnits;
+	protected ArrayList<UnitView> seenUnits;
 	protected ArrayList<ControlPoint> seenControlPoints;
 	protected Team team;
 	protected ArrayList<Field.Type> steppableTypes;
@@ -32,7 +32,7 @@ public abstract class Unit {
 
 	public Unit(Position pos, Team t) {
 		seenFields = new ArrayList<Field>();
-		seenUnits = new ArrayList<Unit>();
+		seenUnits = new ArrayList<UnitView>();
 		ID = Test.r.nextInt(1000000);
 		this.pos = pos;
 		team = t;
@@ -77,7 +77,7 @@ public abstract class Unit {
 
 	public void updateWorld() {
 		seenFields = Map.instance().requestFileds(pos, viewRange + 0.5f);
-		seenUnits = Map.instance().requestUnits(pos, viewRange + 0.5f);
+		seenUnits = Map.instance().requestUnitViews(pos, viewRange + 0.5f);
 		seenControlPoints = Map.instance().requestControlPoints(pos, viewRange + 0.5f);
 	}
 
@@ -112,13 +112,15 @@ public abstract class Unit {
 		}
 	}
 
-	public abstract Unit shallowCopy();
+	public abstract UnitView getView();
 
 	@Override
 	public String toString() {
 		return ID + "; pos: "
-		+ pos.toString() 
+		+ pos.toString()
+		/*
 		+ "; seenFields: " + seenFields.toString()
+		*/
 		+ "; seenUnits: " + seenUnits.toString()
 		+ health + ';' + maxHealth + ';'
 		+ viewRange + ';' + shootRange + ';'
