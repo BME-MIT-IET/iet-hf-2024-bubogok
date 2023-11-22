@@ -10,6 +10,11 @@ public final class Position {
 		this.x = x;
 		this.y = y;
 	}
+
+	public Position(Position p) {
+		this.x = p.x;
+		this.y = p.y;
+	}
 	
 	public int x() {
 		return x;

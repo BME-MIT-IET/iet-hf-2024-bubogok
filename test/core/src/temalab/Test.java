@@ -32,17 +32,17 @@ public class Test extends ApplicationAdapter {
 		Team t2 = new Team("red");
 		m.addTeam(t1);
 		m.addTeam(t2);
-		t1.addUnit(new Scout(new Position(6, 6), t1));
-		t2.addUnit(new Scout(new Position(4, 4), t2));
-		t1.addUnit(new Tank(new Position(7, 8), t2));
-		t1.addUnit(new Infantry(new Position(10, 8), t2));
+		t2.addUnit(new Scout(new Position(6, 6), t2));
+		t1.addUnit(new Tank(new Position(4, 4), t1));
+		t2.addUnit(new Tank(new Position(7, 8), t2));
+		t2.addUnit(new Infantry(new Position(10, 8), t2));
 		new Thread() {
 			public void run() {
 				TL1 = new TeamLeader(t1);
 				TL2 = new TeamLeader(t2);
 				while(true) {
 					try {
-						Thread.sleep(500);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

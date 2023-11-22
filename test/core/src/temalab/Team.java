@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public final class Team {
 	private Color color;
 	private String name;
-	private HashMap<Integer, Unit> units;
+	private final HashMap<Integer, Unit> units;
 	
 	public Team(String name) {
 		units = new HashMap<Integer, Unit>();
@@ -74,12 +74,16 @@ public final class Team {
 		});
 	}
 
-	public void makeShot(int damage, int x, int y) {
-		units.forEach((id, u) -> {
-			if(u.pos.equals(new Position(x, y))) {
-				u.takeShot(damage);
+	public void makeShot(int damage, Position p) {
+		Unit asdf = null;
+		for(var u : units.values()) {
+			if(u.pos.equals(p)) {
+				asdf  = u;
 			}
-		});
+		}
+		if(asdf != null) {
+			asdf.takeShot(damage);
+		}
 	}
 
 	public void unitDied(int id) {

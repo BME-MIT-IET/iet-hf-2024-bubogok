@@ -1,11 +1,8 @@
 package temalab;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,7 +22,7 @@ public class Scout extends Unit {
                 shootRange = Integer.parseInt(sc.nextLine());
                 damage = Integer.parseInt(sc.nextLine());
                 maxAmmo = Integer.parseInt(sc.nextLine());
-                fuel = Integer.parseInt(sc.nextLine());
+                maxFuel = Integer.parseInt(sc.nextLine());
                 consumption = Integer.parseInt(sc.nextLine());
                 actionPoints = Integer.parseInt(sc.nextLine());
                 price = Integer.parseInt(sc.nextLine());

@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 
 public abstract class Unit {
-	protected int ID;
+	protected final int ID;
 	protected Position pos;
 	protected ArrayList<Field> seenFields;
 	protected ArrayList<UnitView> seenUnits;
@@ -62,15 +62,15 @@ public abstract class Unit {
 		}
 	}
 
-	public void shoot(int x, int y) {
+	public void shoot(Position p) {
+		System.out.println("Ammo: " + ammo + " ID: " + ID);
 		if (ammo > 0 && actionPoints > 0) {
-			if (pos.inDistance(new Position(x, y), shootRange + 0.5f)) {
-				Map.instance().makeShot(damage, x, y);
+			if (pos.inDistance(p, shootRange + 0.5f)) {
+				Map.instance().makeShot(damage, p);
 			}
 			ammo--;
 			actionPoints--;
 		}
-
 	}
 
 	public abstract Texture getTexture();
@@ -79,6 +79,13 @@ public abstract class Unit {
 		seenFields = Map.instance().requestFileds(pos, viewRange + 0.5f);
 		seenUnits = Map.instance().requestUnitViews(pos, viewRange + 0.5f);
 		seenControlPoints = Map.instance().requestControlPoints(pos, viewRange + 0.5f);
+		Position enemyPosition = new Position(0, 0);
+		for(var u : seenUnits) {
+			if(u.team != team) {
+				enemyPosition = new Position(u.pos);
+			}
+		}
+		shoot(enemyPosition);
 	}
 
 	public void updateSelf(int percentage) {
@@ -105,9 +112,12 @@ public abstract class Unit {
 		return team;
 	}
 
-	public void takeShot(int recievedDamage) {
+	public void takeShot(int recievedDamage) {	
 		health -= recievedDamage;
-		if(health > 0) {
+		//System.out.println("Health: " + health + " ID:" + ID+ " team:" + team.getName());
+		if(health <= 0) {
+			//System.out.println(ID + " dies" + "team" + team.getName());
+
 			team.unitDied(ID);
 		}
 	}
@@ -116,13 +126,13 @@ public abstract class Unit {
 
 	@Override
 	public String toString() {
-		return ID + " "
-		+ pos.toString() + ' '
-	 	+ seenFields.toString() + ' '
-		+ seenUnits.toString() + ' '
-		+ health + ' '
-		+ ammo + ' '
-		+ fuel + ' '
+		return ID + "\n"
+		+ pos.toString() + "\n"
+	 	+ seenFields.toString() + "\n"
+		+ seenUnits.toString() + "\n"
+		+ health + "\n"
+		+ ammo + "\n"
+		+ fuel + "\n"
 		+ team.getName();
 	}
 }

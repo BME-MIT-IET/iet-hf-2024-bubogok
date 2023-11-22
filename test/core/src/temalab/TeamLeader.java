@@ -1,7 +1,4 @@
 package temalab;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.Scanner;
 import java.io.*;
 
@@ -30,10 +27,19 @@ public class TeamLeader {
 	//		vagy ki kellene venni belőle
 	public void communicate() {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
-		System.out.println(team.teamMembersToString().toString());
-		out.println(team.teamMembersToString().toString());
+		//System.out.println(team.teamMembersToString().toString());
+		//out.println(team.teamMembersToString().toString());
 		//String answer = sc.nextLine();
 		//String[] split = answer.split(" ");
+		try {
+			BufferedWriter out2 = new BufferedWriter(new FileWriter("asdf.txt"));
+			out2.write(team.teamMembersToString().toString());
+			out2.newLine();
+			out2.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		String[] asdf = null;
 		team.doAction(asdf);
 	}

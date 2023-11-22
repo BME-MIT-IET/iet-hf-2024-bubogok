@@ -26,7 +26,7 @@ public class Infantry extends Unit {
                 shootRange = Integer.parseInt(sc.nextLine());
                 damage = Integer.parseInt(sc.nextLine());
                 maxAmmo = Integer.parseInt(sc.nextLine());
-                fuel = Integer.parseInt(sc.nextLine());
+                maxFuel = Integer.parseInt(sc.nextLine());
                 consumption = Integer.parseInt(sc.nextLine());
                 actionPoints = Integer.parseInt(sc.nextLine());
                 price = Integer.parseInt(sc.nextLine());

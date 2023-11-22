@@ -125,9 +125,9 @@ public final class Map {
 		return false;
 	}
 
-	public void makeShot(int damage, int x, int y) {
+	public void makeShot(int damage, Position p) {
 		for(var t : teams) {
-			t.makeShot(damage, x, y);
+			t.makeShot(damage, p);
 		}
 	}
 
