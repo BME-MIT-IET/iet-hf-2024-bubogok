@@ -1,6 +1,11 @@
 package temalab;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,18 +17,25 @@ public class Scout extends Unit {
         steppableTypes = new ArrayList<Field.Type>();
         steppableTypes.add(Type.GRASS);
         steppableTypes.add(Type.MARSH);
-        maxHealth = 70;
+        try {
+            Scanner sc = new Scanner(new File("scoutStats.txt"));
+            while(sc.hasNextLine()) {
+                maxHealth = Integer.parseInt(sc.nextLine());
+                viewRange = Integer.parseInt(sc.nextLine());
+                shootRange = Integer.parseInt(sc.nextLine());
+                damage = Integer.parseInt(sc.nextLine());
+                maxAmmo = Integer.parseInt(sc.nextLine());
+                fuel = Integer.parseInt(sc.nextLine());
+                consumption = Integer.parseInt(sc.nextLine());
+                actionPoints = Integer.parseInt(sc.nextLine());
+                price = Integer.parseInt(sc.nextLine());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         health = maxHealth;
-        viewRange = 20;
-        shootRange = 20;
-        damage = 0;
-        maxAmmo = 0;
         ammo = maxAmmo;
-        maxFuel = 100;
         fuel = maxFuel;
-        consumption = 6;
-        actionPoints = 5;
-        price = 250;
     }
 
     @Override

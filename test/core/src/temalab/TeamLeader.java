@@ -30,13 +30,12 @@ public class TeamLeader {
 	//		vagy ki kellene venni belőle
 	public void communicate() {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
-		var ids = team.unitIDs();
-		System.out.println("zsavan");
 		System.out.println(team.teamMembersToString().toString());
-		out.println(ids.toString());
-		String answer = sc.nextLine();
-		String[] split = answer.split(" ");
-		team.doAction(split);
+		out.println(team.teamMembersToString().toString());
+		//String answer = sc.nextLine();
+		//String[] split = answer.split(" ");
+		String[] asdf = null;
+		team.doAction(asdf);
 	}
 	
 	public Team getTeam() {

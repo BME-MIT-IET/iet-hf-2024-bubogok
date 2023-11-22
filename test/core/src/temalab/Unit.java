@@ -116,18 +116,13 @@ public abstract class Unit {
 
 	@Override
 	public String toString() {
-		return ID + "; pos: "
-		+ pos.toString()
-		/*
-		+ "; seenFields: " + seenFields.toString()
-		*/
-		+ "; seenUnits: " + seenUnits.toString()
-		+ health + ';' + maxHealth + ';'
-		+ viewRange + ';' + shootRange + ';'
-		+ damage + ';' + ammo + ';' + maxAmmo + ';'
-		+ fuel + ';' + maxFuel + ';' + consumption + ';'
-		+ price + ';' + actionPoints + ';'
-
-		+ team.getColor().toString() + ';';
+		return ID + " "
+		+ pos.toString() + ' '
+	 	+ seenFields.toString() + ' '
+		+ seenUnits.toString() + ' '
+		+ health + ' '
+		+ ammo + ' '
+		+ fuel + ' '
+		+ team.getName();
 	}
 }

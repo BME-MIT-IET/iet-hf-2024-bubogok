@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public final class Team {
 	private Color color;
+	private String name;
 	private HashMap<Integer, Unit> units;
 	
 	public Team(String name) {
@@ -20,6 +21,7 @@ public final class Team {
 		} else {
 			this.color = new Color(0f, 0f, 0f, 1);
 		}
+		this.name = name;
 	}
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
 		units.forEach((id, u) -> {
@@ -27,7 +29,10 @@ public final class Team {
 		});
 	}
 	public Color getColor() {
-		return this.color;
+		return color;
+	}
+	public String getName() {
+		return name;
 	}
 	public void addUnit(Unit v) {
 		this.units.put(v.getUUID(), v);

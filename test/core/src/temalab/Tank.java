@@ -1,7 +1,8 @@
 package temalab;
 
+import java.io.File;
 import java.util.ArrayList;
-
+import java.util.Scanner;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import temalab.Field.Type;
@@ -12,18 +13,26 @@ public class Tank extends Unit {
         steppableTypes = new ArrayList<Field.Type>();
         steppableTypes.add(Type.GRASS);
         steppableTypes.add(Type.MARSH);
-        maxHealth = 80;
+
+        try {
+            Scanner sc = new Scanner(new File("tankStats.txt"));
+            while(sc.hasNextLine()) {
+                maxHealth = Integer.parseInt(sc.nextLine());
+                viewRange = Integer.parseInt(sc.nextLine());
+                shootRange = Integer.parseInt(sc.nextLine());
+                damage = Integer.parseInt(sc.nextLine());
+                maxAmmo = Integer.parseInt(sc.nextLine());
+                fuel = Integer.parseInt(sc.nextLine());
+                consumption = Integer.parseInt(sc.nextLine());
+                actionPoints = Integer.parseInt(sc.nextLine());
+                price = Integer.parseInt(sc.nextLine());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         health = maxHealth;
-        viewRange = 8;
-        shootRange = 7;
-        damage = 30;
-        maxAmmo = 6;
         ammo = maxAmmo;
-        maxFuel = 100;
         fuel = maxFuel;
-        consumption = 10;
-        actionPoints = 2;
-        price = 400;
     }
 
     @Override

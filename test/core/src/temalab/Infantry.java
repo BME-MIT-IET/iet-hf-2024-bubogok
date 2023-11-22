@@ -1,6 +1,8 @@
 package temalab;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,23 +18,30 @@ public class Infantry extends Unit {
         steppableTypes.add(Type.FOREST);
         steppableTypes.add(Type.WATER);
         steppableTypes.add(Type.BUILDING);
-        maxHealth = 20;
+        try {
+            Scanner sc = new Scanner(new File("infantryStats.txt"));
+            while(sc.hasNextLine()) {
+                maxHealth = Integer.parseInt(sc.nextLine());
+                viewRange = Integer.parseInt(sc.nextLine());
+                shootRange = Integer.parseInt(sc.nextLine());
+                damage = Integer.parseInt(sc.nextLine());
+                maxAmmo = Integer.parseInt(sc.nextLine());
+                fuel = Integer.parseInt(sc.nextLine());
+                consumption = Integer.parseInt(sc.nextLine());
+                actionPoints = Integer.parseInt(sc.nextLine());
+                price = Integer.parseInt(sc.nextLine());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         health = maxHealth;
-        viewRange = 11;
-        shootRange = 9;
-        damage = 10;
-        maxAmmo = 10;
         ammo = maxAmmo;
-        maxFuel = 100;
         fuel = maxFuel;
-        consumption = 4;
-        actionPoints = 2;
-        price = 100;
     }
 
     @Override
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal("infantry.java"));
+        return new Texture(Gdx.files.internal("infantry.png"));
     }
 
     @Override

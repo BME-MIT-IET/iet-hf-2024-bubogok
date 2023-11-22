@@ -11,6 +11,6 @@ public class UnitView {
 
     @Override
     public String toString() {
-        return pos.toString() + ';' + team.getColor().toString();
+        return pos.toString() + " ; " + team.getName();
     }
 }
