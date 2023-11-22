@@ -24,7 +24,9 @@ public final class Team {
 		this.name = name;
 	}
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
-		units.forEach((id, u) -> {
+		var renderUnits = new HashMap<Integer, Unit>();
+		renderUnits.putAll(units);
+		renderUnits.forEach((id, u) -> {
 			u.render(sr, sb, bf, color);
 		});
 	}

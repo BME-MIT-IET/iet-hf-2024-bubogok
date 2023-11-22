@@ -53,13 +53,19 @@ public final class Map {
 	}
 
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
-		fields.forEach((pos, f) -> {
+		var renderFields = new HashMap<Position, Field>();
+		renderFields.putAll(fields);
+		renderFields.forEach((pos, f) -> {
 			f.render(sr, sb, bf);
 		});
-		for (var t : teams) {
+		var renderTeams = new ArrayList<Team>();
+		renderTeams.addAll(teams);
+		for (var t : renderTeams) {
 			t.render(sr, sb, bf);
 		}
-		for (var cp : controlPoints) {
+		var renderControlPoints = new ArrayList<ControlPoint>();
+		renderControlPoints.addAll(controlPoints);
+		for (var cp : renderControlPoints) {
 			cp.render(sr, sb, bf);
 		}
 	}

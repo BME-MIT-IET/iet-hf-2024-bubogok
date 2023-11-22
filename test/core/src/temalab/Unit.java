@@ -63,7 +63,6 @@ public abstract class Unit {
 	}
 
 	public void shoot(Position p) {
-		System.out.println("Ammo: " + ammo + " ID: " + ID);
 		if (ammo > 0 && actionPoints > 0) {
 			if (pos.inDistance(p, shootRange + 0.5f)) {
 				Map.instance().makeShot(damage, p);
@@ -114,10 +113,8 @@ public abstract class Unit {
 
 	public void takeShot(int recievedDamage) {	
 		health -= recievedDamage;
-		//System.out.println("Health: " + health + " ID:" + ID+ " team:" + team.getName());
+		System.out.println("been shot");
 		if(health <= 0) {
-			//System.out.println(ID + " dies" + "team" + team.getName());
-
 			team.unitDied(ID);
 		}
 	}
