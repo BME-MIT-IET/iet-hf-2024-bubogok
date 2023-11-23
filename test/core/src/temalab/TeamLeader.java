@@ -23,8 +23,6 @@ public class TeamLeader {
 		
 	}
 	//TODO: Itt kellene parsolni
-	//TODO: más unitok seenUnits és seenFieldsjét nem kellene átadni, 
-	//		vagy ki kellene venni belőle
 	public void communicate() {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		//System.out.println(team.teamMembersToString().toString());

@@ -14,12 +14,14 @@ tasks.register('run', JavaExec) {
     standardInput = System.in
     workingDir = project.assetsDir
     ignoreExitValue = true
-
+    jvmArgs=['-Xmx2048m']
     if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
         // Required to run on macOS
         jvmArgs += "-XstartOnFirstThread"
     }
 }
+
+
 
 tasks.register('debug', JavaExec) {
     dependsOn classes
@@ -45,5 +47,4 @@ tasks.register('dist', Jar) {
 
 
 dist.dependsOn classes
-
 eclipse.project.name = appName + "-desktop"

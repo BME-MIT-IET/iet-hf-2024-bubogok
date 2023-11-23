@@ -7,13 +7,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import temalab.Field.Type;
 
-public class Tank extends Unit { 
+public class Tank extends Unit {
+    private static Texture texture = null;
     public Tank(Position pos, Team t) {
         super(pos, t);
         steppableTypes = new ArrayList<Field.Type>();
         steppableTypes.add(Type.GRASS);
         steppableTypes.add(Type.MARSH);
-
+        if(texture == null) {
+            texture = new Texture(Gdx.files.internal("tank.png"));
+        }
         try {
             Scanner sc = new Scanner(new File("tankStats.txt"));
             while(sc.hasNextLine()) {
@@ -37,7 +40,7 @@ public class Tank extends Unit {
 
     @Override
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal("tank.png"));
+        return texture;
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import temalab.Field.Type;
 
 public class Infantry extends Unit {
+    private static Texture texture = null;
     public Infantry(Position pos, Team t) {
         super(pos, t);
         steppableTypes = new ArrayList<Field.Type>();
@@ -18,6 +19,9 @@ public class Infantry extends Unit {
         steppableTypes.add(Type.FOREST);
         steppableTypes.add(Type.WATER);
         steppableTypes.add(Type.BUILDING);
+        if(texture == null) {
+            texture = new Texture(Gdx.files.internal("infantry.png"));
+        }
         try {
             Scanner sc = new Scanner(new File("infantryStats.txt"));
             while(sc.hasNextLine()) {
@@ -41,7 +45,7 @@ public class Infantry extends Unit {
 
     @Override
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal("infantry.png"));
+        return texture;
     }
 
     @Override

@@ -41,15 +41,21 @@ public abstract class Unit {
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf, Color c) {
 		float size = Map.instance().squareSize();
 		Vector2 center = pos.screenCoords();
-
+		
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(c);
 		sr.circle(center.x, center.y, size / 2);
 		sr.end();
-
+		
+		
 		sb.begin();
 		sb.draw(getTexture(), center.x - (size / 2), center.y - (size / 2), size, size);
 		sb.end();
+		
+		sr.begin(ShapeRenderer.ShapeType.Line);
+		sr.setColor(c);
+		sr.circle(center.x, center.y, size * shootRange);
+		sr.end();
 	}
 
 	public void move(int x, int y) {
@@ -65,6 +71,7 @@ public abstract class Unit {
 	public void shoot(Position p) {
 		if (ammo > 0 && actionPoints > 0) {
 			if (pos.inDistance(p, shootRange + 0.5f)) {
+				System.err.println(shootRange);
 				Map.instance().makeShot(damage, p);
 			}
 			ammo--;

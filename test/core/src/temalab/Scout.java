@@ -9,11 +9,15 @@ import com.badlogic.gdx.graphics.Texture;
 import temalab.Field.Type;
 
 public class Scout extends Unit {
+    private static Texture texture = null;
     public Scout(Position pos, Team t) {
         super(pos, t);
         steppableTypes = new ArrayList<Field.Type>();
         steppableTypes.add(Type.GRASS);
         steppableTypes.add(Type.MARSH);
+        if(texture == null) {
+            texture = new Texture(Gdx.files.internal("scout.png"));
+        }
         try {
             Scanner sc = new Scanner(new File("scoutStats.txt"));
             while(sc.hasNextLine()) {
@@ -37,7 +41,7 @@ public class Scout extends Unit {
 
     @Override
     public Texture getTexture() {
-        return new Texture(Gdx.files.internal("binoculars.png"));
+        return texture;
     }
 
     @Override

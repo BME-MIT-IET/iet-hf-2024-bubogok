@@ -10,7 +10,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("test");
+		config.setTitle("float");
 		//config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode(Gdx.graphics.getMonitor()));
 		config.setWindowedMode(1000, 1000);
 		
