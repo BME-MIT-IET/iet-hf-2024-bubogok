@@ -28,6 +28,7 @@ public abstract class Unit {
 	protected int maxFuel;
 	protected int consumption;
 	protected int price;
+	protected int maxActionPoints;
 	protected int actionPoints;
 
 	public Unit(Position pos, Team t) {
@@ -54,7 +55,8 @@ public abstract class Unit {
 		
 		sr.begin(ShapeRenderer.ShapeType.Line);
 		sr.setColor(c);
-		sr.circle(center.x, center.y, size * shootRange);
+		sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * size * shootRange);
+		sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * size * viewRange);
 		sr.end();
 	}
 
@@ -71,7 +73,6 @@ public abstract class Unit {
 	public void shoot(Position p) {
 		if (ammo > 0 && actionPoints > 0) {
 			if (pos.inDistance(p, shootRange + 0.5f)) {
-				System.err.println(shootRange);
 				Map.instance().makeShot(damage, p);
 			}
 			ammo--;
@@ -82,6 +83,7 @@ public abstract class Unit {
 	public abstract Texture getTexture();
 
 	public void updateWorld() {
+		actionPoints = maxActionPoints;
 		seenFields = Map.instance().requestFileds(pos, viewRange + 0.5f);
 		seenUnits = Map.instance().requestUnitViews(pos, viewRange + 0.5f);
 		seenControlPoints = Map.instance().requestControlPoints(pos, viewRange + 0.5f);
@@ -118,15 +120,15 @@ public abstract class Unit {
 		return team;
 	}
 
+	public abstract UnitView getView();
+
+
 	public void takeShot(int recievedDamage) {	
 		health -= recievedDamage;
-		System.out.println("been shot");
 		if(health <= 0) {
 			team.unitDied(ID);
 		}
 	}
-
-	public abstract UnitView getView();
 
 	@Override
 	public String toString() {

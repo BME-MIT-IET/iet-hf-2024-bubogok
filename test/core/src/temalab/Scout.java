@@ -28,7 +28,7 @@ public class Scout extends Unit {
                 maxAmmo = Integer.parseInt(sc.nextLine());
                 maxFuel = Integer.parseInt(sc.nextLine());
                 consumption = Integer.parseInt(sc.nextLine());
-                actionPoints = Integer.parseInt(sc.nextLine());
+                maxActionPoints = Integer.parseInt(sc.nextLine());
                 price = Integer.parseInt(sc.nextLine());
             }
         } catch (Exception e) {
@@ -37,6 +37,7 @@ public class Scout extends Unit {
         health = maxHealth;
         ammo = maxAmmo;
         fuel = maxFuel;
+        actionPoints = maxActionPoints;
     }
 
     @Override

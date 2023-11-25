@@ -24,7 +24,7 @@ public class Test extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		m = Map.init(1000, 32);
+		m = Map.init(1000, 64);
 		m.makeRandomMap();
 		var cp = new ControlPoint(new Position(12, 12), 10);
 		m.addControlPoint(cp);
@@ -32,10 +32,10 @@ public class Test extends ApplicationAdapter {
 		Team t2 = new Team("red");
 		m.addTeam(t1);
 		m.addTeam(t2);
-		t2.addUnit(new Scout(new Position(6, 6), t2));
+		//t2.addUnit(new Scout(new Position(6, 6), t2));
 		t1.addUnit(new Tank(new Position(4, 4), t1));
-		t2.addUnit(new Tank(new Position(7, 8), t2));
-		t2.addUnit(new Infantry(new Position(10, 8), t2));
+		//t2.addUnit(new Tank(new Position(7, 8), t2));
+		//t2.addUnit(new Infantry(new Position(10, 8), t2));
 		new Thread() {
 			public void run() {
 				TL1 = new TeamLeader(t1);

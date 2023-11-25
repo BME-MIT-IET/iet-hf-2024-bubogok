@@ -36,6 +36,7 @@ public final class Position {
 	}
 
 	public boolean isNeighbouring(Position p) {
+		//System.err.println("cx: " + this.x + "cy: " + this.y + "dx: " + p.x + "dy: " + p.y );
 		return Math.abs(this.x - p.x) <= 1 || Math.abs(this.y - p.y) <= 1;
 	}
 

@@ -73,6 +73,9 @@ public final class Team {
 	public void doAction(String[] answer) {
 		units.forEach((id, u) -> {
 			u.updateWorld();
+			int x = Test.r.nextInt(3) - 1;
+			int y = Test.r.nextInt(3) - 1;
+			u.move(u.pos().x() + x, u.pos().y() + y);
 		});
 	}
 

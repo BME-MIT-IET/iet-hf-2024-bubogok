@@ -46,8 +46,27 @@ public final class Map {
 		for (int i = 0; i < numberOfSquares; i++) {
 			for (int j = 0; j < numberOfSquares; j++) {
 				var temPos = new Position(i, j);
-				fields.put(temPos, new Field(temPos,
-						Type.values()[new Random().nextInt(Type.values().length)]));
+				fields.put(temPos, new Field(temPos, Type.values()[new Random().nextInt(Type.values().length)]));
+			}
+		}
+	}
+
+	public void makeSimplexNoiseMap() {
+		for (int i = 0; i < numberOfSquares; i++) {
+			for (int j = 0; j < numberOfSquares; j++) {
+				var temPos = new Position(i, j);
+				var noiseProb = SimplexNoise.noise(i, j);
+				if(-1 < noiseProb && noiseProb <= 0) {
+					fields.put(temPos, new Field(temPos, Type.GRASS));
+				} else if(0 < noiseProb && noiseProb <= 0.2) {
+					fields.put(temPos, new Field(temPos, Type.WATER));
+				} else if(0.2 < noiseProb && noiseProb <= 0.4) {
+					fields.put(temPos, new Field(temPos, Type.FOREST));
+				} else if(0.4 < noiseProb && noiseProb <= 0.6) {
+					fields.put(temPos, new Field(temPos, Type.BUILDING));
+				} else if(0.6 < noiseProb && noiseProb <= 1) {
+					fields.put(temPos, new Field(temPos, Type.MARSH));
+				}
 			}
 		}
 	}
@@ -123,7 +142,6 @@ public final class Map {
 	public boolean validateMove(ArrayList<Field.Type> steppables, Position currPos, Position destPos) {
 		if(currPos.isNeighbouring(destPos)) {
 			Field destPosField = fields.get(destPos);
-			System.out.println(steppables.toString() + destPosField.getType());
 			if(destPosField != null && steppables.contains(destPosField.getType())) {
 				return true;
 			}
