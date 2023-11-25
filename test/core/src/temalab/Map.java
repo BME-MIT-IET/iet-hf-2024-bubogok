@@ -71,6 +71,8 @@ public final class Map {
 		}
 	}
 
+	
+
 	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
 		var renderFields = new HashMap<Position, Field>();
 		renderFields.putAll(fields);
