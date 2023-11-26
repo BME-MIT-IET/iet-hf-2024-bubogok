@@ -1,7 +1,6 @@
 package temalab;
 
 import java.util.*;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -9,13 +8,12 @@ import temalab.Field.Type;
 
 public final class Map {
 	private static Map instance;
-	private int mapSize;
 	private int numberOfSquares;
 	private HashMap<Position, Field> fields;
 	private ArrayList<Team> teams;
 	private ArrayList<ControlPoint> controlPoints;
 	private float squareSize;
-	private float universalDistanceConstant = 1.5f;
+	private float universalDistanceConstant;
 
 	public static Map instance() throws RuntimeException {
 		if (instance == null) {
@@ -24,32 +22,32 @@ public final class Map {
 		return instance;
 	}
 
-	public static Map init(int size, int nos) throws RuntimeException {
+	public static Map init(int size, int nos, float sizingFactor) throws RuntimeException {
 		if (instance == null) {
-			instance = new Map(size, nos);
+			instance = new Map(size, nos, sizingFactor);
 			return instance;
 		} else {
 			throw new RuntimeException("already inited");
 		}
 	}
 
-	private Map(int size, int nos) {
-		numberOfSquares = nos;
+	private Map(int size, int nos, float sizingFactor) {
 		fields = new HashMap<Position, Field>();
 		teams = new ArrayList<Team>();
 		controlPoints = new ArrayList<ControlPoint>();
-		mapSize = size;
-		squareSize = mapSize / numberOfSquares;
+		numberOfSquares = nos;
+		squareSize = size / numberOfSquares;
+		universalDistanceConstant = sizingFactor;
 	}
 
-	public void makeRandomMap() {
-		for (int i = 0; i < numberOfSquares; i++) {
-			for (int j = 0; j < numberOfSquares; j++) {
-				var temPos = new Position(i, j);
-				fields.put(temPos, new Field(temPos, Type.values()[new Random().nextInt(Type.values().length)]));
-			}
-		}
-	}
+	// private void makeRandomMap() {
+	// 	for (int i = 0; i < numberOfSquares; i++) {
+	// 		for (int j = 0; j < numberOfSquares; j++) {
+	// 			var temPos = new Position(i, j);
+	// 			fields.put(temPos, new Field(temPos, Type.values()[new Random().nextInt(Type.values().length)]));
+	// 		}
+	// 	}
+	// }
 
 	public void makeSimplexNoiseMap() {
 		for (int i = 0; i < numberOfSquares; i++) {
@@ -71,23 +69,21 @@ public final class Map {
 		}
 	}
 
-	
-
-	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
+	public void render(ShapeRenderer sr, SpriteBatch sb) {
 		var renderFields = new HashMap<Position, Field>();
 		renderFields.putAll(fields);
 		renderFields.forEach((pos, f) -> {
-			f.render(sr, sb, bf);
+			f.render(sr, sb);
 		});
 		var renderTeams = new ArrayList<Team>();
 		renderTeams.addAll(teams);
 		for (var t : renderTeams) {
-			t.render(sr, sb, bf);
+			t.render(sr, sb);
 		}
 		var renderControlPoints = new ArrayList<ControlPoint>();
 		renderControlPoints.addAll(controlPoints);
 		for (var cp : renderControlPoints) {
-			cp.render(sr, sb, bf);
+			cp.render(sr, sb);
 		}
 	}
 

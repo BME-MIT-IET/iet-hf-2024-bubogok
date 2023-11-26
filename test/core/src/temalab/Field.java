@@ -43,7 +43,7 @@ public final class Field {
 		this.color = new Color(r, r, r, 1);*/
 	}
 	
-	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
+	public void render(ShapeRenderer sr, SpriteBatch sb) {
 		float size = Map.instance().squareSize();
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(this.color);

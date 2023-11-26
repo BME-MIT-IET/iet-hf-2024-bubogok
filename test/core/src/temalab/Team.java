@@ -3,7 +3,6 @@ package temalab;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -23,11 +22,11 @@ public final class Team {
 		}
 		this.name = name;
 	}
-	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
+	public void render(ShapeRenderer sr, SpriteBatch sb) {
 		var renderUnits = new HashMap<Integer, Unit>();
 		renderUnits.putAll(units);
 		renderUnits.forEach((id, u) -> {
-			u.render(sr, sb, bf, color);
+			u.render(sr, sb, color);
 		});
 	}
 	public Color getColor() {
@@ -73,8 +72,8 @@ public final class Team {
 	public void doAction(String[] answer) {
 		units.forEach((id, u) -> {
 			u.updateWorld();
-			int x = Test.r.nextInt(3) - 1;
-			int y = Test.r.nextInt(3) - 1;
+			int x = Simu.r.nextInt(3) - 1;
+			int y = Simu.r.nextInt(3) - 1;
 			u.move(u.pos().x() + x, u.pos().y() + y);
 		});
 	}

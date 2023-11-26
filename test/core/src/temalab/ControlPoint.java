@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -25,10 +24,10 @@ public class ControlPoint {
         this.percentage = percentage;
     }
 
-    public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf) {
+    public void render(ShapeRenderer sr, SpriteBatch sb) {
+        float sqareSize = Map.instance().squareSize() * (size + 1.5f);
         sr.begin(ShapeRenderer.ShapeType.Line);
         sr.setColor(c);
-        float sqareSize = Map.instance().squareSize() * (size + 1.5f);
         sr.circle(center.x, center.y, sqareSize);
         sr.end();
     }

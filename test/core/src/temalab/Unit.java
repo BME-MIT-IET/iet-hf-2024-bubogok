@@ -30,16 +30,21 @@ public abstract class Unit {
 	protected int price;
 	protected int maxActionPoints;
 	protected int actionPoints;
+	protected Position shootingPos;
+
+	protected boolean currentlyShooting;
 
 	public Unit(Position pos, Team t) {
 		seenFields = new ArrayList<Field>();
 		seenUnits = new ArrayList<UnitView>();
-		ID = Test.r.nextInt(1000000);
+		ID = Simu.r.nextInt(1000000);
 		this.pos = pos;
 		team = t;
+		currentlyShooting = false;
+		shootingPos = null;
 	}
 
-	public void render(ShapeRenderer sr, SpriteBatch sb, BitmapFont bf, Color c) {
+	public void render(ShapeRenderer sr, SpriteBatch sb, Color c) {
 		float size = Map.instance().squareSize();
 		Vector2 center = pos.screenCoords();
 		
@@ -47,7 +52,6 @@ public abstract class Unit {
 		sr.setColor(c);
 		sr.circle(center.x, center.y, size / 2);
 		sr.end();
-		
 		
 		sb.begin();
 		sb.draw(getTexture(), center.x - (size / 2), center.y - (size / 2), size, size);
@@ -58,10 +62,17 @@ public abstract class Unit {
 		sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * size * shootRange);
 		sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * size * viewRange);
 		sr.end();
+		if(currentlyShooting) {
+			sr.begin(ShapeRenderer.ShapeType.Line);
+			sr.setColor(c);
+			sr.line(center, shootingPos.screenCoords());
+			sr.end();
+			currentlyShooting = false;
+		}
 	}
 
 	public void move(int x, int y) {
-		if(fuel > 0 && actionPoints > 0) {
+		if(fuel - consumption > 0 && actionPoints > 0) {
 			if(Map.instance().validateMove(steppableTypes, pos, new Position(x, y))) {
             	pos = new Position(x, y);
 				fuel -= consumption;
@@ -75,6 +86,8 @@ public abstract class Unit {
 			if (pos.inDistance(p, shootRange + 0.5f)) {
 				Map.instance().makeShot(damage, p);
 			}
+			shootingPos = p;
+			currentlyShooting = true;
 			ammo--;
 			actionPoints--;
 		}
@@ -87,13 +100,15 @@ public abstract class Unit {
 		seenFields = Map.instance().requestFileds(pos, viewRange + 0.5f);
 		seenUnits = Map.instance().requestUnitViews(pos, viewRange + 0.5f);
 		seenControlPoints = Map.instance().requestControlPoints(pos, viewRange + 0.5f);
-		Position enemyPosition = new Position(0, 0);
+		Position enemyPosition = null;
 		for(var u : seenUnits) {
 			if(u.team != team) {
 				enemyPosition = new Position(u.pos);
 			}
 		}
-		shoot(enemyPosition);
+		if(enemyPosition != null) {
+			shoot(enemyPosition);
+		}
 	}
 
 	public void updateSelf(int percentage) {
