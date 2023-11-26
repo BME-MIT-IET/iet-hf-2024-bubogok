@@ -25,6 +25,7 @@ public final class Map {
 	public static Map init(int size, int nos, float sizingFactor) throws RuntimeException {
 		if (instance == null) {
 			instance = new Map(size, nos, sizingFactor);
+			instance.makeSimplexNoiseMap();
 			return instance;
 		} else {
 			throw new RuntimeException("already inited");
@@ -35,9 +36,10 @@ public final class Map {
 		fields = new HashMap<Position, Field>();
 		teams = new ArrayList<Team>();
 		controlPoints = new ArrayList<ControlPoint>();
-		numberOfSquares = nos;
-		squareSize = size / numberOfSquares;
 		universalDistanceConstant = sizingFactor;
+		numberOfSquares = nos;
+		squareSize = (size / sizingFactor) / numberOfSquares;
+		
 	}
 
 	// private void makeRandomMap() {
@@ -49,7 +51,7 @@ public final class Map {
 	// 	}
 	// }
 
-	public void makeSimplexNoiseMap() {
+	private void makeSimplexNoiseMap() {
 		for (int i = 0; i < numberOfSquares; i++) {
 			for (int j = 0; j < numberOfSquares; j++) {
 				var temPos = new Position(i, j);

@@ -4,7 +4,6 @@ import java.util.Random;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,7 +13,6 @@ public class Simu extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch;
 	BitmapFont font;
-	private OrthographicCamera camera;
 
 	static Map m;
 	TeamLeader TL1;
@@ -26,11 +24,7 @@ public class Simu extends ApplicationAdapter {
 		r = new Random();
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
-		font = new BitmapFont();
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 1000, 1000);
-		m = Map.init(1000, 32, 1.5f);
-		m.makeSimplexNoiseMap();
+		m = Map.init(1000, 16, 1.5f);
 		m.addControlPoint(new ControlPoint(new Position(12, 12), 10));
 		Team t1 = new Team("white");
 		Team t2 = new Team("red");
@@ -72,8 +66,6 @@ public class Simu extends ApplicationAdapter {
 	public void render() {
 		Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
-		shapeRenderer.setProjectionMatrix(camera.combined);
 		m.render(shapeRenderer, batch);
 	}
 	
@@ -81,7 +73,6 @@ public class Simu extends ApplicationAdapter {
 	public void dispose() {
 		shapeRenderer.dispose();
 		batch.dispose();
-		font.dispose();
 		System.exit(0);
 	}
 }
