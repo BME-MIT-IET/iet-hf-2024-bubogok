@@ -72,7 +72,7 @@ public abstract class Unit {
 	}
 
 	public void move(int x, int y) {
-		if(fuel - consumption > 0 && actionPoints > 0) {
+		if(fuel - consumption >= 0 && actionPoints > 0) {
 			if(Map.instance().validateMove(steppableTypes, pos, new Position(x, y))) {
             	pos = new Position(x, y);
 				fuel -= consumption;
@@ -137,7 +137,6 @@ public abstract class Unit {
 
 	public abstract UnitView getView();
 
-
 	public void takeShot(int recievedDamage) {	
 		health -= recievedDamage;
 		if(health <= 0) {
@@ -145,8 +144,15 @@ public abstract class Unit {
 		}
 	}
 
-	@Override
-	public String toString() {
+	
+	public String toString(boolean toMonitor) {
+		if(toMonitor) {
+			return "ID: " + ID + "\n"
+			+ "Pos: " + pos.toString() + "\n"
+			+ "Health: " + health  + "/" + maxHealth + "\n"
+			+ "Ammo: " + ammo  + "/" + maxAmmo + "\n"
+			+ "Fuel: " + fuel  + "/" + maxFuel + "\n";
+		}
 		return ID + "\n"
 		+ pos.toString() + "\n"
 	 	+ seenFields.toString() + "\n"

@@ -94,10 +94,19 @@ public final class Team {
 		units.remove(id);
 	}
 	
-	public ArrayList<String> teamMembersToString() {
+	public ArrayList<String> teamMembersToString(boolean toMonitor) {
 		var res = new ArrayList<String>();
 		units.forEach((id, u) -> {
-			res.add(u.toString());
+			res.add(u.toString(toMonitor));
+		});
+		return res;
+	}
+
+	public ArrayList<String> toMonitor() {
+		var res = new ArrayList<String>();
+		res.add(name);
+		units.forEach((id, u) -> {
+			res.add(u.toString(true));
 		});
 		return res;
 	}
