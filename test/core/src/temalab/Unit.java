@@ -112,14 +112,14 @@ public abstract class Unit {
 	}
 
 	public void updateSelf(int percentage) {
-		if(health < maxHealth) {
-			health +=  maxHealth / percentage;
+		if(health + 5 <= maxHealth) {
+			health +=  5;
 		}
-		if(ammo < maxAmmo) {
-			ammo +=  maxAmmo / percentage;
+		if(ammo + 1 <= maxAmmo) {
+			ammo += 1;
 		}
-		if(fuel < maxFuel) {
-			fuel +=  maxFuel / percentage;
+		if(fuel + 2 <= maxFuel) {
+			fuel +=  2;
 		}
 	}
 

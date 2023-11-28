@@ -35,8 +35,8 @@ public class Simu extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		m = Map.init(Gdx.graphics.getHeight(), 32, 1.5f);
-		m.addControlPoint(new ControlPoint(new Position(12, 12), 10));
+		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
+		m.addControlPoint(new ControlPoint(new Position(10, 10), 10));
 		
 		m.addTeam(t1);
 		m.addTeam(t2);

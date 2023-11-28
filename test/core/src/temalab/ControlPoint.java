@@ -34,7 +34,7 @@ public class ControlPoint {
 
     public void updateNearbyUnits() {
         boolean twoTeams = false;
-        var seenUnits = Map.instance().requestUnits(pos, size);
+        var seenUnits = Map.instance().requestUnits(pos, size + 0.5f);
         if (seenUnits.size() != 0) {
             var unitCount = new HashMap<Team, Integer>();
             for (var u : seenUnits) {
@@ -53,7 +53,7 @@ public class ControlPoint {
                     max = entry.getValue();
                     maxTeam = entry.getKey();
                 }
-                if (entry.getValue() == max) {
+                if (entry.getValue() == max && entry.getKey() != maxTeam) {
                     twoTeams = true;
                 }
             }
