@@ -1,5 +1,0 @@
-control pointokat beletenni,
-egységek deiniálása gyalogsag, tank, tuzerség, (legvédelmi dolgok)
-zoom,
-kommunikáció letisztázása
-fájlból töltés

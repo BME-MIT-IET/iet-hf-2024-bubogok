@@ -112,14 +112,19 @@ public abstract class Unit {
 	}
 
 	public void updateSelf(int percentage) {
-		if(health + 5 <= maxHealth) {
-			health +=  5;
+		int updateAmount;
+		if(health <= maxHealth) {
+			updateAmount = (int)Math.ceil(maxHealth * (percentage/100));
+			
+			health = Math.min(maxHealth, health + updateAmount);
 		}
-		if(ammo + 1 <= maxAmmo) {
-			ammo += 1;
+		if(ammo  <= maxAmmo) {
+			updateAmount = (int)Math.ceil(maxAmmo * (percentage/100f));
+			ammo = Math.min(maxAmmo, ammo + updateAmount);
 		}
-		if(fuel + 2 <= maxFuel) {
-			fuel +=  2;
+		if(fuel <= maxFuel) {
+			updateAmount = (int)Math.ceil(maxHealth * (percentage/100f));
+			fuel =  Math.min(maxFuel, fuel + updateAmount);
 		}
 	}
 

@@ -90,15 +90,15 @@ public class Simu extends ApplicationAdapter {
 		batch.begin();
 		ArrayList<String> t1Monitor = t1.toMonitor();
 		ArrayList<String> t2Monitor = t2.toMonitor();
-		int offset = 100;
+		int offset = 990;
 		for(var s : t1Monitor) {
 			font.draw(batch, s, 1200, offset);
-			offset += 100;
+			offset -= 100;
 		}
-		offset = 100;
+		offset = 990;
 		for(var s : t2Monitor) {
 			font.draw(batch, s, 1400, offset);
-			offset += 100; 
+			offset -= 100; 
 		}
 		batch.end();
 		
