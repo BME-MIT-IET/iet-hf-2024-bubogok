@@ -31,8 +31,9 @@ public final class Position {
 		return new Vector2((udc * size + udc * x * size), (udc * size + udc * y * size));
 	}
 
-	public boolean inDistance(Position p2, float dist) {
-		return Math.pow(this.x - p2.x(), 2) + Math.pow(this.y - p2.y(), 2) <= dist * dist;
+	public boolean inDistance(Position p2, float rov) {
+		//rov = Range of Vision
+		return Math.pow(this.x - p2.x(), 2) + Math.pow(this.y - p2.y(), 2) <= rov * rov;
 	}
 
 	public boolean isNeighbouring(Position p) {
