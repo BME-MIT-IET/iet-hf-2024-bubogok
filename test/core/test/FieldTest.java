@@ -9,11 +9,11 @@ import temalab.Map;
 
 
 public class FieldTest {
-    Position p;
+    static Position p;
     Field f;
-    Map m;
-    @Before
-    public void init() {
+    static Map m;
+    @BeforeClass
+    public static void init() {
         p = new Position(1, 1);
         m = Map.init(100, 4, 2);
     }

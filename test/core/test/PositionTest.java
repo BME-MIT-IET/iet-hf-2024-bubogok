@@ -8,11 +8,12 @@ import temalab.Position;
 import temalab.Map;
 
 public class PositionTest {
-    Position p;
-    Map m;
-    @Before
-    public void init() {
+    static Position p;
+    static Map m;
+    @BeforeClass
+    public static void init() {
         p = new Position(0, 0);
+        m = Map.init(100, 4, 2);
     }
 
     /*
