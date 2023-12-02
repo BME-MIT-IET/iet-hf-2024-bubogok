@@ -17,7 +17,9 @@ public class FieldTest {
         p = new Position(1, 1);
         m = Map.init(100, 4, 2);
     }
-
+    /*
+     * Testing all getters
+     */
     @Test
     public void ctorTest() {
         var f = new Field(p, Type.BUILDING);

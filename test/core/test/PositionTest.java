@@ -8,12 +8,18 @@ import temalab.Position;
 import temalab.Map;
 
 public class PositionTest {
+    Position p;
+    Map m;
+    @Before
+    public void init() {
+        p = new Position(0, 0);
+    }
+
     /*
      * Making a new position at (0, 0), getters should give 0, 0
      */
     @Test
     public void ctorTest() {
-        var p = new Position(0, 0);
         assertEquals(0, p.x());
         assertEquals(0, p.y());
     }
@@ -23,10 +29,9 @@ public class PositionTest {
      */
     @Test
     public void copyctorTest() {
-        var p2 = new Position(0, 0);
-        var p = new Position(p2);
-        assertEquals(0, p.x());
-        assertEquals(0, p.y());
+        var p2 = new Position(p);
+        assertEquals(0, p2.x());
+        assertEquals(0, p2.y());
     }
 
     /*
@@ -34,7 +39,6 @@ public class PositionTest {
      */
     @Test
     public void toStringTest() {
-        var p = new Position(0, 0);
         assertEquals("0 0", p.toString());
     }
 
@@ -44,9 +48,8 @@ public class PositionTest {
     //TODO:will fail, if screencords calculation method changes
     @Test
     public void testScreenCords() {
-        final  Map m = Map.init(100, 4, 2);
-        var p = new Position(3, 3);
-        var screenCoords = p.screenCoords();
+        var p2 = new Position(3, 3);
+        var screenCoords = p2.screenCoords();
         assertEquals(new Vector2(100,100), screenCoords);
     }
     /*
@@ -57,10 +60,10 @@ public class PositionTest {
      */
     @Test
     public void testInDistance() {
-        var p = new Position(2, 2);
+        var p1 = new Position(2, 2);
         var p2 = new Position(5, 6);
-        assertTrue(p.inDistance(p2, 5f));
-        assertFalse(p.inDistance(p2, 4f));
+        assertTrue(p1.inDistance(p2, 5f));
+        assertFalse(p1.inDistance(p2, 4f));
     }
     /*
      * Testing inNeighbouring function
@@ -70,7 +73,6 @@ public class PositionTest {
      */
     @Test
     public void testIsNeightbouring() {
-        var p = new Position(0, 0);
         var p2 = new Position(1, 1);
         var p3 = new Position(2, 2);
         assertFalse(p.isNeighbouring(p3));
@@ -84,7 +86,6 @@ public class PositionTest {
      */
     @Test
     public void testHashCode() {
-        var p = new Position(1, 1);
         var p2 = new Position(3, 3);
         assertNotEquals(p.hashCode(), p2.hashCode());
     }
@@ -95,7 +96,6 @@ public class PositionTest {
      */
     @Test
     public void testEquals() {
-        var p = new Position(0, 0);
         var p2 = new Position(0, 0);
         var p3 = new Position(1, 1);
         assertTrue(p.equals(p2));
