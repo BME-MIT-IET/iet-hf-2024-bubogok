@@ -31,13 +31,12 @@ public abstract class Unit {
 	protected int maxActionPoints;
 	protected int actionPoints;
 	protected Position shootingPos;
-
 	protected boolean currentlyShooting;
 
 	public Unit(Position pos, Team t) {
 		seenFields = new ArrayList<Field>();
 		seenUnits = new ArrayList<UnitView>();
-		ID = Simu.r.nextInt(1000000);
+		ID = Map.instance().r.nextInt(1000000);
 		this.pos = pos;
 		team = t;
 		currentlyShooting = false;
@@ -93,8 +92,13 @@ public abstract class Unit {
 		}
 	}
 
-	public abstract Texture getTexture();
-
+	public void takeShot(int recievedDamage) {	
+		health -= recievedDamage;
+		if(health <= 0) {
+			team.unitDied(ID);
+		}
+	}
+	
 	public void updateWorld() {
 		actionPoints = maxActionPoints;
 		seenFields = Map.instance().requestFileds(pos, viewRange + 0.5f);
@@ -142,13 +146,7 @@ public abstract class Unit {
 
 	public abstract UnitView getView();
 
-	public void takeShot(int recievedDamage) {	
-		health -= recievedDamage;
-		if(health <= 0) {
-			team.unitDied(ID);
-		}
-	}
-
+	public abstract Texture getTexture();
 	
 	public String toString(boolean toMonitor) {
 		if(toMonitor) {

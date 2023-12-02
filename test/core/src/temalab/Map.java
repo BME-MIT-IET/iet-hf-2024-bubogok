@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import temalab.Field.Type;
 
 public final class Map {
+	public static Random r;
 	private static Map instance;
 	private int numberOfSquares;
 	private HashMap<Position, Field> fields;
@@ -39,17 +40,9 @@ public final class Map {
 		universalDistanceConstant = sizingFactor;
 		numberOfSquares = nos;
 		squareSize = (size / sizingFactor) / numberOfSquares;
+		r = new Random();
 		
 	}
-
-	// private void makeRandomMap() {
-	// 	for (int i = 0; i < numberOfSquares; i++) {
-	// 		for (int j = 0; j < numberOfSquares; j++) {
-	// 			var temPos = new Position(i, j);
-	// 			fields.put(temPos, new Field(temPos, Type.values()[new Random().nextInt(Type.values().length)]));
-	// 		}
-	// 	}
-	// }
 
 	private void makeSimplexNoiseMap() {
 		for (int i = 0; i < numberOfSquares; i++) {

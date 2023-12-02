@@ -1,7 +1,6 @@
 package temalab;
 
 import java.util.ArrayList;
-import java.util.Random;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
 public class Simu extends ApplicationAdapter {
-	public static Random r;
+	
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch;
 	BitmapFont font;
@@ -24,27 +23,35 @@ public class Simu extends ApplicationAdapter {
 	Team t1 = new Team("white");
 	Team t2 = new Team("red");
 
+	public void init() {
+		
+		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
+		m.addControlPoint(new ControlPoint(new Position(10, 10), 10));
+		m.addTeam(t1);
+		m.addTeam(t2);
+		demoUnits();
+	}
+
+	public void demoUnits() {
+		t1.addUnit(new Tank(new Position(4, 4), t1));
+		t1.addUnit(new Scout(new Position(10, 4), t1));
+		t2.addUnit(new Scout(new Position(6, 6), t2));
+		t2.addUnit(new Tank(new Position(7, 8), t2));
+		t2.addUnit(new Infantry(new Position(10, 8), t2));
+	}
+
 	
 	@Override
 	public void create() {
 		Gdx.graphics.setContinuousRendering(false);
-		r = new Random();
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
-		m.addControlPoint(new ControlPoint(new Position(10, 10), 10));
-		
-		m.addTeam(t1);
-		m.addTeam(t2);
-		t2.addUnit(new Scout(new Position(6, 6), t2));
-		t1.addUnit(new Tank(new Position(4, 4), t1));
-		t1.addUnit(new Scout(new Position(10, 4), t1));
-		t2.addUnit(new Tank(new Position(7, 8), t2));
-		t2.addUnit(new Infantry(new Position(10, 8), t2));
+		init();
+
 		new Thread() {
 			public void run() {
 				TL1 = new TeamLeader(t1, "test1.py");
