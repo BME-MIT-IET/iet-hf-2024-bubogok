@@ -35,11 +35,6 @@ public final class Field {
 		} else if(t == Type.MARSH) {
 			this.color = new Color(0.47f, 0.35f, 0.23f, 1);
 		}
-		
-		/*
-		Random rnd = new Random();
-		float r = rnd.nextFloat();
-		this.color = new Color(r, r, r, 1);*/
 	}
 	
 	public void render(ShapeRenderer sr, SpriteBatch sb) {
