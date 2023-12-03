@@ -7,10 +7,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import temalab.Field.Type;
 
 public final class Map {
-	public static Random r;
+	public Random r;
 	private static Map instance;
 	private int numberOfSquares;
 	private HashMap<Position, Field> fields;
+	private ArrayList<FieldView> fieldViews;
 	private ArrayList<Team> teams;
 	private ArrayList<ControlPoint> controlPoints;
 	private float squareSize;
@@ -35,13 +36,13 @@ public final class Map {
 
 	private Map(int size, int nos, float sizingFactor) {
 		fields = new HashMap<Position, Field>();
+		fieldViews = new ArrayList<FieldView>();
 		teams = new ArrayList<Team>();
 		controlPoints = new ArrayList<ControlPoint>();
 		universalDistanceConstant = sizingFactor;
 		numberOfSquares = nos;
 		squareSize = (size / sizingFactor) / numberOfSquares;
 		r = new Random();
-		
 	}
 
 	private void makeSimplexNoiseMap() {
@@ -65,11 +66,12 @@ public final class Map {
 	}
 
 	public void render(ShapeRenderer sr, SpriteBatch sb) {
-		var renderFields = new HashMap<Position, Field>();
-		renderFields.putAll(fields);
-		renderFields.forEach((pos, f) -> {
-			f.render(sr, sb);
-		});
+		for(Position key : fields.keySet()) {
+			fieldViews.add(new FieldView(fields.get(key)));
+		}
+		for(var fv : fieldViews) {
+			fv.render(sr, sb);
+		}
 		var renderTeams = new ArrayList<Team>();
 		renderTeams.addAll(teams);
 		for (var t : renderTeams) {
@@ -124,8 +126,8 @@ public final class Map {
 		return view;
 	}
 
-	public ArrayList<UnitView> requestUnitViews(Position pos, float size) {
-		var view = new ArrayList<UnitView>();
+	public ArrayList<PerceivedUnit> requestUnitViews(Position pos, float size) {
+		var view = new ArrayList<PerceivedUnit>();
 		for (var t : teams) {
 			view.addAll(t.requestUnitViews(pos, size));
 		}
