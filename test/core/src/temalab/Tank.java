@@ -36,14 +36,5 @@ public class Tank extends Unit {
     @Override
     public PerceivedUnit getView() {
         return new PerceivedUnit(pos, team);
-    }
-
-    @Override
-    public TankView registerListener() {
-        if(listener == null) {
-            listener = new TankView(this, shootRange, viewRange, team.getColor());
-        }
-        return (TankView) listener;
-    }
-    
+    }    
 }

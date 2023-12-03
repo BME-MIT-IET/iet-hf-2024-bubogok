@@ -37,12 +37,4 @@ public class Scout extends Unit {
     public PerceivedUnit getView() {
         return new PerceivedUnit(pos, team);
     }
-
-    @Override
-    public ScoutView registerListener() {
-        if(listener == null) {
-            listener = new ScoutView(this, shootRange, viewRange, team.getColor());
-        }
-        return (ScoutView) listener;
-    }
 }

@@ -37,17 +37,12 @@ public class Simu extends ApplicationAdapter {
 		var u4 = new Tank(new Position(7, 8), t2);
 		var u5 = new Infantry(new Position(10, 8), t2);
 
-		t1.addUnit(u1);
-		t1.addUnit(u2);
-		t2.addUnit(u3);
-		t2.addUnit(u4);
-		t2.addUnit(u5);
+		unitViews.add(new TankView(u1));
+		unitViews.add(new ScoutView(u2));
+		unitViews.add(new ScoutView(u3));
+		unitViews.add(new TankView(u4));
+		unitViews.add(new InfantryView(u5));
 		
-		unitViews.add(u1.registerListener());
-		unitViews.add(u2.registerListener());
-		unitViews.add(u3.registerListener());
-		unitViews.add(u4.registerListener());
-		unitViews.add(u5.registerListener());
 	}
 
 	

@@ -2,6 +2,8 @@ package temalab;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Color;
+
 public abstract class Unit {
 	protected final int ID;
 	protected Position pos;
@@ -11,7 +13,7 @@ public abstract class Unit {
 	protected Team team;
 	protected ArrayList<Field.Type> steppableTypes;
 
-	protected UnitView listener;
+	protected UnitListener listener;
 
 	protected int health;
 	protected int maxHealth;
@@ -35,6 +37,7 @@ public abstract class Unit {
 		ID = Map.instance().r.nextInt(1000000);
 		this.pos = pos;
 		team = t;
+		team.addUnit(this);
 		shootingPos = null;
 		listener = null;
 	}
@@ -55,7 +58,7 @@ public abstract class Unit {
 				Map.instance().makeShot(damage, p);
 			}
 			if(listener != null) {
-				listener.onShootStart(p);
+				listener.onShoot(p);
 			}
 			shootingPos = p;
 			ammo--;
@@ -114,8 +117,19 @@ public abstract class Unit {
 	public Team team() {
 		return team;
 	}
+	public int shootRange() {
+		return shootRange;
+	}
+	public Color color() {
+		return team.getColor();
+	}
+	public int viewRange() {
+		return viewRange;
+	}
 
-	public abstract UnitView registerListener();
+	public void registerListener(UnitListener ul) {
+		listener = ul;
+	}
 
 	public abstract PerceivedUnit getView();
 	

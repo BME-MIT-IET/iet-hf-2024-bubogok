@@ -48,12 +48,4 @@ public class Infantry extends Unit {
     public PerceivedUnit getView() {
         return new PerceivedUnit(pos, team);
     }
-
-    @Override
-    public InfantryView registerListener() {
-        if(listener == null) {
-            listener = new InfantryView(this, shootRange, viewRange, team.getColor());
-        }
-        return (InfantryView) listener;
-    }
 }

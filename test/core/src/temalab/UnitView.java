@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class UnitView implements UnitListener{
+public abstract class UnitView implements UnitListener {
     protected Unit u;
     private boolean currentlyShooting;
     protected Position shootingPos;
@@ -14,13 +14,14 @@ public abstract class UnitView implements UnitListener{
     protected int viewRange;
 	protected Color c;
 
-    public UnitView(Unit u, int sr, int vr, Color c) {
+    public UnitView(Unit u) {
         this.u = u;
+		u.registerListener(this);
         currentlyShooting = false;
         shootingPos = null;
-        shootRange = sr;
-        viewRange = vr;
-		this.c = c;
+        shootRange = u.shootRange();
+        viewRange = u.viewRange();
+		this.c = u.color();
     }
 
     public void render(ShapeRenderer sr, SpriteBatch sb) {
@@ -53,7 +54,7 @@ public abstract class UnitView implements UnitListener{
     public abstract Texture getTexture();
 
     @Override
-    public void onShootStart(Position p) {
+    public void onShoot(Position p) {
         currentlyShooting = true;
         shootingPos = p;
     }
