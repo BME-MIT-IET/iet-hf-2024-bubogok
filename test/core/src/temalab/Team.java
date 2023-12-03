@@ -59,8 +59,8 @@ public final class Team {
 		return view;
 	}
 
-	public ArrayList<UnitView> requestUnitViews(Position pos, float size) {
-		var view = new ArrayList<UnitView>();
+	public ArrayList<PerceivedUnit> requestUnitViews(Position pos, float size) {
+		var view = new ArrayList<PerceivedUnit>();
 		units.forEach((id, u) -> {
 			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
 				view.add(u.getView());
@@ -72,8 +72,8 @@ public final class Team {
 	public void doAction(String[] answer) {
 		units.forEach((id, u) -> {
 			u.updateWorld();
-			int x = Simu.r.nextInt(3) - 1;
-			int y = Simu.r.nextInt(3) - 1;
+			int x = Map.instance().r.nextInt(3) - 1;
+			int y = Map.instance().r.nextInt(3) - 1;
 			u.move(u.pos().x() + x, u.pos().y() + y);
 		});
 	}

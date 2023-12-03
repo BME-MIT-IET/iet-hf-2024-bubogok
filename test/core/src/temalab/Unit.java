@@ -12,7 +12,7 @@ public abstract class Unit {
 	protected final int ID;
 	protected Position pos;
 	protected ArrayList<Field> seenFields;
-	protected ArrayList<UnitView> seenUnits;
+	protected ArrayList<PerceivedUnit> seenUnits;
 	protected ArrayList<ControlPoint> seenControlPoints;
 	protected Team team;
 	protected ArrayList<Field.Type> steppableTypes;
@@ -35,7 +35,7 @@ public abstract class Unit {
 
 	public Unit(Position pos, Team t) {
 		seenFields = new ArrayList<Field>();
-		seenUnits = new ArrayList<UnitView>();
+		seenUnits = new ArrayList<PerceivedUnit>();
 		ID = Map.instance().r.nextInt(1000000);
 		this.pos = pos;
 		team = t;
@@ -144,7 +144,7 @@ public abstract class Unit {
 		return team;
 	}
 
-	public abstract UnitView getView();
+	public abstract PerceivedUnit getView();
 
 	public abstract Texture getTexture();
 	

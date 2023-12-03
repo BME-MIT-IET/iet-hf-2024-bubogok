@@ -9,9 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-
 public class Simu extends ApplicationAdapter {
-	
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch;
 	BitmapFont font;
@@ -24,7 +22,6 @@ public class Simu extends ApplicationAdapter {
 	Team t2 = new Team("red");
 
 	public void init() {
-		
 		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
 		m.addControlPoint(new ControlPoint(new Position(10, 10), 10));
 		m.addTeam(t1);

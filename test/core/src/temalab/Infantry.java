@@ -50,7 +50,7 @@ public class Infantry extends Unit {
     }
 
     @Override
-    public UnitView getView() {
-        return new UnitView(pos, team);
+    public PerceivedUnit getView() {
+        return new PerceivedUnit(pos, team);
     }
 }

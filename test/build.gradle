@@ -38,6 +38,9 @@ allprojects {
         implementation 'com.google.guava:guava:31.1-jre'
         testImplementation 'junit:junit:4.13.2'
         implementation 'junit:junit:4.13.2'
+        implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        
     }
 }
 
@@ -50,6 +53,8 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         implementation 'com.google.code.gson:gson:2.10.1'
     }
 }
@@ -61,6 +66,7 @@ project(":core") {
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         implementation 'com.google.code.gson:gson:2.10.1'
 
         // implementation 'com.google.guava:guava:31.1-jre'

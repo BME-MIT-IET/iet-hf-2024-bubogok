@@ -57,7 +57,7 @@ public class ControlPoint {
                     twoTeams = true;
                 }
             }
-            if (!twoTeams) {
+            if (!twoTeams && maxTeam != null) {
                 this.c = maxTeam.getColor();
                 for (var u : seenUnits) {
                     if (u.team() == maxTeam) {
