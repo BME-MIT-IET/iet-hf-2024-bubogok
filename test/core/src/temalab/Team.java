@@ -73,7 +73,7 @@ public final class Team {
 	public void makeShot(int damage, Position p) {
 		Unit asdf = null;
 		for(var u : units.values()) {
-			if(u.pos.equals(p)) {
+			if(u.pos().equals(p)) {
 				asdf  = u;
 			}
 		}

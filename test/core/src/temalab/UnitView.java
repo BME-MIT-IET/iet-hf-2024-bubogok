@@ -1,27 +1,37 @@
 package temalab;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class UnitView implements UnitListener {
-    protected Unit u;
+import temalab.Unit.Type;
+
+public class UnitView implements UnitListener {
+    private Unit u;
     private boolean currentlyShooting;
-    protected Position shootingPos;
-    protected int shootRange;
-    protected int viewRange;
-	protected Color c;
+    private Position shootingPos;
+    private int shootRange;
+    private int viewRange;
+	private Color c;
+	private Texture texture;
 
     public UnitView(Unit u) {
         this.u = u;
 		u.registerListener(this);
         currentlyShooting = false;
-        shootingPos = null;
         shootRange = u.shootRange();
         viewRange = u.viewRange();
 		this.c = u.color();
+		if(u.type() == Type.TANK && texture == null) {
+			texture = new Texture(Gdx.files.internal("tank.png"));
+		} else if(u.type() == Type.SCOUT && texture == null) {
+			texture = new Texture(Gdx.files.internal("scout.png"));
+		} else if(u.type() == Type.INFANTRY && texture == null) {
+			texture = new Texture(Gdx.files.internal("infantry.png"));
+		}
     }
 
     public void render(ShapeRenderer sr, SpriteBatch sb) {
@@ -34,7 +44,7 @@ public abstract class UnitView implements UnitListener {
 		sr.end();
 		
 		sb.begin();
-		sb.draw(getTexture(), center.x - (size / 2), center.y - (size / 2), size, size);
+		sb.draw(texture, center.x - (size / 2), center.y - (size / 2), size, size);
 		sb.end();
 		
 		sr.begin(ShapeRenderer.ShapeType.Line);
@@ -50,8 +60,6 @@ public abstract class UnitView implements UnitListener {
 			currentlyShooting = false;
 		}
 	}
-
-    public abstract Texture getTexture();
 
     @Override
     public void onShoot(Position p) {

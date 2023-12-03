@@ -1,45 +1,95 @@
 package temalab;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.badlogic.gdx.graphics.Color;
 
-public abstract class Unit {
-	protected final int ID;
-	protected Position pos;
-	protected ArrayList<Field> seenFields;
-	protected ArrayList<PerceivedUnit> seenUnits;
-	protected ArrayList<ControlPoint> seenControlPoints;
-	protected Team team;
-	protected ArrayList<Field.Type> steppableTypes;
+public class Unit {
+	private final int ID;
+	private Position pos;
+	private ArrayList<Field> seenFields;
+	private ArrayList<PerceivedUnit> seenUnits;
+	private ArrayList<ControlPoint> seenControlPoints;
+	private Team team;
+	private ArrayList<Field.Type> steppableTypes;
+	private Type type;
 
-	protected UnitListener listener;
+	private UnitListener listener;
 
-	protected int health;
-	protected int maxHealth;
-	protected int viewRange;
-	protected int shootRange;
-	protected int damage;
-	protected int ammo;
-	protected int maxAmmo;
-	protected int fuel;
-	protected int maxFuel;
-	protected int consumption;
-	protected int price;
-	protected int maxActionPoints;
-	protected int actionPoints;
-	protected Position shootingPos;
+	private int health;
+	private int maxHealth;
+	private int viewRange;
+	private int shootRange;
+	private int damage;
+	private int ammo;
+	private int maxAmmo;
+	private int fuel;
+	private int maxFuel;
+	private int consumption;
+	private int price;
+	private int maxActionPoints;
+	private int actionPoints;
+	private Position shootingPos;
+	private static Scanner sc;
 	
+	public enum Type {
+		SCOUT,
+		TANK,
+		INFANTRY
+	}
 
-	public Unit(Position pos, Team t) {
+	public Unit(Position pos, Team team, Type type) {
 		seenFields = new ArrayList<Field>();
 		seenUnits = new ArrayList<PerceivedUnit>();
+		steppableTypes = new ArrayList<Field.Type>();
 		ID = Map.instance().r.nextInt(1000000);
 		this.pos = pos;
-		team = t;
+		this.team = team;
 		team.addUnit(this);
 		shootingPos = null;
 		listener = null;
+		this.type = type;
+        try {
+			
+			if(type == Unit.Type.TANK) {
+				sc = new Scanner(new File("tankStats.txt"));
+				steppableTypes.add(Field.Type.GRASS);
+        		steppableTypes.add(Field.Type.MARSH);
+			} else if(type == Unit.Type.INFANTRY) {
+				sc = new Scanner(new File("infantryStats.txt"));
+				steppableTypes.add(Field.Type.GRASS);
+				steppableTypes.add(Field.Type.MARSH);
+				steppableTypes.add(Field.Type.FOREST);
+				steppableTypes.add(Field.Type.WATER);
+				steppableTypes.add(Field.Type.BUILDING);
+			} else if(type == Unit.Type.SCOUT) {
+				sc = new Scanner(new File("scoutStats.txt"));
+				steppableTypes.add(Field.Type.GRASS);
+        		steppableTypes.add(Field.Type.MARSH);
+			}
+            while(sc.hasNextLine()) {
+                maxHealth = Integer.parseInt(sc.nextLine());
+                viewRange = Integer.parseInt(sc.nextLine());
+                shootRange = Integer.parseInt(sc.nextLine());
+                damage = Integer.parseInt(sc.nextLine());
+                maxAmmo = Integer.parseInt(sc.nextLine());
+                maxFuel = Integer.parseInt(sc.nextLine());
+                consumption = Integer.parseInt(sc.nextLine());
+                maxActionPoints = Integer.parseInt(sc.nextLine());
+                price = Integer.parseInt(sc.nextLine());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        health = maxHealth;
+        ammo = maxAmmo;
+        fuel = maxFuel;
+        actionPoints = maxActionPoints;
+
+
+
 	}
 
 	public void move(int x, int y) {
@@ -131,7 +181,13 @@ public abstract class Unit {
 		listener = ul;
 	}
 
-	public abstract PerceivedUnit getView();
+	public Type type() {
+		return type;
+	}
+
+	public PerceivedUnit getView() {
+		return new PerceivedUnit(pos, team);
+	}
 	
 	public String toString(boolean toMonitor) {
 		if(toMonitor) {
@@ -145,6 +201,7 @@ public abstract class Unit {
 		+ pos.toString() + "\n"
 	 	+ seenFields.toString() + "\n"
 		+ seenUnits.toString() + "\n"
+		+ seenControlPoints.toString() + "\n"
 		+ health + "\n"
 		+ ammo + "\n"
 		+ fuel + "\n"
