@@ -8,8 +8,9 @@ public final class Team {
 	private Color color;
 	private String name;
 	private final HashMap<Integer, Unit> units;
+	private int budget = 0;
 	
-	public Team(String name) {
+	public Team(String name, int budget) {
 		units = new HashMap<Integer, Unit>();
 		if(name == "white") {
 			this.color = new Color(1, 1, 1, 1);
@@ -19,6 +20,7 @@ public final class Team {
 			this.color = new Color(0f, 0f, 0f, 1);
 		}
 		this.name = name;
+		this.budget = budget;
 	}
 
 	public Color getColor() {
@@ -28,11 +30,19 @@ public final class Team {
 		return name;
 	}
 	public void addUnit(Unit v) {
-		this.units.put(v.getUUID(), v);
+		int currentBalance = 0;
+		for (java.util.Map.Entry<Integer, Unit> entry : units.entrySet()) {
+			currentBalance += entry.getValue().price();
+        }
+		if(currentBalance + v.price() <= budget) {
+			this.units.put(v.getUUID(), v);
+		}
 	}
+
 	public HashMap<Integer, Unit> units() {
 		return this.units;
 	}
+	
 	public ArrayList<Integer> unitIDs() {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		units.forEach((id, u) -> {

@@ -16,7 +16,7 @@ public class UnitTest {
     @BeforeClass
     public static void init() {
         m = Map.init(100, 4, 2);
-        t1 = new Team("red");
+        t1 = new Team("red", 5000);
         p = new Position(1, 1);
         u = new Unit(p, t1, Type.TANK);
     }

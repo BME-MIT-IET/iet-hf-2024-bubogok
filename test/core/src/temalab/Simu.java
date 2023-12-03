@@ -18,8 +18,8 @@ public class Simu extends ApplicationAdapter {
 	static Map m;
 	TeamLeader TL1;
 	TeamLeader TL2;
-	Team t1 = new Team("white");
-	Team t2 = new Team("red");
+	Team t1 = new Team("white", 5000);
+	Team t2 = new Team("red", 5000);
 
 	public void init() {
 		unitViews = new ArrayList<UnitView>();

@@ -12,10 +12,9 @@ public class Unit {
 	private ArrayList<Field> seenFields;
 	private ArrayList<PerceivedUnit> seenUnits;
 	private ArrayList<ControlPoint> seenControlPoints;
-	private Team team;
 	private ArrayList<Field.Type> steppableTypes;
+	private Team team;
 	private Type type;
-
 	private UnitListener listener;
 
 	private int health;
@@ -31,7 +30,6 @@ public class Unit {
 	private int price;
 	private int maxActionPoints;
 	private int actionPoints;
-	private Position shootingPos;
 	private static Scanner sc;
 	
 	public enum Type {
@@ -48,11 +46,8 @@ public class Unit {
 		this.pos = pos;
 		this.team = team;
 		team.addUnit(this);
-		shootingPos = null;
-		listener = null;
 		this.type = type;
         try {
-			
 			if(type == Unit.Type.TANK) {
 				sc = new Scanner(new File("tankStats.txt"));
 				steppableTypes.add(Field.Type.GRASS);
@@ -87,9 +82,6 @@ public class Unit {
         ammo = maxAmmo;
         fuel = maxFuel;
         actionPoints = maxActionPoints;
-
-
-
 	}
 
 	public void move(int x, int y) {
@@ -110,7 +102,6 @@ public class Unit {
 			if(listener != null) {
 				listener.onShoot(p);
 			}
-			shootingPos = p;
 			ammo--;
 			actionPoints--;
 		}
@@ -183,6 +174,10 @@ public class Unit {
 
 	public Type type() {
 		return type;
+	}
+
+	public int price() {
+		return price;
 	}
 
 	public PerceivedUnit getView() {
