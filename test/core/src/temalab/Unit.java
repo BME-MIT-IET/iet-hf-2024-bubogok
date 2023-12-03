@@ -1,12 +1,6 @@
 package temalab;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
-
 import java.util.ArrayList;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
 
 public abstract class Unit {
 	protected final int ID;
@@ -16,6 +10,8 @@ public abstract class Unit {
 	protected ArrayList<ControlPoint> seenControlPoints;
 	protected Team team;
 	protected ArrayList<Field.Type> steppableTypes;
+
+	protected UnitView listener;
 
 	protected int health;
 	protected int maxHealth;
@@ -31,7 +27,7 @@ public abstract class Unit {
 	protected int maxActionPoints;
 	protected int actionPoints;
 	protected Position shootingPos;
-	protected boolean currentlyShooting;
+	
 
 	public Unit(Position pos, Team t) {
 		seenFields = new ArrayList<Field>();
@@ -39,35 +35,8 @@ public abstract class Unit {
 		ID = Map.instance().r.nextInt(1000000);
 		this.pos = pos;
 		team = t;
-		currentlyShooting = false;
 		shootingPos = null;
-	}
-
-	public void render(ShapeRenderer sr, SpriteBatch sb, Color c) {
-		float size = Map.instance().squareSize();
-		Vector2 center = pos.screenCoords();
-		
-		sr.begin(ShapeRenderer.ShapeType.Filled);
-		sr.setColor(c);
-		sr.circle(center.x, center.y, size / 2);
-		sr.end();
-		
-		sb.begin();
-		sb.draw(getTexture(), center.x - (size / 2), center.y - (size / 2), size, size);
-		sb.end();
-		
-		sr.begin(ShapeRenderer.ShapeType.Line);
-		sr.setColor(c);
-		sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * size * shootRange);
-		sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * size * viewRange);
-		sr.end();
-		if(currentlyShooting) {
-			sr.begin(ShapeRenderer.ShapeType.Line);
-			sr.setColor(c);
-			sr.line(center, shootingPos.screenCoords());
-			sr.end();
-			currentlyShooting = false;
-		}
+		listener = null;
 	}
 
 	public void move(int x, int y) {
@@ -85,8 +54,10 @@ public abstract class Unit {
 			if (pos.inDistance(p, shootRange + 0.5f)) {
 				Map.instance().makeShot(damage, p);
 			}
+			if(listener != null) {
+				listener.onShootStart(p);
+			}
 			shootingPos = p;
-			currentlyShooting = true;
 			ammo--;
 			actionPoints--;
 		}
@@ -144,9 +115,9 @@ public abstract class Unit {
 		return team;
 	}
 
-	public abstract PerceivedUnit getView();
+	public abstract UnitView registerListener();
 
-	public abstract Texture getTexture();
+	public abstract PerceivedUnit getView();
 	
 	public String toString(boolean toMonitor) {
 		if(toMonitor) {

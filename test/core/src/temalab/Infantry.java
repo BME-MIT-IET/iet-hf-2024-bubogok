@@ -45,12 +45,15 @@ public class Infantry extends Unit {
     }
 
     @Override
-    public Texture getTexture() {
-        return texture;
+    public PerceivedUnit getView() {
+        return new PerceivedUnit(pos, team);
     }
 
     @Override
-    public PerceivedUnit getView() {
-        return new PerceivedUnit(pos, team);
+    public InfantryView registerListener() {
+        if(listener == null) {
+            listener = new InfantryView(this, shootRange, viewRange, team.getColor());
+        }
+        return (InfantryView) listener;
     }
 }

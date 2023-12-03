@@ -14,7 +14,7 @@ public class Simu extends ApplicationAdapter {
 	SpriteBatch batch;
 	BitmapFont font;
 	private OrthographicCamera camera;
-
+	private ArrayList<UnitView> unitViews;
 	static Map m;
 	TeamLeader TL1;
 	TeamLeader TL2;
@@ -22,6 +22,7 @@ public class Simu extends ApplicationAdapter {
 	Team t2 = new Team("red");
 
 	public void init() {
+		unitViews = new ArrayList<UnitView>();
 		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
 		m.addControlPoint(new ControlPoint(new Position(10, 10), 10));
 		m.addTeam(t1);
@@ -30,11 +31,23 @@ public class Simu extends ApplicationAdapter {
 	}
 
 	public void demoUnits() {
-		t1.addUnit(new Tank(new Position(4, 4), t1));
-		t1.addUnit(new Scout(new Position(10, 4), t1));
-		t2.addUnit(new Scout(new Position(6, 6), t2));
-		t2.addUnit(new Tank(new Position(7, 8), t2));
-		t2.addUnit(new Infantry(new Position(10, 8), t2));
+		var u1 = new Tank(new Position(4, 4), t1);
+		var u2 = new Scout(new Position(10, 4), t1);
+		var u3 = new Scout(new Position(6, 6), t2);
+		var u4 = new Tank(new Position(7, 8), t2);
+		var u5 = new Infantry(new Position(10, 8), t2);
+
+		t1.addUnit(u1);
+		t1.addUnit(u2);
+		t2.addUnit(u3);
+		t2.addUnit(u4);
+		t2.addUnit(u5);
+		
+		unitViews.add(u1.registerListener());
+		unitViews.add(u2.registerListener());
+		unitViews.add(u3.registerListener());
+		unitViews.add(u4.registerListener());
+		unitViews.add(u5.registerListener());
 	}
 
 	
@@ -88,8 +101,13 @@ public class Simu extends ApplicationAdapter {
 		Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 		Gdx.gl.glScissor(0, 0, Gdx.graphics.getHeight(), Gdx.graphics.getHeight());
 		m.render(shapeRenderer, batch);
+		for(var uv: unitViews) {
+			uv.render(shapeRenderer, batch);
+		}
 		shapeRenderer.flush();
 		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+
+		
 		
 		batch.begin();
 		ArrayList<String> t1Monitor = t1.toMonitor();

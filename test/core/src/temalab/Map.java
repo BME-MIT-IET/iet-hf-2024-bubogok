@@ -72,11 +72,6 @@ public final class Map {
 		for(var fv : fieldViews) {
 			fv.render(sr, sb);
 		}
-		var renderTeams = new ArrayList<Team>();
-		renderTeams.addAll(teams);
-		for (var t : renderTeams) {
-			t.render(sr, sb);
-		}
 		var renderControlPoints = new ArrayList<ControlPoint>();
 		renderControlPoints.addAll(controlPoints);
 		for (var cp : renderControlPoints) {
