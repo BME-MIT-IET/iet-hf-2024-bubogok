@@ -86,11 +86,12 @@ public class Unit {
 
 	public void move(int x, int y) {
 		if(fuel - consumption >= 0 && actionPoints > 0) {
-			if(Map.instance().validateMove(steppableTypes, pos, new Position(x, y))) {
-            	pos = new Position(x, y);
+			if(Map.instance().moveUnit(this, x, y)) {
+				pos = new Position(x, y);
 				fuel -= consumption;
 				actionPoints--;
-        	}
+			}
+			
 		}
 	}
 
@@ -111,6 +112,7 @@ public class Unit {
 		health -= recievedDamage;
 		if(health <= 0) {
 			team.unitDied(ID);
+			listener.unitDied();
 		}
 	}
 	
@@ -178,6 +180,10 @@ public class Unit {
 
 	public int price() {
 		return price;
+	}
+
+	public ArrayList<Field.Type> steppables() {
+		return steppableTypes;
 	}
 
 	public PerceivedUnit getView() {

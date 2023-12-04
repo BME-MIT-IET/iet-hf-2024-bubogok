@@ -77,6 +77,7 @@ public final class Team {
 			int x = Map.instance().r.nextInt(3) - 1;
 			int y = Map.instance().r.nextInt(3) - 1;
 			u.move(u.pos().x() + x, u.pos().y() + y);
+			//Map.instance().moveUnit(u, u.pos().x() + x, u.pos().y() + y);
 		});
 	}
 

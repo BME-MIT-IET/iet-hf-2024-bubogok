@@ -6,7 +6,8 @@ public final class Field {
 	private Position pos;
 	private Vector2 center;	
 	private Type type;
-	
+	private Unit unit;
+
 	public enum Type {
 		GRASS,
 		WATER,
@@ -19,6 +20,24 @@ public final class Field {
 		type = t;
 		this.pos = pos;
 		this.center = pos.screenCoords();
+	}
+
+	public boolean arrive(Unit u) {
+		if(unit != null) {
+			return false;
+		}
+		unit = u;
+		return true;
+	}
+
+	public void leave() {
+		unit = null;
+	}
+
+	public void takeShot(int damage) {
+		if(unit != null) {
+			unit.takeShot(damage);
+		}
 	}
 	
 	public Vector2 getCenter() {

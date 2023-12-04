@@ -145,6 +145,17 @@ public final class Map {
 		}
 	}
 
+	public boolean moveUnit(Unit u, int x, int y) {
+		var pos = new Position(x, y);
+		if(validateMove(u.steppables(), u.pos(), pos)) {
+			if(fields.get(pos).arrive(u)) {
+				fields.get(u.pos()).leave();
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public float squareSize() {
 		return squareSize;
 	}

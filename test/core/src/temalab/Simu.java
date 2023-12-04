@@ -42,7 +42,6 @@ public class Simu extends ApplicationAdapter {
 		unitViews.add(new UnitView(u3));
 		unitViews.add(new UnitView(u4));
 		unitViews.add(new UnitView(u5));
-		
 	}
 
 	
