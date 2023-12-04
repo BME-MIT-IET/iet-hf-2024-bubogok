@@ -13,8 +13,7 @@ public class FieldView {
     private Vector2 center;
 
     public FieldView(Field f) {
-        this.f = f;
-        center = f.getCenter();
+        center = f.pos().screenCoords();
         var t = f.getType();
         if(t == Type.GRASS) {
 			this.color = new Color(0, 1, 0, 1);
@@ -29,7 +28,6 @@ public class FieldView {
 		}
     }
     public void render(ShapeRenderer sr, SpriteBatch sb) {
-        center = f.getCenter();
         float size = Map.instance().squareSize();
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(color);

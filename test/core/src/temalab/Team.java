@@ -71,14 +71,42 @@ public final class Team {
 		return view;
 	}
 	
-	public void doAction(String[] answer) {
+	public void moveUnit(int id, Position newPos) {
+			//TODO: kitalálni, hogy ez hogy lesz
+			// int x = Map.instance().r.nextInt(3) - 1;
+			// int y = Map.instance().r.nextInt(3) - 1;
+			// var newPos = new Position(u.pos().x() + x, u.pos().y() + y);
+			var newField = Map.instance().getField(newPos);
+			var u = units.get(id);
+			if(newField == null || u == null) {
+				return; //TODO: jobb hibauzenet
+			}
+			u.move(newField);
+	}
+
+	public void updateUnits() {
 		units.forEach((id, u) -> {
 			u.updateWorld();
-			int x = Map.instance().r.nextInt(3) - 1;
-			int y = Map.instance().r.nextInt(3) - 1;
-			u.move(u.pos().x() + x, u.pos().y() + y);
-			//Map.instance().moveUnit(u, u.pos().x() + x, u.pos().y() + y);
 		});
+	}
+
+	public void refillActionPoints() {
+		units.forEach((id, u) -> {
+			u.refillActionPoints();
+		});
+	}
+
+	public void fireUnit(int id, Position newPos) {
+			//TODO: kitalálni, hogy ez hogy lesz
+			// int x = Map.instance().r.nextInt(3) - 1;
+			// int y = Map.instance().r.nextInt(3) - 1;
+			// var newPos = new Position(u.pos().x() + x, u.pos().y() + y);
+			var newField = Map.instance().getField(newPos);
+			var u = units.get(id);
+			if(newField == null || u == null) {
+				return; //TODO: jobb hibauzenet
+			}
+			u.shoot(newField);
 	}
 
 	public void makeShot(int damage, Position p) {
@@ -97,10 +125,10 @@ public final class Team {
 		units.remove(id);
 	}
 	
-	public ArrayList<String> teamMembersToString(boolean toMonitor) {
+	public ArrayList<String> teamMembersToString() {
 		var res = new ArrayList<String>();
 		units.forEach((id, u) -> {
-			res.add(u.toString(toMonitor));
+			res.add(u.toString(false));
 		});
 		return res;
 	}

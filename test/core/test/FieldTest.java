@@ -23,7 +23,6 @@ public class FieldTest {
     @Test
     public void ctorTest() {
         var f = new Field(p, Type.BUILDING);
-        assertEquals(p.screenCoords(), f.getCenter());
         assertEquals(p, f.pos());
         assertEquals(p.toString(), f.pos().toString());
         assertEquals(Type.BUILDING, f.getType());

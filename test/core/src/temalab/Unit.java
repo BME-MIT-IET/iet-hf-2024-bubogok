@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Unit {
 	private final int ID;
-	private Position pos;
+	private Field field;
 	private ArrayList<Field> seenFields;
 	private ArrayList<PerceivedUnit> seenUnits;
 	private ArrayList<ControlPoint> seenControlPoints;
@@ -43,7 +43,8 @@ public class Unit {
 		seenUnits = new ArrayList<PerceivedUnit>();
 		steppableTypes = new ArrayList<Field.Type>();
 		ID = Map.instance().r.nextInt(1000000);
-		this.pos = pos;
+		this.field = Map.instance().getField(pos);
+		field.arrive(this);
 		this.team = team;
 		team.addUnit(this);
 		this.type = type;
@@ -84,27 +85,30 @@ public class Unit {
         actionPoints = maxActionPoints;
 	}
 
-	public void move(int x, int y) {
-		if(fuel - consumption >= 0 && actionPoints > 0) {
-			if(Map.instance().moveUnit(this, x, y)) {
-				pos = new Position(x, y);
-				fuel -= consumption;
-				actionPoints--;
+	public void move(Field dest) {
+		if(fuel - consumption >= 0 && actionPoints > 0 && field.isNeighbouring(dest)) {
+			if( steppableTypes.contains(dest.getType())) {
+				if(dest.arrive(this)) {
+					field.leave();
+					field = dest;
+					fuel -= consumption;
+					actionPoints--;
+				}
 			}
-			
 		}
 	}
 
-	public void shoot(Position p) {
+	public void shoot(Field target) {
+		//TODO: 0.5 offset a posban kellene
 		if (ammo > 0 && actionPoints > 0) {
-			if (pos.inDistance(p, shootRange + 0.5f)) {
-				Map.instance().makeShot(damage, p);
-			}
-			if(listener != null) {
-				listener.onShoot(p);
-			}
-			ammo--;
-			actionPoints--;
+			if(field.inDistance(target, shootRange + 0.5f)) {
+				target.takeShot(damage);
+				if(listener != null) {
+					listener.onShoot(target.pos());
+				}
+				ammo--;
+				actionPoints--;
+			}			
 		}
 	}
 
@@ -117,19 +121,13 @@ public class Unit {
 	}
 	
 	public void updateWorld() {
+		seenFields = Map.instance().requestFileds(field.pos(), viewRange + 0.5f);
+		seenUnits = Map.instance().requestUnitViews(field.pos(), viewRange + 0.5f);
+		seenControlPoints = Map.instance().requestControlPoints(field.pos(), viewRange + 0.5f);
+	}
+
+	public void refillActionPoints() {
 		actionPoints = maxActionPoints;
-		seenFields = Map.instance().requestFileds(pos, viewRange + 0.5f);
-		seenUnits = Map.instance().requestUnitViews(pos, viewRange + 0.5f);
-		seenControlPoints = Map.instance().requestControlPoints(pos, viewRange + 0.5f);
-		Position enemyPosition = null;
-		for(var u : seenUnits) {
-			if(u.team != team) {
-				enemyPosition = new Position(u.pos);
-			}
-		}
-		if(enemyPosition != null) {
-			shoot(enemyPosition);
-		}
 	}
 
 	public void updateSelf(int percentage) {
@@ -154,7 +152,7 @@ public class Unit {
 	}
 
 	public Position pos() {
-		return pos;
+		return field.pos();
 	}
 
 	public Team team() {
@@ -187,25 +185,29 @@ public class Unit {
 	}
 
 	public PerceivedUnit getView() {
-		return new PerceivedUnit(pos, team);
+		return new PerceivedUnit(field.pos(), team);
 	}
 	
+	public int actionPoints() {
+		return actionPoints;
+	}
 	public String toString(boolean toMonitor) {
 		if(toMonitor) {
 			return "ID: " + ID + "\n"
-			+ "Pos: " + pos.toString() + "\n"
+			+ "Pos: " + field.pos().toString() + "\n"
 			+ "Health: " + health  + "/" + maxHealth + "\n"
 			+ "Ammo: " + ammo  + "/" + maxAmmo + "\n"
 			+ "Fuel: " + fuel  + "/" + maxFuel + "\n";
 		}
 		return ID + "\n"
-		+ pos.toString() + "\n"
+		+ field.pos().toString() + "\n"
 	 	+ seenFields.toString() + "\n"
 		+ seenUnits.toString() + "\n"
 		+ seenControlPoints.toString() + "\n"
 		+ health + "\n"
 		+ ammo + "\n"
 		+ fuel + "\n"
+		+ actionPoints + "\n"
 		+ team.getName();
 	}
 }

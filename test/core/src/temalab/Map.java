@@ -156,6 +156,10 @@ public final class Map {
 		return false;
 	}
 
+	public Field getField(Position pos) {
+		return fields.get(pos);
+	}
+
 	public float squareSize() {
 		return squareSize;
 	}

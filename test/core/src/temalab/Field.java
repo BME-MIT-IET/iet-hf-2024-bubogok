@@ -1,10 +1,7 @@
 package temalab;
 
-import com.badlogic.gdx.math.Vector2;
-
 public final class Field {
 	private Position pos;
-	private Vector2 center;	
 	private Type type;
 	private Unit unit;
 
@@ -19,7 +16,6 @@ public final class Field {
 	public Field(Position pos, Type t) {
 		type = t;
 		this.pos = pos;
-		this.center = pos.screenCoords();
 	}
 
 	public boolean arrive(Unit u) {
@@ -39,10 +35,14 @@ public final class Field {
 			unit.takeShot(damage);
 		}
 	}
-	
-	public Vector2 getCenter() {
-		return this.center;
+	public boolean isNeighbouring(Field f) {
+		return pos.isNeighbouring(f.pos);
 	}
+
+	public boolean inDistance(Field f, float radius) {
+		return pos.inDistance(f.pos, radius);
+	}
+
 	public String toString() {
 		return this.pos.toString();
 	}
