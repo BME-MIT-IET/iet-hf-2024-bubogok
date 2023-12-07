@@ -15,6 +15,7 @@ public class Simu extends ApplicationAdapter {
 	BitmapFont font;
 	private OrthographicCamera camera;
 	private ArrayList<UnitView> unitViews;
+	private ArrayList<ControlPointView> controlPointViews;
 	static Map m;
 	TeamLeader TL1;
 	TeamLeader TL2;
@@ -23,11 +24,15 @@ public class Simu extends ApplicationAdapter {
 
 	public void init() {
 		unitViews = new ArrayList<UnitView>();
+		controlPointViews = new ArrayList<ControlPointView>();		
 		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
-		m.addControlPoint(new ControlPoint(new Position(10, 10), 10));
 		m.addTeam(t1);
 		m.addTeam(t2);
 		demoUnits();
+		demoCPs();
+		TL1 = new TeamLeader(t1, "test1.py");
+		TL2 = new TeamLeader(t2, "test2.py");
+		//TL1.registerUnit();
 	}
 
 	public void demoUnits() {
@@ -44,6 +49,12 @@ public class Simu extends ApplicationAdapter {
 		unitViews.add(new UnitView(u5));
 	}
 
+	public void demoCPs() {
+		var cp1 = new ControlPoint(new Position(10, 10), 10, 2);
+		m.addControlPoint(cp1);
+		controlPointViews.add(new ControlPointView(cp1));
+	}
+
 	
 	@Override
 	public void create() {
@@ -58,8 +69,6 @@ public class Simu extends ApplicationAdapter {
 
 		new Thread() {
 			public void run() {
-				TL1 = new TeamLeader(t1, "test1.py");
-				TL2 = new TeamLeader(t2, "test2.py");
 				while(true) {
 					try {
 						Thread.sleep(1000);
@@ -69,7 +78,6 @@ public class Simu extends ApplicationAdapter {
 					TL1.communicate();
 					Map.instance().ControlPointsUpdate();
 					Gdx.graphics.requestRendering();
-					
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -98,14 +106,19 @@ public class Simu extends ApplicationAdapter {
 		for(var uv: unitViews) {
 			uv.render(shapeRenderer, batch);
 		}
+		for(var cpv : controlPointViews) {
+			cpv.render(shapeRenderer, batch);
+		}
+
 		shapeRenderer.flush();
 		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+
 
 		
 		
 		batch.begin();
-		ArrayList<String> t1Monitor = t1.toMonitor();
-		ArrayList<String> t2Monitor = t2.toMonitor();
+		ArrayList<String> t1Monitor = t1.teamMembersToString(true);
+		ArrayList<String> t2Monitor = t2.teamMembersToString(true);
 		int offset = 990;
 		for(var s : t1Monitor) {
 			font.draw(batch, s, 1200, offset);
@@ -117,7 +130,15 @@ public class Simu extends ApplicationAdapter {
 			offset -= 100; 
 		}
 		batch.end();
-		
+		if(t1.units().isEmpty()) {
+			TL1.endSimu(false);
+			TL2.endSimu(true);
+			dispose();
+		} else if(t2.units().isEmpty()) {
+			TL1.endSimu(true);
+			TL2.endSimu(false);
+			dispose();
+		}
 	}
 	
 	@Override

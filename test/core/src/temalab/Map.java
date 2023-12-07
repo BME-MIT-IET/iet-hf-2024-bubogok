@@ -72,11 +72,6 @@ public final class Map {
 		for(var fv : fieldViews) {
 			fv.render(sr, sb);
 		}
-		var renderControlPoints = new ArrayList<ControlPoint>();
-		renderControlPoints.addAll(controlPoints);
-		for (var cp : renderControlPoints) {
-			cp.render(sr, sb);
-		}
 	}
 
 	public void addTeam(Team t) {
@@ -129,32 +124,6 @@ public final class Map {
 		return view;
 	}
 
-	public boolean validateMove(ArrayList<Field.Type> steppables, Position currPos, Position destPos) {
-		if(currPos.isNeighbouring(destPos)) {
-			Field destPosField = fields.get(destPos);
-			if(destPosField != null && steppables.contains(destPosField.getType())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void makeShot(int damage, Position p) {
-		for(var t : teams) {
-			t.makeShot(damage, p);
-		}
-	}
-
-	public boolean moveUnit(Unit u, int x, int y) {
-		var pos = new Position(x, y);
-		if(validateMove(u.steppables(), u.pos(), pos)) {
-			if(fields.get(pos).arrive(u)) {
-				fields.get(u.pos()).leave();
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public Field getField(Position pos) {
 		return fields.get(pos);

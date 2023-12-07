@@ -29,6 +29,9 @@ public final class Team {
 	public String getName() {
 		return name;
 	}
+	public int getBudget() {
+		return budget;
+	}
 	public void addUnit(Unit v) {
 		int currentBalance = 0;
 		for (java.util.Map.Entry<Integer, Unit> entry : units.entrySet()) {
@@ -84,18 +87,6 @@ public final class Team {
 			u.move(newField);
 	}
 
-	public void updateUnits() {
-		units.forEach((id, u) -> {
-			u.updateWorld();
-		});
-	}
-
-	public void refillActionPoints() {
-		units.forEach((id, u) -> {
-			u.refillActionPoints();
-		});
-	}
-
 	public void fireUnit(int id, Position newPos) {
 			//TODO: kitalálni, hogy ez hogy lesz
 			// int x = Map.instance().r.nextInt(3) - 1;
@@ -109,35 +100,27 @@ public final class Team {
 			u.shoot(newField);
 	}
 
-	public void makeShot(int damage, Position p) {
-		Unit asdf = null;
-		for(var u : units.values()) {
-			if(u.pos().equals(p)) {
-				asdf  = u;
-			}
-		}
-		if(asdf != null) {
-			asdf.takeShot(damage);
-		}
+	public void updateUnits() {
+		units.forEach((id, u) -> {
+			u.updateWorld();
+		});
 	}
 
+	public void refillActionPoints() {
+		units.forEach((id, u) -> {
+			u.refillActionPoints();
+		});
+	}
+
+	
 	public void unitDied(int id) {
 		units.remove(id);
 	}
 	
-	public ArrayList<String> teamMembersToString() {
+	public ArrayList<String> teamMembersToString(boolean toMonitor) {
 		var res = new ArrayList<String>();
 		units.forEach((id, u) -> {
-			res.add(u.toString(false));
-		});
-		return res;
-	}
-
-	public ArrayList<String> toMonitor() {
-		var res = new ArrayList<String>();
-		res.add(name);
-		units.forEach((id, u) -> {
-			res.add(u.toString(true));
+			res.add(u.toString(toMonitor));
 		});
 		return res;
 	}
