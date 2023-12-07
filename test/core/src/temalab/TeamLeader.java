@@ -26,6 +26,7 @@ public class TeamLeader {
 	}
 
 	public void registerUnit() {
+		System.err.print("registering");
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		out.println(team.getBudget());
 		String answer = sc.nextLine();
@@ -46,7 +47,7 @@ public class TeamLeader {
 							team.addUnit(new Unit(new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])), team, Unit.Type.INFANTRY));
 						} break;
 						default:
-							break;
+							break loop;
 					}
 				}
 			}
@@ -54,9 +55,11 @@ public class TeamLeader {
 			split = answer.split(" ");
 		}
 		out.close();
+		System.err.print("ENDregistering");
 	}
 
 	public void communicate() {
+		System.err.print(team.getName() + "communicating");
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
@@ -88,14 +91,15 @@ public class TeamLeader {
 					break;
 
 				default:
-					break;
-			}
+					break loop;
+			} 
 			team.updateUnits();
 			out.println(team.teamMembersToString(false).toString());
 			answer = sc.nextLine();
 			split = answer.split(" ");
 		}
 		out.close();
+		System.err.print("ENDcommunicating");
 	}
 
 	public void endSimu(boolean win) {

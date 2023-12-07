@@ -42,7 +42,9 @@ public class ControlPoint {
                 }
             }
             if (!twoTeams && maxTeam != null) {
-                listener.onColorChange(maxTeam.getColor());
+                if(listener != null) {
+                    listener.onColorChange(maxTeam.getColor());
+                }
                 for (var u : seenUnits) {
                     if (u.team() == maxTeam) {
                         u.updateSelf(percentage);

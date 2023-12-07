@@ -16,6 +16,7 @@ public class Simu extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private ArrayList<UnitView> unitViews;
 	private ArrayList<ControlPointView> controlPointViews;
+	private MapView mapView;
 	static Map m;
 	TeamLeader TL1;
 	TeamLeader TL2;
@@ -23,16 +24,17 @@ public class Simu extends ApplicationAdapter {
 	Team t2 = new Team("red", 5000);
 
 	public void init() {
-		unitViews = new ArrayList<UnitView>();
-		controlPointViews = new ArrayList<ControlPointView>();		
 		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
+		unitViews = new ArrayList<UnitView>();
+		controlPointViews = new ArrayList<ControlPointView>();
+		mapView = new MapView(m);
 		m.addTeam(t1);
 		m.addTeam(t2);
 		demoUnits();
 		demoCPs();
 		TL1 = new TeamLeader(t1, "test1.py");
 		TL2 = new TeamLeader(t2, "test2.py");
-		//TL1.registerUnit();
+		TL1.registerUnit();
 	}
 
 	public void demoUnits() {
@@ -102,7 +104,10 @@ public class Simu extends ApplicationAdapter {
 		Gdx.gl.glLineWidth(2);
 		Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 		Gdx.gl.glScissor(0, 0, Gdx.graphics.getHeight(), Gdx.graphics.getHeight());
-		m.render(shapeRenderer, batch);
+
+
+		
+		mapView.render(shapeRenderer, batch);
 		for(var uv: unitViews) {
 			uv.render(shapeRenderer, batch);
 		}

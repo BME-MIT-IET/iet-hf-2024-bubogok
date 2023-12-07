@@ -116,7 +116,9 @@ public class Unit {
 		health -= recievedDamage;
 		if(health <= 0) {
 			team.unitDied(ID);
-			listener.unitDied();
+			if(listener != null) {
+				listener.unitDied();
+			}
 		}
 	}
 	

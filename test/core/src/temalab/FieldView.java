@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import temalab.Field.Type;
 
 public class FieldView {
-    private Field f;
     private Color color;
     private Vector2 center;
 

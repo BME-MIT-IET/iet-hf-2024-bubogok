@@ -1,8 +1,6 @@
 package temalab;
 
 import java.util.*;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import temalab.Field.Type;
 
@@ -11,7 +9,6 @@ public final class Map {
 	private static Map instance;
 	private int numberOfSquares;
 	private HashMap<Position, Field> fields;
-	private ArrayList<FieldView> fieldViews;
 	private ArrayList<Team> teams;
 	private ArrayList<ControlPoint> controlPoints;
 	private float squareSize;
@@ -36,7 +33,6 @@ public final class Map {
 
 	private Map(int size, int nos, float sizingFactor) {
 		fields = new HashMap<Position, Field>();
-		fieldViews = new ArrayList<FieldView>();
 		teams = new ArrayList<Team>();
 		controlPoints = new ArrayList<ControlPoint>();
 		universalDistanceConstant = sizingFactor;
@@ -46,6 +42,7 @@ public final class Map {
 	}
 
 	private void makeSimplexNoiseMap() {
+		System.err.println("HELO");
 		for (int i = 0; i < numberOfSquares; i++) {
 			for (int j = 0; j < numberOfSquares; j++) {
 				var temPos = new Position(i, j);
@@ -62,15 +59,6 @@ public final class Map {
 					fields.put(temPos, new Field(temPos, Type.MARSH));
 				}
 			}
-		}
-	}
-
-	public void render(ShapeRenderer sr, SpriteBatch sb) {
-		for(Position key : fields.keySet()) {
-			fieldViews.add(new FieldView(fields.get(key)));
-		}
-		for(var fv : fieldViews) {
-			fv.render(sr, sb);
 		}
 	}
 
@@ -139,5 +127,21 @@ public final class Map {
 
 	public float universalDistanceConstant() {
 		return universalDistanceConstant;
+	}
+
+	public ArrayList<Field> giveFields() {
+		ArrayList<Field> res = new ArrayList<Field>();
+		fields.forEach((p, f) -> {
+			res.add(f);
+		});
+		return res;
+	}
+
+	public void registerListener(MapView mapView) {
+		var res = new ArrayList<Field>();
+			fields.forEach((p, f) -> {
+				res.add(f);
+			});
+		mapView.fields(res);
 	}
 }
