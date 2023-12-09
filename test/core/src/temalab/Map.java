@@ -42,7 +42,6 @@ public final class Map {
 	}
 
 	private void makeSimplexNoiseMap() {
-		System.err.println("HELO");
 		for (int i = 0; i < numberOfSquares; i++) {
 			for (int j = 0; j < numberOfSquares; j++) {
 				var temPos = new Position(i, j);
@@ -104,10 +103,10 @@ public final class Map {
 		return view;
 	}
 
-	public ArrayList<PerceivedUnit> requestUnitViews(Position pos, float size) {
+	public ArrayList<PerceivedUnit> requestPerceivedUnits(Position pos, float size) {
 		var view = new ArrayList<PerceivedUnit>();
 		for (var t : teams) {
-			view.addAll(t.requestUnitViews(pos, size));
+			view.addAll(t.requestPerceivedUnits(pos, size));
 		}
 		return view;
 	}

@@ -124,7 +124,7 @@ public class Unit {
 	
 	public void updateWorld() {
 		seenFields = Map.instance().requestFileds(field.pos(), viewRange + 0.5f);
-		seenUnits = Map.instance().requestUnitViews(field.pos(), viewRange + 0.5f);
+		seenUnits = Map.instance().requestPerceivedUnits(field.pos(), viewRange + 0.5f);
 		seenControlPoints = Map.instance().requestControlPoints(field.pos(), viewRange + 0.5f);
 	}
 

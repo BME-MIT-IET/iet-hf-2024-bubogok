@@ -46,14 +46,6 @@ public final class Team {
 		return this.units;
 	}
 	
-	public ArrayList<Integer> unitIDs() {
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		units.forEach((id, u) -> {
-			ids.add(u.getUUID());
-		});
-		return ids;
-	}
-
 	public ArrayList<Unit> requestUnits(Position pos, float size) {
 		var view = new ArrayList<Unit>();
 		units.forEach((id, u) -> {
@@ -64,7 +56,7 @@ public final class Team {
 		return view;
 	}
 
-	public ArrayList<PerceivedUnit> requestUnitViews(Position pos, float size) {
+	public ArrayList<PerceivedUnit> requestPerceivedUnits(Position pos, float size) {
 		var view = new ArrayList<PerceivedUnit>();
 		units.forEach((id, u) -> {
 			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
