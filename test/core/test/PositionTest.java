@@ -13,7 +13,7 @@ public class PositionTest {
     @BeforeClass
     public static void init() {
         p = new Position(0, 0);
-        m = Map.init(100, 4, 2);
+        m = Map.init(1000, 16, 1.5f);
     }
 
     /*
@@ -51,7 +51,7 @@ public class PositionTest {
     public void testScreenCords() {
         var p2 = new Position(3, 3);
         var screenCoords = p2.screenCoords();
-        assertEquals(new Vector2(100,100), screenCoords);
+        assertEquals(new Vector2(250,250), screenCoords);
     }
     /*
      * Testing inDistance function
@@ -89,6 +89,8 @@ public class PositionTest {
     public void testHashCode() {
         var p2 = new Position(3, 3);
         assertNotEquals(p.hashCode(), p2.hashCode());
+        var p3 = new Position(3, 3);
+        assertEquals(p2.hashCode(), p3.hashCode());
     }
 
     /*
@@ -101,5 +103,10 @@ public class PositionTest {
         var p3 = new Position(1, 1);
         assertTrue(p.equals(p2));
         assertFalse(p.equals(p3));
+    }
+
+    @AfterClass
+    public static void dispose() {
+        m = null;
     }
 }

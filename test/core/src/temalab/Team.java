@@ -60,7 +60,7 @@ public final class Team {
 		var view = new ArrayList<PerceivedUnit>();
 		units.forEach((id, u) -> {
 			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
-				view.add(u.getView());
+				view.add(u.getPerception());
 			}
 		});
 		return view;

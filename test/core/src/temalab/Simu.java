@@ -25,6 +25,7 @@ public class Simu extends ApplicationAdapter {
 
 	public void init() {
 		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
+		m.makeSimplexNoiseMap();
 		unitViews = new ArrayList<UnitView>();
 		controlPointViews = new ArrayList<ControlPointView>();
 		mapView = new MapView(m);

@@ -35,6 +35,7 @@ public final class Field {
 			unit.takeShot(damage);
 		}
 	}
+	
 	public boolean isNeighbouring(Field f) {
 		return pos.isNeighbouring(f.pos);
 	}

@@ -87,8 +87,11 @@ public class Unit {
 
 	public void move(Field dest) {
 		if(fuel - consumption >= 0 && actionPoints > 0 && field.isNeighbouring(dest)) {
-			if( steppableTypes.contains(dest.getType())) {
+			System.out.println("elso");
+			if(steppableTypes.contains(dest.getType())) {
+				System.out.println("2");
 				if(dest.arrive(this)) {
+					System.out.println("3");
 					field.leave();
 					field = dest;
 					fuel -= consumption;
@@ -186,7 +189,7 @@ public class Unit {
 		return steppableTypes;
 	}
 
-	public PerceivedUnit getView() {
+	public PerceivedUnit getPerception() {
 		return new PerceivedUnit(field.pos(), team);
 	}
 	
