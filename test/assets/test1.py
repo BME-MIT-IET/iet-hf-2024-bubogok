@@ -1,6 +1,9 @@
 from typing import List
+from unit import Unit
+from pos import Pos
 
-
+import numpy as np
+import itertools
 '''
 for i in range(3):
     with open("asdf.txt", "w") as f:
@@ -9,41 +12,56 @@ for i in range(3):
         f.write(line)
 '''
 
-class Unit:
-    def __init__(self, id, pos, seenFields, seenUnits, health, ammo, fuel,  team):
-        self.id = id
-        self.pos = pos
-        self.health = health
-        self.ammo = ammo
-        self.fuel = fuel
-        self.seenFields = seenFields
-        self.seenUnits = seenUnits
-        self.team = team
+def readUnitIn():    
+    testID = int(input())
+    testPos = list(map(int, input().split()))
+
+    #fields
+    xd = input()
+    pairs = xd[1:-1].split(",")
+    testseenFields = [[int(num) for num in pair.strip().split()] for pair in pairs]
+    #/fields
+
+    #seenUnits
+    xd = input()
 
 
+    tris = xd.replace("[", "").replace("]", "").replace(";", "")
+    sublists = tris.split(",")
+    testseenUnits = []
+    for sublist in sublists:
+        sublist = sublist.strip()
+        elements = sublist.split(" ")
+    testseenUnits.append([int(elements[0]), int(elements[1]), elements[3].strip()])
+    #/seenUnits
 
-with open("bsdf.txt", "r") as f:
-    #incoming = f.read()
-    #incoming = incoming.replace(";", "")
     
-    testID = int(f.readline().replace("\n", ""))
-    testpos = f.readline()
-    testseenFields = int(f.readline())
-    testseenUnits = int(f.readline())
-    testhealth = int(f.readline())
-    testammo = int(f.readline())
-    testfuel = int(f.readline())
-    testteam = int(f.readline())
-    testUnit = Unit(testID, testpos, testseenFields, testseenUnits, testhealth, testammo, testfuel, testteam)
-    print(testpos)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    #controlPoints
+    xd = input()
+    xd = xd[1:-1]
+    lists = xd.split(",")
+    lists = [list_item.strip() for list_item in lists]
+    testseenControlPoints = []
+    for list_item in lists:
+        numbers = [int(num) for num in list_item.split()]
+        testseenControlPoints.append(numbers)
+    #/controlPoints
+
+
+    testhealth = int(input())
+    testammo = int(input())
+    testfuel = int(input())
+    testActionPoints = int(input())
+    testteam = input()
+    global testUnit
+    testUnit = Unit(testID, testPos, testseenFields, testseenUnits, testseenControlPoints, testhealth, testammo, testfuel, testteam)
+
+
+def main():
+    print("asdf")
+    readUnitIn()
+    testUnit.testWriteOut()
+    print("BYE")
+
+if __name__ == "__main__":
+    main()

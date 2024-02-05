@@ -14,7 +14,7 @@ public class MapView {
     }
 
     public void render(ShapeRenderer sr, SpriteBatch sb) {
-		for(var fv : fieldViews) {
+        for(var fv : fieldViews) {
 			fv.render(sr, sb);
 		}
 	}

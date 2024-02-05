@@ -65,4 +65,8 @@ public class ControlPoint {
     public void registerListener(ControlPointListener cpl) {
 		listener = cpl;
 	}
+
+    public String toString() {
+		return this.pos.toString() + " " + this.percentage + " " + this.size;
+	}
 }

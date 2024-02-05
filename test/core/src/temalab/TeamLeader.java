@@ -55,11 +55,11 @@ public class TeamLeader {
 			split = answer.split(" ");
 		}
 		out.close();
-		System.err.print("ENDregistering");
+		System.err.println(team.getName() + " " + "ENDregistering");
 	}
 
 	public void communicate() {
-		System.err.print(team.getName() + "communicating");
+		System.err.println(team.getName() + " " + "communicating");
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
@@ -104,7 +104,8 @@ public class TeamLeader {
 
 	public void endSimu(boolean win) {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
-		out.println(win);
+		//TODO: ez itt így hagy kívánni valót maga után
+		out.println(team.getName() +  " " + win);
 		out.close();
 	}
 

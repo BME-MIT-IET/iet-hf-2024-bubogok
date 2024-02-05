@@ -49,6 +49,8 @@ public class Unit {
 		team.addUnit(this);
 		this.type = type;
         try {
+
+			//TODO: a steppabletyes beolvasása is lehetne a txtből
 			if(type == Unit.Type.TANK) {
 				sc = new Scanner(new File("tankStats.txt"));
 				steppableTypes.add(Field.Type.GRASS);
@@ -204,7 +206,7 @@ public class Unit {
 			+ "Ammo: " + ammo  + "/" + maxAmmo + "\n"
 			+ "Fuel: " + fuel  + "/" + maxFuel + "\n";
 		}
-		return ID + "\n"
+		return "\n" + ID + "\n"
 		+ field.pos().toString() + "\n"
 	 	+ seenFields.toString() + "\n"
 		+ seenUnits.toString() + "\n"
@@ -213,6 +215,6 @@ public class Unit {
 		+ ammo + "\n"
 		+ fuel + "\n"
 		+ actionPoints + "\n"
-		+ team.getName();
+		+ team.getName() + "\n";
 	}
 }

@@ -24,7 +24,7 @@ public class Simu extends ApplicationAdapter {
 	Team t2 = new Team("red", 5000);
 
 	public void init() {
-		m = Map.init(Gdx.graphics.getHeight(), 16, 1.5f);
+		m = Map.init(Gdx.graphics.getHeight(), 16, 1.1f);
 		m.makeSimplexNoiseMap();
 		unitViews = new ArrayList<UnitView>();
 		controlPointViews = new ArrayList<ControlPointView>();
@@ -35,7 +35,7 @@ public class Simu extends ApplicationAdapter {
 		demoCPs();
 		TL1 = new TeamLeader(t1, "test1.py");
 		TL2 = new TeamLeader(t2, "test2.py");
-		TL1.registerUnit();
+		//TL1.registerUnit();
 	}
 
 	public void demoUnits() {
@@ -56,6 +56,10 @@ public class Simu extends ApplicationAdapter {
 		var cp1 = new ControlPoint(new Position(10, 10), 10, 2);
 		m.addControlPoint(cp1);
 		controlPointViews.add(new ControlPointView(cp1));
+
+		var cp2 = new ControlPoint(new Position(1, 1), 5, 3);
+		m.addControlPoint(cp2);
+		controlPointViews.add(new ControlPointView(cp2));
 	}
 
 	
@@ -136,6 +140,7 @@ public class Simu extends ApplicationAdapter {
 			offset -= 100; 
 		}
 		batch.end();
+
 		if(t1.units().isEmpty()) {
 			TL1.endSimu(false);
 			TL2.endSimu(true);
