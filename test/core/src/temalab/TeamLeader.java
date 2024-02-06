@@ -65,6 +65,7 @@ public class TeamLeader {
 		// value
 		team.refillActionPoints();
 		team.updateUnits();
+		out.println(team.units().size());
 		out.println(team.teamMembersToString(false).toString());
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");

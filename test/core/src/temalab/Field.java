@@ -45,7 +45,7 @@ public final class Field {
 	}
 
 	public String toString() {
-		return this.pos.toString();
+		return this.pos.toString() + " " + this.type.toString();
 	}
 
 	public Field.Type getType() {
