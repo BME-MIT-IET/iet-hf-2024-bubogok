@@ -11,17 +11,17 @@ public class TeamLeader {
 
 	public TeamLeader(Team team, String fileName) {
 		this.team = team;
-		// ProcessBuilder processBuilder = new ProcessBuilder("python3", fileName);
-		// Process process = null;
-		// try {
-		// process = processBuilder.start();
-		// } catch (IOException e) {
-		// throw new RuntimeException(e);
-		// }
-		// outputStream = process.getOutputStream();
-		// inputStream = process.getInputStream();
-		outputStream = System.out;
-		inputStream = System.in;
+		ProcessBuilder processBuilder = new ProcessBuilder("python3", fileName);
+		Process process = null;
+		try {
+		process = processBuilder.start();
+		} catch (IOException e) {
+		throw new RuntimeException(e);
+		}
+		outputStream = process.getOutputStream();
+		inputStream = process.getInputStream();
+		// outputStream = System.out;
+		// inputStream = System.in;
 		sc = new Scanner(inputStream);
 	}
 
@@ -92,6 +92,7 @@ public class TeamLeader {
 					break;
 
 				default:
+					System.err.println("message starting with: " + split[0] + " could not be interpreted");
 					break loop;
 			} 
 			team.updateUnits();
@@ -100,7 +101,7 @@ public class TeamLeader {
 			split = answer.split(" ");
 		}
 		out.close();
-		System.err.print("ENDcommunicating");
+		System.err.println("ENDcommunicating");
 	}
 
 	public void endSimu(boolean win) {

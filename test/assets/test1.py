@@ -5,13 +5,18 @@ from pos import Pos
 import numpy as np
 import itertools
 
-
 units = []
+
+logFile = open("log.txt", "a")
+logFile.truncate(0)
+
 
 def readUnits():
     numma = int(input())
+    logFile.write("in readunits, numma = ", numma, "\n")
     temp = input()
     for i in range(numma):
+        logFile.write("writing for", i, ". time")
         readUnitIn()
         temp = input()
 
@@ -29,8 +34,9 @@ def readUnitIn():
     for sublist in sublists:
         sublist = sublist.strip()
         elements = sublist.split(" ")
-    testseenFields.append([int(elements[0]), int(elements[1]), elements[2].strip()])
+        testseenFields.append([int(elements[0]), int(elements[1]), elements[2].strip()])
     #/fields
+
 
     #seenUnits
     xd = input()
@@ -62,14 +68,15 @@ def readUnitIn():
     testActionPoints = int(input())
     testteam = input()
     units.append(Unit(testID, testPosWType, testseenFields, testseenUnits, testseenControlPoints, testhealth, testammo, testfuel, testteam))
+    logFile.write("unit with id:", testID, "was created and added for", testteam)
 
-def main():
-    print("asdf")
 
-    readUnits()
 
-    print("BYE")
-    print(units)
 
-if __name__ == "__main__":
-    main()
+readUnits()
+#readUnitIn()
+logFile.write("past readunits\n")
+logFile.write(units)
+logFile.write("past unitwrite\n")
+logFile.close()
+units[0].dummyMove()
