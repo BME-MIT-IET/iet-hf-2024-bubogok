@@ -93,6 +93,7 @@ public class Simu extends ApplicationAdapter {
 					TL2.communicate();
 					Map.instance().ControlPointsUpdate();
 					Gdx.graphics.requestRendering();
+					System.err.println("--------Egy kor lement--------");
 				}
 			}
 		}.start();

@@ -88,6 +88,7 @@ public class Unit {
 	}
 
 	public void move(Field dest) {
+		System.err.println("moveba azért belépünk: " +  field.pos().toString() + " " + dest.pos().toString());
 		if(fuel - consumption >= 0 && actionPoints > 0 && field.isNeighbouring(dest)) {
 			System.out.println("elso");
 			if(steppableTypes.contains(dest.getType())) {

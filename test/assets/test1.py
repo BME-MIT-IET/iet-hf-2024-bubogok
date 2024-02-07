@@ -6,10 +6,14 @@ import numpy as np
 import itertools
 import sys
 import traceback
+import os
 
 
 logFile = open("log1.txt", "a")
 logFile.truncate(0)
+
+if(os.path.isfile("example.log")):
+    os.remove("example.log")    
 
 def readUnits():
     units = []
@@ -77,7 +81,6 @@ def main():
     try:
         while True:
             units = readUnits()
-            print("helo", file=sys.stderr)
             #readUnitIn()
             log("past readunits")
             log(units)

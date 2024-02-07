@@ -3,6 +3,9 @@ from controlPoint import ControlPoint
 from unitView import UnitView
 from field import Field
 
+import logging
+
+
 class Unit:
     def __init__(self, id, testPosWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel,  team):
         self.id = id
@@ -20,16 +23,25 @@ class Unit:
         for cp in seenControlPoints:
             self.seenControlPoints.append(ControlPoint(cp))
         self.team = team
+        logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
 
     def testWriteOut(self):
         self.pos.out()
 
     def dummyMove(self):
+        logging.debug(f"starting------ {self.id}, {self.team}")
+        logging.debug(f"current pos ={self.field.pos.val()}")
         neighbours = []
         for f in self.seenFields:
+            #logging.debug(f"f: {f.pos.val()}, self: {self.field.val()}")
             if abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1:
+                #logging.debug("adding new neightbour")
                 neighbours.append(f)
+        logging.debug(f"done interating over seenFields {len(neighbours)}")
         for n in neighbours:
-            if n.type == "GRASS":
+            logging.debug(f"current n to check:{n.val()}, {self.field.val()}, {n.type}")
+            if n.type == "GRASS" and n.pos != self.field.pos:
                 print("move", self.id, n.pos.x, n.pos.y)
+                logging.debug(f"moved to: {n.pos.val()}, from: {self.field.pos.val()}")
                 break
+        logging.debug("end of iterating over neighbours")

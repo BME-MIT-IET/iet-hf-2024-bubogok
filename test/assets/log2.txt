@@ -1,170 +1,68 @@
-in readunits, numma =  3 
-
+in readunits, numma =  3
 writing for 0 . time
-unit with id: 497847 was created and added for red
+unit with id: 67456 was created and added for red
 writing for 1 . time
-unit with id: 894776 was created and added for red
+unit with id: 84498 was created and added for red
 writing for 2 . time
-unit with id: 209816 was created and added for red
+unit with id: 214661 was created and added for red
 past readunits
-
-[<unit.Unit object at 0x70083a49f2d0>, <unit.Unit object at 0x70083a7fdb50>, <unit.Unit object at 0x70083a4b82d0>]
+[<unit.Unit object at 0x79beee4d1b10>, <unit.Unit object at 0x79beec263a50>, <unit.Unit object at 0x79beec29b8d0>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  3 
-
+in readunits, numma =  3
 writing for 0 . time
-unit with id: 497847 was created and added for red
+unit with id: 67456 was created and added for red
 writing for 1 . time
-unit with id: 894776 was created and added for red
+unit with id: 84498 was created and added for red
 writing for 2 . time
-unit with id: 209816 was created and added for red
+unit with id: 214661 was created and added for red
 past readunits
-
-[<unit.Unit object at 0x70083a4d0b90>, <unit.Unit object at 0x70083a4de3d0>, <unit.Unit object at 0x70083a4ee610>]
+[<unit.Unit object at 0x79beec2a8ad0>, <unit.Unit object at 0x79beec2b9090>, <unit.Unit object at 0x79beec2c92d0>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  3 
-
+in readunits, numma =  3
 writing for 0 . time
-unit with id: 497847 was created and added for red
+unit with id: 67456 was created and added for red
 writing for 1 . time
-unit with id: 894776 was created and added for red
+unit with id: 84498 was created and added for red
 writing for 2 . time
-unit with id: 209816 was created and added for red
+unit with id: 214661 was created and added for red
 past readunits
-
-[<unit.Unit object at 0x70083a7e40d0>, <unit.Unit object at 0x70083a4d89d0>, <unit.Unit object at 0x70083a4dbed0>]
+[<unit.Unit object at 0x79beec27a8d0>, <unit.Unit object at 0x79beec2a7150>, <unit.Unit object at 0x79beec2aad90>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  3 
-
+in readunits, numma =  3
 writing for 0 . time
-unit with id: 497847 was created and added for red
+unit with id: 67456 was created and added for red
 writing for 1 . time
-unit with id: 894776 was created and added for red
+unit with id: 84498 was created and added for red
 writing for 2 . time
-unit with id: 209816 was created and added for red
+unit with id: 214661 was created and added for red
 past readunits
-
-[<unit.Unit object at 0x70083a4d1090>, <unit.Unit object at 0x70083a4ec950>, <unit.Unit object at 0x70083a4ef910>]
+[<unit.Unit object at 0x79beec2b5e90>, <unit.Unit object at 0x79beec2d5290>, <unit.Unit object at 0x79beec2db410>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  3 
-
+in readunits, numma =  3
 writing for 0 . time
-unit with id: 497847 was created and added for red
+unit with id: 67456 was created and added for red
 writing for 1 . time
-unit with id: 894776 was created and added for red
+unit with id: 84498 was created and added for red
 writing for 2 . time
-unit with id: 209816 was created and added for red
+unit with id: 214661 was created and added for red
 past readunits
-
-[<unit.Unit object at 0x70083a7fc910>, <unit.Unit object at 0x70083a4ddd10>, <unit.Unit object at 0x70083a517450>]
+[<unit.Unit object at 0x79beed28a210>, <unit.Unit object at 0x79beec2b46d0>, <unit.Unit object at 0x79beec2b8b90>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  3 
-
+in readunits, numma =  3
 writing for 0 . time
-unit with id: 497847 was created and added for red
+unit with id: 67456 was created and added for red
 writing for 1 . time
-unit with id: 894776 was created and added for red
+unit with id: 84498 was created and added for red
 writing for 2 . time
-unit with id: 209816 was created and added for red
+unit with id: 214661 was created and added for red
 past readunits
-
-[<unit.Unit object at 0x70083a4e3ad0>, <unit.Unit object at 0x70083a4ffd50>, <unit.Unit object at 0x70083a502bd0>]
+[<unit.Unit object at 0x79beec2e0290>, <unit.Unit object at 0x79beec2c9990>, <unit.Unit object at 0x79beec2c1450>]
 past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  3 
-
-writing for 0 . time
-unit with id: 497847 was created and added for red
-writing for 1 . time
-unit with id: 894776 was created and added for red
-writing for 2 . time
-unit with id: 209816 was created and added for red
-past readunits
-
-[<unit.Unit object at 0x70083a4b4150>, <unit.Unit object at 0x70083a4ba650>, <unit.Unit object at 0x70083a4b82d0>]
-past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  3 
-
-writing for 0 . time
-unit with id: 497847 was created and added for red
-writing for 1 . time
-unit with id: 894776 was created and added for red
-writing for 2 . time
-unit with id: 209816 was created and added for red
-past readunits
-
-[<unit.Unit object at 0x70083a4d5cd0>, <unit.Unit object at 0x70083a50c750>, <unit.Unit object at 0x70083a4fd3d0>]
-past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  3 
-
-writing for 0 . time
-unit with id: 497847 was created and added for red
-writing for 1 . time
-unit with id: 894776 was created and added for red
-writing for 2 . time
-unit with id: 209816 was created and added for red
-past readunits
-
-[<unit.Unit object at 0x70083a4c29d0>, <unit.Unit object at 0x70083a4d89d0>, <unit.Unit object at 0x70083a4fa910>]
-past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  3 
-
-writing for 0 . time
-unit with id: 497847 was created and added for red
-writing for 1 . time
-unit with id: 894776 was created and added for red
-writing for 2 . time
-unit with id: 209816 was created and added for red
-past readunits
-
-[<unit.Unit object at 0x70083a4ed9d0>, <unit.Unit object at 0x70083a50ff90>, <unit.Unit object at 0x70083a4c0cd0>]
-past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  3 
-
-writing for 0 . time
-unit with id: 497847 was created and added for red
-writing for 1 . time
-unit with id: 894776 was created and added for red
-writing for 2 . time
-unit with id: 209816 was created and added for red
-past readunits
-
-[<unit.Unit object at 0x70083a49ff90>, <unit.Unit object at 0x70083a4e1210>, <unit.Unit object at 0x70083a4db7d0>]
-past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  3 
-
-writing for 0 . time
-unit with id: 497847 was created and added for red
-writing for 1 . time
-unit with id: 894776 was created and added for red
-writing for 2 . time
-unit with id: 209816 was created and added for red
-past readunits
-
-[<unit.Unit object at 0x70083a4caed0>, <unit.Unit object at 0x70083a4d78d0>, <unit.Unit object at 0x70083a503310>]
-past unitwrite
-
 FULL CIRCLE
 valami rák, err=EOFError('EOF when reading a line'), type(err)=<class 'EOFError'>
 ['Traceback (most recent call last):\n', '  File "/home/kocc/felev5/temalab/test/assets/test2.py", line 79, in main\n    units = readUnits()\n            ^^^^^^^^^^^\n', '  File "/home/kocc/felev5/temalab/test/assets/test2.py", line 16, in readUnits\n    numma = int(input())\n                ^^^^^^^\n', 'EOFError: EOF when reading a line\n']

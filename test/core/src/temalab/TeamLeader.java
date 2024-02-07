@@ -77,14 +77,13 @@ public class TeamLeader {
 			return;
 		}
 		String answer = sc.nextLine();
+		System.err.println("pytohnból jött:" + answer);
 		String[] split = answer.split(" ");
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
-			System.err.println("pytohnból jött:" + answer);
 			switch (split[0]) {
 				case "endTurn":
 					break loop;
 				case "move": {
-					
 					if (split.length == 4) {
 						// TODO: a parseInt dobhat kivételt, ha nem int
 						team.moveUnit(Integer.parseInt(split[1]),
@@ -92,7 +91,6 @@ public class TeamLeader {
 					}
 				}
 					break;
-
 				case "shoot": {
 					if (split.length == 4) {
 						// TODO: a parseInt dobhat kivételt, ha nem int
@@ -101,11 +99,10 @@ public class TeamLeader {
 					}
 				}
 					break;
-
 				default:
 					System.err.println("message starting with: " + split[0] + " could not be interpreted");
 					break loop;
-			} 
+			}
 			team.updateUnits();
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
@@ -114,6 +111,7 @@ public class TeamLeader {
 				return;
 			}
 			answer = sc.nextLine();
+			System.err.println("pytohnból jött:" + answer);
 			split = answer.split(" ");
 		}
 		System.err.println("ENDcommunicating");

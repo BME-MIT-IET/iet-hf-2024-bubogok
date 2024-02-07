@@ -1,146 +1,74 @@
-in readunits, numma =  2 
-
+in readunits, numma =  2
 writing for 0 . time
-unit with id: 404349 was created and added for white
+unit with id: 207170 was created and added for white
 writing for 1 . time
-unit with id: 415993 was created and added for white
+unit with id: 630147 was created and added for white
 past readunits
-
-[<unit.Unit object at 0x79878049f250>, <unit.Unit object at 0x7987807fcfd0>]
+[<unit.Unit object at 0x7313671d1a90>, <unit.Unit object at 0x731364f2fc90>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  2 
-
+in readunits, numma =  2
 writing for 0 . time
-unit with id: 404349 was created and added for white
+unit with id: 207170 was created and added for white
 writing for 1 . time
-unit with id: 415993 was created and added for white
+unit with id: 630147 was created and added for white
 past readunits
-
-[<unit.Unit object at 0x7987804b3510>, <unit.Unit object at 0x7987804cabd0>]
+[<unit.Unit object at 0x731364f5e450>, <unit.Unit object at 0x731364f6e010>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  2 
-
+in readunits, numma =  2
 writing for 0 . time
-unit with id: 404349 was created and added for white
+unit with id: 207170 was created and added for white
 writing for 1 . time
-unit with id: 415993 was created and added for white
+unit with id: 630147 was created and added for white
 past readunits
-
-[<unit.Unit object at 0x7987807e7f90>, <unit.Unit object at 0x7987804c6410>]
+[<unit.Unit object at 0x731364f42a10>, <unit.Unit object at 0x731364f68910>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  2 
-
+in readunits, numma =  2
 writing for 0 . time
-unit with id: 404349 was created and added for white
+unit with id: 207170 was created and added for white
 writing for 1 . time
-unit with id: 415993 was created and added for white
+unit with id: 630147 was created and added for white
 past readunits
-
-[<unit.Unit object at 0x7987804d9390>, <unit.Unit object at 0x7987804e03d0>]
+[<unit.Unit object at 0x731364f7c110>, <unit.Unit object at 0x731364f61ed0>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  2 
-
+in readunits, numma =  2
 writing for 0 . time
-unit with id: 404349 was created and added for white
+unit with id: 207170 was created and added for white
 writing for 1 . time
-unit with id: 415993 was created and added for white
+unit with id: 630147 was created and added for white
 past readunits
-
-[<unit.Unit object at 0x7987804b4550>, <unit.Unit object at 0x7987804cc190>]
+[<unit.Unit object at 0x731364f0b710>, <unit.Unit object at 0x731364f6de10>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  2 
-
+in readunits, numma =  2
 writing for 0 . time
-unit with id: 404349 was created and added for white
+unit with id: 207170 was created and added for white
 writing for 1 . time
-unit with id: 415993 was created and added for white
+unit with id: 630147 was created and added for white
 past readunits
-
-[<unit.Unit object at 0x7987804c7fd0>, <unit.Unit object at 0x7987804e0b10>]
+[<unit.Unit object at 0x731364f73090>, <unit.Unit object at 0x731364f5c2d0>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  2 
-
+in readunits, numma =  2
 writing for 0 . time
-unit with id: 404349 was created and added for white
+unit with id: 207170 was created and added for white
 writing for 1 . time
-unit with id: 415993 was created and added for white
+unit with id: 630147 was created and added for white
 past readunits
-
-[<unit.Unit object at 0x7987804b5890>, <unit.Unit object at 0x7987804ce850>]
+[<unit.Unit object at 0x731364f1b390>, <unit.Unit object at 0x731364f6f490>]
 past unitwrite
-
 FULL CIRCLE
-in readunits, numma =  2 
-
+in readunits, numma =  2
 writing for 0 . time
-unit with id: 404349 was created and added for white
+unit with id: 207170 was created and added for white
 writing for 1 . time
-unit with id: 415993 was created and added for white
+unit with id: 630147 was created and added for white
 past readunits
-
-[<unit.Unit object at 0x7987804c9310>, <unit.Unit object at 0x7987804d6650>]
+[<unit.Unit object at 0x731364f70110>, <unit.Unit object at 0x731364f784d0>]
 past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  2 
-
-writing for 0 . time
-unit with id: 404349 was created and added for white
-writing for 1 . time
-unit with id: 415993 was created and added for white
-past readunits
-
-[<unit.Unit object at 0x7987804ce650>, <unit.Unit object at 0x7987804c66d0>]
-past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  2 
-
-writing for 0 . time
-unit with id: 404349 was created and added for white
-writing for 1 . time
-unit with id: 415993 was created and added for white
-past readunits
-
-[<unit.Unit object at 0x7987804b0b10>, <unit.Unit object at 0x7987804d95d0>]
-past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  2 
-
-writing for 0 . time
-unit with id: 404349 was created and added for white
-writing for 1 . time
-unit with id: 415993 was created and added for white
-past readunits
-
-[<unit.Unit object at 0x7987804d5ed0>, <unit.Unit object at 0x7987804c7f50>]
-past unitwrite
-
-FULL CIRCLE
-in readunits, numma =  2 
-
-writing for 0 . time
-unit with id: 404349 was created and added for white
-writing for 1 . time
-unit with id: 415993 was created and added for white
-past readunits
-
-[<unit.Unit object at 0x7987804ca310>, <unit.Unit object at 0x7987804de6d0>]
-past unitwrite
-
 FULL CIRCLE
 valami rák, err=EOFError('EOF when reading a line'), type(err)=<class 'EOFError'>
-['Traceback (most recent call last):\n', '  File "/home/kocc/felev5/temalab/test/assets/test1.py", line 79, in main\n    units = readUnits()\n            ^^^^^^^^^^^\n', '  File "/home/kocc/felev5/temalab/test/assets/test1.py", line 16, in readUnits\n    numma = int(input())\n                ^^^^^^^\n', 'EOFError: EOF when reading a line\n']
+['Traceback (most recent call last):\n', '  File "/home/kocc/felev5/temalab/test/assets/test1.py", line 83, in main\n    units = readUnits()\n            ^^^^^^^^^^^\n', '  File "/home/kocc/felev5/temalab/test/assets/test1.py", line 20, in readUnits\n    numma = int(input())\n                ^^^^^^^\n', 'EOFError: EOF when reading a line\n']

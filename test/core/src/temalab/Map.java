@@ -87,7 +87,7 @@ public final class Map {
 	public ArrayList<Field> requestFileds(Position pos, float size) {
 		var view = new ArrayList<Field>();
 		fields.forEach((p, f) -> {
-			if (pos.inDistance(p, size)) {
+			if (pos.inDistance(p, size) && pos.hashCode() != p.hashCode()) {
 				view.add(f);
 			}
 		});
