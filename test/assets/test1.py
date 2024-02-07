@@ -4,21 +4,23 @@ from pos import Pos
 
 import numpy as np
 import itertools
+import sys
+import traceback
 
-units = []
 
-logFile = open("log.txt", "a")
+logFile = open("log1.txt", "a")
 logFile.truncate(0)
 
-
 def readUnits():
+    units = []
     numma = int(input())
-    logFile.write("in readunits, numma = ", numma, "\n")
+    log("in readunits, numma = ", numma)
     temp = input()
     for i in range(numma):
-        logFile.write("writing for", i, ". time")
-        readUnitIn()
+        log("writing for", i, ". time")
+        units.append(readUnitIn())
         temp = input()
+    return units
 
 
 def readUnitIn():    
@@ -67,16 +69,31 @@ def readUnitIn():
     testfuel = int(input())
     testActionPoints = int(input())
     testteam = input()
-    units.append(Unit(testID, testPosWType, testseenFields, testseenUnits, testseenControlPoints, testhealth, testammo, testfuel, testteam))
-    logFile.write("unit with id:", testID, "was created and added for", testteam)
+    log("unit with id:", testID, "was created and added for", testteam)
+    return Unit(testID, testPosWType, testseenFields, testseenUnits, testseenControlPoints, testhealth, testammo, testfuel, testteam)
 
 
+def main():
+    try:
+        while True:
+            units = readUnits()
+            print("helo", file=sys.stderr)
+            #readUnitIn()
+            log("past readunits")
+            log(units)
+            log("past unitwrite")
+            units[0].dummyMove()
+            print("endTurn")
+            log("FULL CIRCLE")
+    except Exception as err:
+        log(f"valami rák, {err=}, {type(err)=}")
+        log(traceback.format_exception(err))
+        #raise
+    finally:
+        logFile.close()
+
+def log(*args, **kwargs):
+    print(*args, **kwargs, file=logFile)
 
 
-readUnits()
-#readUnitIn()
-logFile.write("past readunits\n")
-logFile.write(units)
-logFile.write("past unitwrite\n")
-logFile.close()
-units[0].dummyMove()
+main()

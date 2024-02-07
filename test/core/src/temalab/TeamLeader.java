@@ -8,7 +8,10 @@ public class TeamLeader {
 	private final InputStream inputStream;
 	private Team team;
 	private Scanner sc;
+	private PrintWriter out;
 
+
+	//maybe itt elkapni a pythonsos stderr-t is, és aszinkron kiírni
 	public TeamLeader(Team team, String fileName) {
 		this.team = team;
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", fileName);
@@ -23,6 +26,7 @@ public class TeamLeader {
 		// outputStream = System.out;
 		// inputStream = System.in;
 		sc = new Scanner(inputStream);
+		out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 	}
 
 	public void registerUnit() {
@@ -60,20 +64,27 @@ public class TeamLeader {
 
 	public void communicate() {
 		System.err.println(team.getName() + " " + "communicating");
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
 		team.refillActionPoints();
 		team.updateUnits();
 		out.println(team.units().size());
 		out.println(team.teamMembersToString(false).toString());
+		// System.err.println(team.units().size());
+		// System.err.println(team.teamMembersToString(false).toString());
+		if(!sc.hasNext()) {
+			System.err.println("SZAR1");
+			return;
+		}
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
+			System.err.println("pytohnból jött:" + answer);
 			switch (split[0]) {
 				case "endTurn":
 					break loop;
 				case "move": {
+					
 					if (split.length == 4) {
 						// TODO: a parseInt dobhat kivételt, ha nem int
 						team.moveUnit(Integer.parseInt(split[1]),
@@ -96,11 +107,15 @@ public class TeamLeader {
 					break loop;
 			} 
 			team.updateUnits();
+			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
+			if(!sc.hasNext()) {
+				System.err.println("SZAR2");
+				return;
+			}
 			answer = sc.nextLine();
 			split = answer.split(" ");
 		}
-		out.close();
 		System.err.println("ENDcommunicating");
 	}
 

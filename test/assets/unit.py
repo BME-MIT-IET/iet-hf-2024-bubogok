@@ -30,6 +30,6 @@ class Unit:
             if abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1:
                 neighbours.append(f)
         for n in neighbours:
-            if n.type == "FOREST":
-                print("move", self.testID, n.pos.x, n.pos.y)
+            if n.type == "GRASS":
+                print("move", self.id, n.pos.x, n.pos.y)
                 break
