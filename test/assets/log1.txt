@@ -1,73 +1,73 @@
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 207170 was created and added for white
+unit with id: 932186 was created and added for white
 writing for 1 . time
-unit with id: 630147 was created and added for white
+unit with id: 716573 was created and added for white
 past readunits
-[<unit.Unit object at 0x7313671d1a90>, <unit.Unit object at 0x731364f2fc90>]
+[<unit.Unit object at 0x7a0415ed65d0>, <unit.Unit object at 0x7a0413c1ab10>]
 past unitwrite
 FULL CIRCLE
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 207170 was created and added for white
+unit with id: 932186 was created and added for white
 writing for 1 . time
-unit with id: 630147 was created and added for white
+unit with id: 716573 was created and added for white
 past readunits
-[<unit.Unit object at 0x731364f5e450>, <unit.Unit object at 0x731364f6e010>]
+[<unit.Unit object at 0x7a0413c49950>, <unit.Unit object at 0x7a0413c558d0>]
 past unitwrite
 FULL CIRCLE
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 207170 was created and added for white
+unit with id: 932186 was created and added for white
 writing for 1 . time
-unit with id: 630147 was created and added for white
+unit with id: 716573 was created and added for white
 past readunits
-[<unit.Unit object at 0x731364f42a10>, <unit.Unit object at 0x731364f68910>]
+[<unit.Unit object at 0x7a0413c2a110>, <unit.Unit object at 0x7a0413c74390>]
 past unitwrite
 FULL CIRCLE
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 207170 was created and added for white
+unit with id: 932186 was created and added for white
 writing for 1 . time
-unit with id: 630147 was created and added for white
+unit with id: 716573 was created and added for white
 past readunits
-[<unit.Unit object at 0x731364f7c110>, <unit.Unit object at 0x731364f61ed0>]
+[<unit.Unit object at 0x7a0413c6abd0>, <unit.Unit object at 0x7a0413c7ba50>]
 past unitwrite
 FULL CIRCLE
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 207170 was created and added for white
+unit with id: 932186 was created and added for white
 writing for 1 . time
-unit with id: 630147 was created and added for white
+unit with id: 716573 was created and added for white
 past readunits
-[<unit.Unit object at 0x731364f0b710>, <unit.Unit object at 0x731364f6de10>]
+[<unit.Unit object at 0x7a0413c1b410>, <unit.Unit object at 0x7a0413c49890>]
 past unitwrite
 FULL CIRCLE
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 207170 was created and added for white
+unit with id: 932186 was created and added for white
 writing for 1 . time
-unit with id: 630147 was created and added for white
+unit with id: 716573 was created and added for white
 past readunits
-[<unit.Unit object at 0x731364f73090>, <unit.Unit object at 0x731364f5c2d0>]
+[<unit.Unit object at 0x7a0413c77750>, <unit.Unit object at 0x7a0413c69890>]
 past unitwrite
 FULL CIRCLE
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 207170 was created and added for white
+unit with id: 932186 was created and added for white
 writing for 1 . time
-unit with id: 630147 was created and added for white
+unit with id: 716573 was created and added for white
 past readunits
-[<unit.Unit object at 0x731364f1b390>, <unit.Unit object at 0x731364f6f490>]
+[<unit.Unit object at 0x7a0413c2a590>, <unit.Unit object at 0x7a0413c50ad0>]
 past unitwrite
 FULL CIRCLE
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 207170 was created and added for white
+unit with id: 932186 was created and added for white
 writing for 1 . time
-unit with id: 630147 was created and added for white
+unit with id: 716573 was created and added for white
 past readunits
-[<unit.Unit object at 0x731364f70110>, <unit.Unit object at 0x731364f784d0>]
+[<unit.Unit object at 0x7a0413c5ab50>, <unit.Unit object at 0x7a0413c7af10>]
 past unitwrite
 FULL CIRCLE
 valami rák, err=EOFError('EOF when reading a line'), type(err)=<class 'EOFError'>

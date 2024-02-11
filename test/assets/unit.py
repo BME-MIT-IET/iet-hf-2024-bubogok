@@ -4,6 +4,7 @@ from unitView import UnitView
 from field import Field
 
 import logging
+import time
 
 
 class Unit:
@@ -41,7 +42,8 @@ class Unit:
         for n in neighbours:
             logging.debug(f"current n to check:{n.val()}, {self.field.val()}, {n.type}")
             if n.type == "GRASS" and n.pos != self.field.pos:
+                logging.debug(f"{time.time() * 1000}")
                 print("move", self.id, n.pos.x, n.pos.y)
-                logging.debug(f"moved to: {n.pos.val()}, from: {self.field.pos.val()}")
+                logging.debug(f"sending this message: |move {self.id} {n.pos.x} {n.pos.y}|")
                 break
         logging.debug("end of iterating over neighbours")

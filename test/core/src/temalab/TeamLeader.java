@@ -1,5 +1,6 @@
 package temalab;
 
+import java.util.Date;
 import java.util.Scanner;
 import java.io.*;
 
@@ -9,7 +10,6 @@ public class TeamLeader {
 	private Team team;
 	private Scanner sc;
 	private PrintWriter out;
-
 
 	//maybe itt elkapni a pythonsos stderr-t is, és aszinkron kiírni
 	public TeamLeader(Team team, String fileName) {
@@ -31,7 +31,6 @@ public class TeamLeader {
 
 	public void registerUnit() {
 		System.err.print("registering");
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		out.println(team.getBudget());
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
@@ -77,6 +76,8 @@ public class TeamLeader {
 			return;
 		}
 		String answer = sc.nextLine();
+		Date date = new Date();
+		System.err.println(date.getTime());
 		System.err.println("pytohnból jött:" + answer);
 		String[] split = answer.split(" ");
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
@@ -118,7 +119,6 @@ public class TeamLeader {
 	}
 
 	public void endSimu(boolean win) {
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		//TODO: ez itt így hagy kívánni valót maga után
 		out.println(team.getName() +  " " + win);
 		out.close();

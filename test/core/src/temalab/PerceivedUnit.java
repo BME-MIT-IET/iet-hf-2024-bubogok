@@ -1,16 +1,18 @@
 package temalab;
 
 public class PerceivedUnit {
-    protected Position pos;
-    protected Team team;
+    protected String pos;
+    protected String team;
+    protected String type;
 
-    public PerceivedUnit(Position p, Team t) {
+    public PerceivedUnit(String p, String t, String type) {
         pos = p;
         team = t;
+        this.type = type;
     }
 
     @Override
     public String toString() {
-        return pos.toString() + " ; " + team.getName();
+        return pos + " " + team + " " + type;
     }
 }

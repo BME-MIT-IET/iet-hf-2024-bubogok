@@ -88,7 +88,7 @@ public class Unit {
 	}
 
 	public void move(Field dest) {
-		System.err.println("moveba azért belépünk: " +  field.pos().toString() + " " + dest.pos().toString());
+		System.err.println("moveba azért belépünk: curr: " +  field.pos().toString() + " dest: " + dest.pos().toString());
 		if(fuel - consumption >= 0 && actionPoints > 0 && field.isNeighbouring(dest)) {
 			System.out.println("elso");
 			if(steppableTypes.contains(dest.getType())) {
@@ -193,7 +193,7 @@ public class Unit {
 	}
 
 	public PerceivedUnit getPerception() {
-		return new PerceivedUnit(field.pos(), team);
+		return new PerceivedUnit(field.pos().toString(), team.getName(), type.toString());
 	}
 	
 	public int actionPoints() {

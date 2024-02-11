@@ -42,13 +42,13 @@ def readUnitIn():
 
     #seenUnits
     xd = input()
-    tris = xd.replace("[", "").replace("]", "").replace(";", "")
+    tris = xd.replace("[", "").replace("]", "")
     sublists = tris.split(",")
     testseenUnits = []
     for sublist in sublists:
         sublist = sublist.strip()
         elements = sublist.split(" ")
-    testseenUnits.append([int(elements[0]), int(elements[1]), elements[3].strip()])
+        testseenUnits.append([int(elements[0]), int(elements[1]), elements[2].strip(), elements[3].strip()])
     #/seenUnits
 
     
