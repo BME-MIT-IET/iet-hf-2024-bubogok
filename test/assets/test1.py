@@ -29,6 +29,7 @@ def readUnits():
 
 def readUnitIn():    
     testID = int(input())
+    testType = input()
     testPosRaw = input().split(" ")
     testPosWType = [int(testPosRaw[0]), int(testPosRaw[1]), testPosRaw[2].strip()]
 
@@ -74,7 +75,7 @@ def readUnitIn():
     testActionPoints = int(input())
     testteam = input()
     log("unit with id:", testID, "was created and added for", testteam)
-    return Unit(testID, testPosWType, testseenFields, testseenUnits, testseenControlPoints, testhealth, testammo, testfuel, testteam)
+    return Unit(testID, testType, testPosWType, testseenFields, testseenUnits, testseenControlPoints, testhealth, testammo, testfuel, testteam)
 
 
 def main():

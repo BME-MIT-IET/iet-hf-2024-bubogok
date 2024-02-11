@@ -8,8 +8,9 @@ import time
 
 
 class Unit:
-    def __init__(self, id, testPosWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel,  team):
+    def __init__(self, id, testType, testPosWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel,  team):
         self.id = id
+        self.type = testType
         self.field = Field(testPosWType)
         self.health = health
         self.ammo = ammo
@@ -30,7 +31,7 @@ class Unit:
         self.pos.out()
 
     def dummyMove(self):
-        logging.debug(f"starting------ {self.id}, {self.team}")
+        logging.debug(f"starting------ {self.id}, {self.team}, {self.type}")
         logging.debug(f"current pos ={self.field.pos.val()}")
         neighbours = []
         for f in self.seenFields:

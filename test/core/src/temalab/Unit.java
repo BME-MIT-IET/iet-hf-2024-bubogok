@@ -208,6 +208,7 @@ public class Unit {
 			+ "Fuel: " + fuel  + "/" + maxFuel + "\n";
 		}
 		return "\n" + ID + "\n"
+		+ type.toString() + "\n"
 		+ field.pos().toString() + " " + field.getType().toString() + "\n"
 	 	+ seenFields.toString() + "\n"
 		+ seenUnits.toString() + "\n"

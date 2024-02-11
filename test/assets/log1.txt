@@ -1,74 +1,20 @@
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 932186 was created and added for white
+unit with id: 634017 was created and added for white
 writing for 1 . time
-unit with id: 716573 was created and added for white
+unit with id: 879889 was created and added for white
 past readunits
-[<unit.Unit object at 0x7a0415ed65d0>, <unit.Unit object at 0x7a0413c1ab10>]
+[<unit.Unit object at 0x79037fd41990>, <unit.Unit object at 0x79037fd32d50>]
 past unitwrite
 FULL CIRCLE
 in readunits, numma =  2
 writing for 0 . time
-unit with id: 932186 was created and added for white
+unit with id: 634017 was created and added for white
 writing for 1 . time
-unit with id: 716573 was created and added for white
+unit with id: 879889 was created and added for white
 past readunits
-[<unit.Unit object at 0x7a0413c49950>, <unit.Unit object at 0x7a0413c558d0>]
-past unitwrite
-FULL CIRCLE
-in readunits, numma =  2
-writing for 0 . time
-unit with id: 932186 was created and added for white
-writing for 1 . time
-unit with id: 716573 was created and added for white
-past readunits
-[<unit.Unit object at 0x7a0413c2a110>, <unit.Unit object at 0x7a0413c74390>]
-past unitwrite
-FULL CIRCLE
-in readunits, numma =  2
-writing for 0 . time
-unit with id: 932186 was created and added for white
-writing for 1 . time
-unit with id: 716573 was created and added for white
-past readunits
-[<unit.Unit object at 0x7a0413c6abd0>, <unit.Unit object at 0x7a0413c7ba50>]
-past unitwrite
-FULL CIRCLE
-in readunits, numma =  2
-writing for 0 . time
-unit with id: 932186 was created and added for white
-writing for 1 . time
-unit with id: 716573 was created and added for white
-past readunits
-[<unit.Unit object at 0x7a0413c1b410>, <unit.Unit object at 0x7a0413c49890>]
-past unitwrite
-FULL CIRCLE
-in readunits, numma =  2
-writing for 0 . time
-unit with id: 932186 was created and added for white
-writing for 1 . time
-unit with id: 716573 was created and added for white
-past readunits
-[<unit.Unit object at 0x7a0413c77750>, <unit.Unit object at 0x7a0413c69890>]
-past unitwrite
-FULL CIRCLE
-in readunits, numma =  2
-writing for 0 . time
-unit with id: 932186 was created and added for white
-writing for 1 . time
-unit with id: 716573 was created and added for white
-past readunits
-[<unit.Unit object at 0x7a0413c2a590>, <unit.Unit object at 0x7a0413c50ad0>]
-past unitwrite
-FULL CIRCLE
-in readunits, numma =  2
-writing for 0 . time
-unit with id: 932186 was created and added for white
-writing for 1 . time
-unit with id: 716573 was created and added for white
-past readunits
-[<unit.Unit object at 0x7a0413c5ab50>, <unit.Unit object at 0x7a0413c7af10>]
+[<unit.Unit object at 0x79037fd62250>, <unit.Unit object at 0x79037fd72190>]
 past unitwrite
 FULL CIRCLE
 valami rák, err=EOFError('EOF when reading a line'), type(err)=<class 'EOFError'>
-['Traceback (most recent call last):\n', '  File "/home/kocc/felev5/temalab/test/assets/test1.py", line 83, in main\n    units = readUnits()\n            ^^^^^^^^^^^\n', '  File "/home/kocc/felev5/temalab/test/assets/test1.py", line 20, in readUnits\n    numma = int(input())\n                ^^^^^^^\n', 'EOFError: EOF when reading a line\n']
+['Traceback (most recent call last):\n', '  File "/home/kocc/felev5/temalab/test/assets/test1.py", line 84, in main\n    units = readUnits()\n            ^^^^^^^^^^^\n', '  File "/home/kocc/felev5/temalab/test/assets/test1.py", line 20, in readUnits\n    numma = int(input())\n                ^^^^^^^\n', 'EOFError: EOF when reading a line\n']
