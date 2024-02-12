@@ -28,11 +28,11 @@ public class UnitView implements UnitListener {
         viewRange = u.viewRange();
 		this.c = u.color();
 		if(u.type() == Type.TANK && texture == null) {
-			texture = new Texture(Gdx.files.internal("tank.png"));
+			texture = new Texture(Gdx.files.internal("images/tank.png"));
 		} else if(u.type() == Type.SCOUT && texture == null) {
-			texture = new Texture(Gdx.files.internal("scout.png"));
+			texture = new Texture(Gdx.files.internal("images/scout.png"));
 		} else if(u.type() == Type.INFANTRY && texture == null) {
-			texture = new Texture(Gdx.files.internal("infantry.png"));
+			texture = new Texture(Gdx.files.internal("images/infantry.png"));
 		}
     }
 

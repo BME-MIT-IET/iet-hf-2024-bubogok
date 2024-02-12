@@ -1,0 +1,47 @@
+before try
+in readunits, numma =  3
+writing for 0 . time
+unit with id: 809210 was created and added for red
+writing for 1 . time
+unit with id: 322462 was created and added for red
+writing for 2 . time
+unit with id: 341259 was created and added for red
+past readunits
+[<unit.Unit object at 0x7aa15a380f90>, <unit.Unit object at 0x7aa159a62fd0>, <unit.Unit object at 0x7aa159a9bb10>]
+past unitwrite
+FULL CIRCLE
+in readunits, numma =  3
+writing for 0 . time
+unit with id: 809210 was created and added for red
+writing for 1 . time
+unit with id: 322462 was created and added for red
+writing for 2 . time
+unit with id: 341259 was created and added for red
+past readunits
+[<unit.Unit object at 0x7aa159aac590>, <unit.Unit object at 0x7aa159ab9f10>, <unit.Unit object at 0x7aa159aca1d0>]
+past unitwrite
+FULL CIRCLE
+in readunits, numma =  3
+writing for 0 . time
+unit with id: 809210 was created and added for red
+writing for 1 . time
+unit with id: 322462 was created and added for red
+writing for 2 . time
+unit with id: 341259 was created and added for red
+past readunits
+[<unit.Unit object at 0x7aa159a76d10>, <unit.Unit object at 0x7aa159aa6dd0>, <unit.Unit object at 0x7aa159ab66d0>]
+past unitwrite
+FULL CIRCLE
+in readunits, numma =  3
+writing for 0 . time
+unit with id: 809210 was created and added for red
+writing for 1 . time
+unit with id: 322462 was created and added for red
+writing for 2 . time
+unit with id: 341259 was created and added for red
+past readunits
+[<unit.Unit object at 0x7aa159ab86d0>, <unit.Unit object at 0x7aa159ae1090>, <unit.Unit object at 0x7aa159ae0090>]
+past unitwrite
+FULL CIRCLE
+valami rák, err=EOFError('EOF when reading a line'), type(err)=<class 'EOFError'>
+['Traceback (most recent call last):\n', '  File "/home/kocc/felev5/temalab/test/assets/python/test2.py", line 82, in main\n    units = readUnits()\n            ^^^^^^^^^^^\n', '  File "/home/kocc/felev5/temalab/test/assets/python/test2.py", line 17, in readUnits\n    numma = int(input())\n                ^^^^^^^\n', 'EOFError: EOF when reading a line\n']

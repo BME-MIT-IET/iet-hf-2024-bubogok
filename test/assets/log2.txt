@@ -1,4 +1,0 @@
-in readunits, numma =  3
-writing for 0 . time
-valami rák, err=ValueError("invalid literal for int() with base 10: 'TANK'"), type(err)=<class 'ValueError'>
-['Traceback (most recent call last):\n', '  File "/home/kocc/felev5/temalab/test/assets/test2.py", line 79, in main\n    units = readUnits()\n            ^^^^^^^^^^^\n', '  File "/home/kocc/felev5/temalab/test/assets/test2.py", line 21, in readUnits\n    units.append(readUnitIn())\n                 ^^^^^^^^^^^^\n', '  File "/home/kocc/felev5/temalab/test/assets/test2.py", line 29, in readUnitIn\n    testPosWType = [int(testPosRaw[0]), int(testPosRaw[1]), testPosRaw[2].strip()]\n                    ^^^^^^^^^^^^^^^^^^\n', "ValueError: invalid literal for int() with base 10: 'TANK'\n"]

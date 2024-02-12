@@ -52,18 +52,18 @@ public class Unit {
 
 			//TODO: a steppabletyes beolvasása is lehetne a txtből
 			if(type == Unit.Type.TANK) {
-				sc = new Scanner(new File("tankStats.txt"));
+				sc = new Scanner(new File("desciptors/tankStats.txt"));
 				steppableTypes.add(Field.Type.GRASS);
         		steppableTypes.add(Field.Type.MARSH);
 			} else if(type == Unit.Type.INFANTRY) {
-				sc = new Scanner(new File("infantryStats.txt"));
+				sc = new Scanner(new File("desciptors/infantryStats.txt"));
 				steppableTypes.add(Field.Type.GRASS);
 				steppableTypes.add(Field.Type.MARSH);
 				steppableTypes.add(Field.Type.FOREST);
 				steppableTypes.add(Field.Type.WATER);
 				steppableTypes.add(Field.Type.BUILDING);
 			} else if(type == Unit.Type.SCOUT) {
-				sc = new Scanner(new File("scoutStats.txt"));
+				sc = new Scanner(new File("desciptors/scoutStats.txt"));
 				steppableTypes.add(Field.Type.GRASS);
         		steppableTypes.add(Field.Type.MARSH);
 			}

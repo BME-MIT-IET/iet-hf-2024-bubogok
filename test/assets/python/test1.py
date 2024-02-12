@@ -8,12 +8,11 @@ import sys
 import traceback
 import os
 
-
-logFile = open("log1.txt", "a")
+logFile = open(f"{os.getcwd()}/python/logs/log1.log", "a")
 logFile.truncate(0)
 
-if(os.path.isfile("example.log")):
-    os.remove("example.log")    
+if(os.path.isfile(f"{os.getcwd()}/python/logs/example.log")):
+    os.remove(f"{os.getcwd()}/python/logs/example.log")    
 
 def readUnits():
     units = []
@@ -24,6 +23,7 @@ def readUnits():
         log("writing for", i, ". time")
         units.append(readUnitIn())
         temp = input()
+    log("units read in")
     return units
 
 
@@ -80,7 +80,9 @@ def readUnitIn():
 
 def main():
     try:
+        log("im in tryadsasdfds")
         while True:
+            log("reading in")
             units = readUnits()
             #readUnitIn()
             log("past readunits")
@@ -98,6 +100,5 @@ def main():
 
 def log(*args, **kwargs):
     print(*args, **kwargs, file=logFile)
-
 
 main()

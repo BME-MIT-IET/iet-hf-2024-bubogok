@@ -33,8 +33,8 @@ public class Simu extends ApplicationAdapter {
 		m.addTeam(t2);
 		demoUnits();
 		demoCPs();
-		TL1 = new TeamLeader(t1, "test1.py");
-		TL2 = new TeamLeader(t2, "test2.py");
+		TL1 = new TeamLeader(t1, "python/test1.py");
+		TL2 = new TeamLeader(t2, "python/test2.py");
 		//TL1.registerUnit();
 	}
 

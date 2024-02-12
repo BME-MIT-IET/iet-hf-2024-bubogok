@@ -14,7 +14,27 @@ public class TeamLeader {
 	//maybe itt elkapni a pythonsos stderr-t is, és aszinkron kiírni
 	public TeamLeader(Team team, String fileName) {
 		this.team = team;
-		ProcessBuilder processBuilder = new ProcessBuilder("python3", fileName);
+
+
+
+		String text = null;
+		BufferedReader brTest;
+		try {
+			brTest = new BufferedReader(new FileReader(fileName));
+			text = brTest .readLine();
+			brTest.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+   		System.err.println("Firstline is : " + text);
+
+		String currDir = System.getProperty("user.dir");
+		System.err.println(currDir + '/' + fileName);
+
+
+		
+		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName);
 		Process process = null;
 		try {
 		process = processBuilder.start();

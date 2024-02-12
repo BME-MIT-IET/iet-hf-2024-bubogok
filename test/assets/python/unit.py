@@ -5,6 +5,7 @@ from field import Field
 
 import logging
 import time
+import os
 
 
 class Unit:
@@ -25,7 +26,7 @@ class Unit:
         for cp in seenControlPoints:
             self.seenControlPoints.append(ControlPoint(cp))
         self.team = team
-        logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+        logging.basicConfig(filename=f"{os.getcwd()}/python/logs/example.log", encoding='utf-8', level=logging.DEBUG)
 
     def testWriteOut(self):
         self.pos.out()
