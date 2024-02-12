@@ -73,7 +73,6 @@ public class Simu extends ApplicationAdapter {
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		init();
-
 		new Thread() {
 			public void run() {
 				while(true) {

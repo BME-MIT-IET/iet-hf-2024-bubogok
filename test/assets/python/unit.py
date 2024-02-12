@@ -7,6 +7,13 @@ import logging
 import time
 import os
 
+if(os.path.isfile(f"{os.getcwd()}/python/logs/red.log")):
+    os.remove(f"{os.getcwd()}/python/logs/red.log")
+if(os.path.isfile(f"{os.getcwd()}/python/logs/white.log")):
+    os.remove(f"{os.getcwd()}/python/logs/white.log")    
+
+runCounter = 0
+
 
 class Unit:
     def __init__(self, id, testType, testPosWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel,  team):
@@ -26,13 +33,20 @@ class Unit:
         for cp in seenControlPoints:
             self.seenControlPoints.append(ControlPoint(cp))
         self.team = team
-        logging.basicConfig(filename=f"{os.getcwd()}/python/logs/example.log", encoding='utf-8', level=logging.DEBUG)
+        if(team == "white"):
+            logging.basicConfig(filename=f"{os.getcwd()}/python/logs/white.log", encoding='utf-8', level=logging.DEBUG)
+        else:
+            logging.basicConfig(filename=f"{os.getcwd()}/python/logs/red.log", encoding='utf-8', level=logging.DEBUG)
+
 
     def testWriteOut(self):
         self.pos.out()
 
+
     def dummyMove(self):
-        logging.debug(f"starting------ {self.id}, {self.team}, {self.type}")
+        global runCounter
+        runCounter += 1
+        logging.debug(f"starting------ {self.id}, {self.team}, {self.type}, RUN:{runCounter}")
         logging.debug(f"current pos ={self.field.pos.val()}")
         neighbours = []
         for f in self.seenFields:

@@ -1,0 +1,136 @@
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:1
+DEBUG:root:current pos =(7, 8)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 7), (7, 8), BUILDING
+DEBUG:root:current n to check:(6, 8), (7, 8), BUILDING
+DEBUG:root:current n to check:(6, 9), (7, 8), GRASS
+DEBUG:root:1707760557974.5032
+DEBUG:root:sending this message: |move 25145 6 9|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:2
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760557981.282
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:3
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760559989.1362
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:4
+DEBUG:root:current pos =(7, 10)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 9), (7, 10), GRASS
+DEBUG:root:1707760559991.9558
+DEBUG:root:sending this message: |move 25145 6 9|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:5
+DEBUG:root:current pos =(7, 10)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 9), (7, 10), GRASS
+DEBUG:root:1707760562000.3252
+DEBUG:root:sending this message: |move 25145 6 9|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:6
+DEBUG:root:current pos =(7, 10)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 9), (7, 10), GRASS
+DEBUG:root:1707760562001.65
+DEBUG:root:sending this message: |move 25145 6 9|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:7
+DEBUG:root:current pos =(7, 10)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 9), (7, 10), GRASS
+DEBUG:root:1707760564011.5154
+DEBUG:root:sending this message: |move 25145 6 9|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:8
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760564014.379
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:9
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760566015.2703
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:10
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760566017.8123
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:11
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760568018.2104
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:12
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760568021.025
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:13
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760570020.781
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 25145, red, INFANTRY, RUN:14
+DEBUG:root:current pos =(6, 9)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(6, 8), (6, 9), BUILDING
+DEBUG:root:current n to check:(6, 10), (6, 9), WATER
+DEBUG:root:current n to check:(7, 8), (6, 9), MARSH
+DEBUG:root:current n to check:(7, 9), (6, 9), WATER
+DEBUG:root:current n to check:(7, 10), (6, 9), GRASS
+DEBUG:root:1707760570023.2798
+DEBUG:root:sending this message: |move 25145 7 10|
+DEBUG:root:end of iterating over neighbours

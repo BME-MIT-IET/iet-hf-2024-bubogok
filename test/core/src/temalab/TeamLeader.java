@@ -10,30 +10,12 @@ public class TeamLeader {
 	private Team team;
 	private Scanner sc;
 	private PrintWriter out;
+	private int runCounter = 0;
 
 	//maybe itt elkapni a pythonsos stderr-t is, és aszinkron kiírni
 	public TeamLeader(Team team, String fileName) {
 		this.team = team;
-
-
-
-		String text = null;
-		BufferedReader brTest;
-		try {
-			brTest = new BufferedReader(new FileReader(fileName));
-			text = brTest .readLine();
-			brTest.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-   		System.err.println("Firstline is : " + text);
-
 		String currDir = System.getProperty("user.dir");
-		System.err.println(currDir + '/' + fileName);
-
-
-		
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName);
 		Process process = null;
 		try {
@@ -81,7 +63,9 @@ public class TeamLeader {
 		System.err.println(team.getName() + " " + "ENDregistering");
 	}
 
+
 	public void communicate() {
+		System.err.println("RUN:" + runCounter++);
 		System.err.println(team.getName() + " " + "communicating");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value

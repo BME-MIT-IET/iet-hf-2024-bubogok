@@ -1,0 +1,112 @@
+DEBUG:root:starting------ 951154, white, TANK, RUN:1
+DEBUG:root:current pos =(4, 4)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(3, 3), (4, 4), GRASS
+DEBUG:root:1707760556958.0862
+DEBUG:root:sending this message: |move 951154 3 3|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:2
+DEBUG:root:current pos =(3, 3)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(2, 2), (3, 3), GRASS
+DEBUG:root:1707760556968.5486
+DEBUG:root:sending this message: |move 951154 2 2|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:3
+DEBUG:root:current pos =(3, 3)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(2, 2), (3, 3), GRASS
+DEBUG:root:1707760558982.29
+DEBUG:root:sending this message: |move 951154 2 2|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:4
+DEBUG:root:current pos =(2, 2)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(1, 1), (2, 2), GRASS
+DEBUG:root:1707760558982.825
+DEBUG:root:sending this message: |move 951154 1 1|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:5
+DEBUG:root:current pos =(2, 2)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(1, 1), (2, 2), GRASS
+DEBUG:root:1707760560992.105
+DEBUG:root:sending this message: |move 951154 1 1|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:6
+DEBUG:root:current pos =(2, 2)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(1, 1), (2, 2), GRASS
+DEBUG:root:1707760560993.874
+DEBUG:root:sending this message: |move 951154 1 1|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:7
+DEBUG:root:current pos =(2, 2)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(1, 1), (2, 2), GRASS
+DEBUG:root:1707760562999.394
+DEBUG:root:sending this message: |move 951154 1 1|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:8
+DEBUG:root:current pos =(1, 1)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(0, 0), (1, 1), GRASS
+DEBUG:root:1707760563008.8918
+DEBUG:root:sending this message: |move 951154 0 0|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:9
+DEBUG:root:current pos =(1, 1)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(0, 0), (1, 1), GRASS
+DEBUG:root:1707760565011.174
+DEBUG:root:sending this message: |move 951154 0 0|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:10
+DEBUG:root:current pos =(1, 1)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(0, 0), (1, 1), GRASS
+DEBUG:root:1707760565011.72
+DEBUG:root:sending this message: |move 951154 0 0|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:11
+DEBUG:root:current pos =(1, 1)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(0, 0), (1, 1), GRASS
+DEBUG:root:1707760567015.626
+DEBUG:root:sending this message: |move 951154 0 0|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:12
+DEBUG:root:current pos =(1, 1)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(0, 0), (1, 1), GRASS
+DEBUG:root:1707760567017.7573
+DEBUG:root:sending this message: |move 951154 0 0|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:13
+DEBUG:root:current pos =(1, 1)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(0, 0), (1, 1), GRASS
+DEBUG:root:1707760569017.4734
+DEBUG:root:sending this message: |move 951154 0 0|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:14
+DEBUG:root:current pos =(1, 1)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(0, 0), (1, 1), GRASS
+DEBUG:root:1707760569017.9456
+DEBUG:root:sending this message: |move 951154 0 0|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:15
+DEBUG:root:current pos =(1, 1)
+DEBUG:root:done interating over seenFields 8
+DEBUG:root:current n to check:(0, 0), (1, 1), GRASS
+DEBUG:root:1707760571021.6309
+DEBUG:root:sending this message: |move 951154 0 0|
+DEBUG:root:end of iterating over neighbours
+DEBUG:root:starting------ 951154, white, TANK, RUN:16
+DEBUG:root:current pos =(0, 0)
+DEBUG:root:done interating over seenFields 3
+DEBUG:root:current n to check:(0, 1), (0, 0), GRASS
+DEBUG:root:1707760571023.156
+DEBUG:root:sending this message: |move 951154 0 1|
+DEBUG:root:end of iterating over neighbours

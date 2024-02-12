@@ -7,12 +7,10 @@ import itertools
 import sys
 import traceback
 import os
+from datetime import datetime
 
 logFile = open(f"{os.getcwd()}/python/logs/log1.log", "a")
 logFile.truncate(0)
-
-if(os.path.isfile(f"{os.getcwd()}/python/logs/example.log")):
-    os.remove(f"{os.getcwd()}/python/logs/example.log")    
 
 def readUnits():
     units = []
@@ -79,8 +77,8 @@ def readUnitIn():
 
 
 def main():
+    log(f"log from:{datetime.now()}")
     try:
-        log("im in tryadsasdfds")
         while True:
             log("reading in")
             units = readUnits()
