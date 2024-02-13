@@ -87,6 +87,7 @@ def main():
             log(units)
             log("past unitwrite")
             units[0].dummyMove()
+            _units = readUnits()
             print("endTurn")
             log("FULL CIRCLE")
     except Exception as err:

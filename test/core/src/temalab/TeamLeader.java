@@ -65,7 +65,7 @@ public class TeamLeader {
 
 
 	public void communicate() {
-		System.err.println("RUN:" + runCounter++);
+		System.err.println( team.getName() + "RUN:" + runCounter++);
 		System.err.println(team.getName() + " " + "communicating");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
@@ -73,8 +73,6 @@ public class TeamLeader {
 		team.updateUnits();
 		out.println(team.units().size());
 		out.println(team.teamMembersToString(false).toString());
-		// System.err.println(team.units().size());
-		// System.err.println(team.teamMembersToString(false).toString());
 		if(!sc.hasNext()) {
 			System.err.println("SZAR1");
 			return;
