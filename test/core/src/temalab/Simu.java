@@ -3,6 +3,7 @@ package temalab;
 import java.util.ArrayList;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -34,7 +35,7 @@ public class Simu extends ApplicationAdapter {
 		demoUnits();
 		demoCPs();
 		TL1 = new TeamLeader(t1, "python/test1.py");
-		TL2 = new TeamLeader(t2, "python/test2.py");
+		TL2 = new TeamLeader(t2, "python/test1.py");
 		//TL1.registerUnit();
 	}
 
@@ -122,21 +123,18 @@ public class Simu extends ApplicationAdapter {
 		shapeRenderer.flush();
 		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
 
-
-		
-		
 		batch.begin();
 		ArrayList<String> t1Monitor = t1.teamMembersToString(true);
 		ArrayList<String> t2Monitor = t2.teamMembersToString(true);
 		int offset = 990;
 		for(var s : t1Monitor) {
 			font.draw(batch, s, 1200, offset);
-			offset -= 100;
+			offset -= 120;
 		}
 		offset = 990;
 		for(var s : t2Monitor) {
 			font.draw(batch, s, 1400, offset);
-			offset -= 100; 
+			offset -= 120; 
 		}
 		batch.end();
 
@@ -149,6 +147,8 @@ public class Simu extends ApplicationAdapter {
 			TL2.endSimu(false);
 			dispose();
 		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.S)) dispose();
 	}
 	
 	@Override
@@ -156,6 +156,8 @@ public class Simu extends ApplicationAdapter {
 		shapeRenderer.dispose();
 		batch.dispose();
 		font.dispose();
+		TL1.closeThread();
+		TL2.closeThread();
 		System.exit(0);
 	}
 }

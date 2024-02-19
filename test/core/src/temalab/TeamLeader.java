@@ -1,7 +1,8 @@
 package temalab;
 
-import java.util.Date;
 import java.util.Scanner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.io.*;
 
 public class TeamLeader {
@@ -11,17 +12,17 @@ public class TeamLeader {
 	private Scanner sc;
 	private PrintWriter out;
 	private int runCounter = 0;
+	Thread errorThread;
+	Process process;
 
-	//maybe itt elkapni a pythonsos stderr-t is, és aszinkron kiírni
 	public TeamLeader(Team team, String fileName) {
 		this.team = team;
 		String currDir = System.getProperty("user.dir");
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName);
-		Process process = null;
 		try {
-		process = processBuilder.start();
+			process = processBuilder.start();
 		} catch (IOException e) {
-		throw new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
 		outputStream = process.getOutputStream();
 		inputStream = process.getInputStream();
@@ -29,6 +30,22 @@ public class TeamLeader {
 		// inputStream = System.in;
 		sc = new Scanner(inputStream);
 		out = new PrintWriter(new OutputStreamWriter(outputStream), true);
+		BufferedReader erroReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+		errorThread = new Thread(() -> {
+			while(true) {
+				try {
+					// System.err.println("ascii:" + erroReader.lines());
+					// String actualError = null;
+					// actualError = erroReader.lines().collect(Collectors.joining());
+					// System.err.println("valami jön: " + actualError);
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		errorThread.start();
+		out.println(team.getName());
 	}
 
 	public void registerUnit() {
@@ -65,7 +82,7 @@ public class TeamLeader {
 
 
 	public void communicate() {
-		System.err.println( team.getName() + "RUN:" + runCounter++);
+		System.err.println( team.getName() + "RUN:" + ++runCounter);
 		System.err.println(team.getName() + " " + "communicating");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
@@ -78,8 +95,6 @@ public class TeamLeader {
 			return;
 		}
 		String answer = sc.nextLine();
-		Date date = new Date();
-		System.err.println(date.getTime());
 		System.err.println("pytohnból jött:" + answer);
 		String[] split = answer.split(" ");
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
@@ -124,6 +139,16 @@ public class TeamLeader {
 		//TODO: ez itt így hagy kívánni valót maga után
 		out.println(team.getName() +  " " + win);
 		out.close();
+	}
+
+	public void closeThread() {
+		process.destroy();
+		// try {
+		// 	errorThread.join();
+		// } catch (InterruptedException e) {
+		// 	// TODO Auto-generated catch block
+		// 	e.printStackTrace();
+		// }
 	}
 
 	public Team getTeam() {
