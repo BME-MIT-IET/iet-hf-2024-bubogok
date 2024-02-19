@@ -2,10 +2,12 @@ from pos import Pos
 from controlPoint import ControlPoint
 from unitView import UnitView
 from field import Field
+import logger
 
 import logging
 import time
 import os
+from datetime import datetime
 
 if(os.path.isfile(f"{os.getcwd()}/python/logs/red.log")):
     os.remove(f"{os.getcwd()}/python/logs/red.log")
@@ -33,10 +35,9 @@ class Unit:
         for cp in seenControlPoints:
             self.seenControlPoints.append(ControlPoint(cp))
         self.team = team
-        if(team == "white"):
-            logging.basicConfig(filename=f"{os.getcwd()}/python/logs/white.log", encoding='utf-8', level=logging.DEBUG)
-        else:
-            logging.basicConfig(filename=f"{os.getcwd()}/python/logs/red.log", encoding='utf-8', level=logging.DEBUG)
+        descriptorFile = open(f"{os.getcwd()}/desciptors/{self.type}.txt")
+        global unitLogger
+        unitLogger = logger.loggerMaker("unit", f"{os.getcwd()}/python/logs/{self.id}{self.team}{self.type}.log")
 
 
     def testWriteOut(self):
@@ -46,20 +47,23 @@ class Unit:
     def dummyMove(self):
         global runCounter
         runCounter += 1
-        logging.debug(f"starting------ {self.id}, {self.team}, {self.type}, RUN:{runCounter}")
-        logging.debug(f"current pos ={self.field.pos.val()}")
+        unitLogger.debug(f"starting------ {self.id}, {self.team}, {self.type}, RUN:{runCounter}")
+        unitLogger.debug(f"current pos ={self.field.pos.val()}")
         neighbours = []
         for f in self.seenFields:
-            #logging.debug(f"f: {f.pos.val()}, self: {self.field.val()}")
+            #unitLogger.debug(f"f: {f.pos.val()}, self: {self.field.val()}")
             if abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1:
-                #logging.debug("adding new neightbour")
+                #unitLogger.debug("adding new neightbour")
                 neighbours.append(f)
-        logging.debug(f"done interating over seenFields {len(neighbours)}")
+        unitLogger.debug(f"done interating over seenFields {len(neighbours)}")
         for n in neighbours:
-            logging.debug(f"current n to check:{n.val()}, {self.field.val()}, {n.type}")
+            unitLogger.debug(f"current n to check:{n.val()}, {self.field.val()}, {n.type}")
             if n.type == "GRASS" and n.pos != self.field.pos:
-                logging.debug(f"{time.time() * 1000}")
+                unitLogger.debug(f"{time.time() * 1000}")
                 print("move", self.id, n.pos.x, n.pos.y)
-                logging.debug(f"sending this message: |move {self.id} {n.pos.x} {n.pos.y}|")
+                unitLogger.debug(f"sending this message: |move {self.id} {n.pos.x} {n.pos.y}|")
                 break
-        logging.debug("end of iterating over neighbours")
+        unitLogger.debug("end of iterating over neighbours")
+
+    def heuristicMove(self):
+        pass

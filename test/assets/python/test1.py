@@ -1,8 +1,10 @@
 from typing import List
 from unit import Unit
 from pos import Pos
+import logger
 
 import numpy as np
+import logging
 import itertools
 import sys
 import traceback
@@ -11,19 +13,22 @@ from datetime import datetime
 
 
 team = input()
-logFile = open(f"{os.getcwd()}/python/logs/{team}leader.log", "a")
-logFile.truncate(0)
+
+if(os.path.isfile(f"{os.getcwd()}/python/logs/{team}leader.log")):
+    os.remove(f"{os.getcwd()}/python/logs/{team}leader.log")
+#leaderLogger = logging.basicConfig(filename=f"{os.getcwd()}/python/logs/{team}leader.log", encoding='utf-8', level=logging.DEBUG)
+leaderLogger = logger.loggerMaker("leader", f"{os.getcwd()}/python/logs/{team}leader.log", )
 
 def readUnits():
     units = []
     numma = int(input())
-    log("in readunits, numma = ", numma)
+    leaderLogger.debug(f"in readunits, numma = {numma}")
     temp = input()
     for i in range(numma):
-        log("writing for", i, ". time")
+        leaderLogger.debug(f"writing for {i}. time")
         units.append(readUnitIn())
         temp = input()
-    log("units read in")
+    leaderLogger.debug(f"units read in")
     return units
 
 
@@ -74,33 +79,27 @@ def readUnitIn():
     testfuel = int(input())
     testActionPoints = int(input())
     testteam = input()
-    log("unit with id:", testID, "was created and added for", testteam)
+    leaderLogger.debug(f"unit with id: {testID} was created and added for {testteam}")
     return Unit(testID, testType, testPosWType, testseenFields, testseenUnits, testseenControlPoints, testhealth, testammo, testfuel, testteam)
 
 
 def main():
-    log(f"log from:{datetime.now()}")
+    leaderLogger.debug(f"log from:{datetime.now()}")
     try:
         while True:
-            log("reading in")
+            leaderLogger.debug(f"reading in")
             units = readUnits()
-            print("teszt hiba", file=sys.stderr)
             #readUnitIn()
-            log("past readunits")
-            log(units)
-            log("past unitwrite")
+            leaderLogger.debug(f"past readunits")
+            leaderLogger.debug(units)
+            leaderLogger.debug(f"past unitwrite")
             units[0].dummyMove()
             units = readUnits()
             print("endTurn")
-            log("FULL CIRCLE")
+            leaderLogger.debug(f"FULL CIRCLE")
     except Exception as err:
-        log(f"valami rák, {err=}, {type(err)=}")
-        log(traceback.format_exception(err))
+        leaderLogger.debug(f"valami rák, {err=}, {type(err)=}")
+        leaderLogger.debug(traceback.format_exception(err))
         #raise
-    finally:
-        logFile.close()
-
-def log(*args, **kwargs):
-    print(*args, **kwargs, file=logFile)
 
 main()
