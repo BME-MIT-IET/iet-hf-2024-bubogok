@@ -9,7 +9,9 @@ import traceback
 import os
 from datetime import datetime
 
-logFile = open(f"{os.getcwd()}/python/logs/log1.log", "a")
+
+team = input()
+logFile = open(f"{os.getcwd()}/python/logs/{team}leader.log", "a")
 logFile.truncate(0)
 
 def readUnits():
@@ -82,12 +84,13 @@ def main():
         while True:
             log("reading in")
             units = readUnits()
+            print("teszt hiba", file=sys.stderr)
             #readUnitIn()
             log("past readunits")
             log(units)
             log("past unitwrite")
             units[0].dummyMove()
-            _units = readUnits()
+            units = readUnits()
             print("endTurn")
             log("FULL CIRCLE")
     except Exception as err:
