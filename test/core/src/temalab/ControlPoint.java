@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class ControlPoint {
     private Position pos;
     private int size;
     private int percentage;
     private ControlPointListener listener;
+    private Team controlTeam;
 
     public ControlPoint(Position p, int percentage, int size) {
         pos = p;
@@ -28,28 +31,34 @@ public class ControlPoint {
                 } else {
                     unitCount.put(u.team(), 1);
                 }
-            }
+            } //eddig csak megszámoltuk, hogy melyik csapathoz hány egység tartozik
+
             int max = Integer.MIN_VALUE;
-            Team maxTeam = null;
             Set<java.util.Map.Entry<Team, Integer>> entries = unitCount.entrySet();
             for (Entry<Team, Integer> entry : entries) {
                 if (entry.getValue() > max) {
                     max = entry.getValue();
-                    maxTeam = entry.getKey();
+                    controlTeam = entry.getKey();
                 }
-                if (entry.getValue() == max && entry.getKey() != maxTeam) {
+                if (entry.getValue() == max && entry.getKey() != controlTeam) {
                     twoTeams = true;
                 }
-            }
-            if (!twoTeams && maxTeam != null) {
+            } // megnézzük, hogy melyik csapathoz tartozik a ControlPoint
+
+            if (!twoTeams && controlTeam != null) {
                 if(listener != null) {
-                    listener.onColorChange(maxTeam.getColor());
-                }
+                    listener.onColorChange(controlTeam.getColor());
+                } //színállítás
                 for (var u : seenUnits) {
-                    if (u.team() == maxTeam) {
+                    if (u.team() == controlTeam) {
                         u.updateSelf(percentage);
                     }
-                }
+                } //controlTeam healelése
+            }
+        } else {
+            if(listener != null) {
+                listener.onColorChange(Color.CYAN);
+                controlTeam = null;
             }
         }
     }
