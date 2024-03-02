@@ -8,11 +8,12 @@ import logging
 import time
 import os
 from datetime import datetime
+  
 
-if(os.path.isfile(f"{os.getcwd()}/python/logs/red.log")):
-    os.remove(f"{os.getcwd()}/python/logs/red.log")
-if(os.path.isfile(f"{os.getcwd()}/python/logs/white.log")):
-    os.remove(f"{os.getcwd()}/python/logs/white.log")    
+files = os.listdir(f"{os.getcwd()}/python/logs")
+for file in files:
+    os.remove(f"{os.getcwd()}/python/logs/{file}")
+
 
 runCounter = 0
 
@@ -67,3 +68,5 @@ class Unit:
 
     def heuristicMove(self):
         pass
+
+
