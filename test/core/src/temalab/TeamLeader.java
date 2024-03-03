@@ -32,17 +32,7 @@ public class TeamLeader {
 		out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		BufferedReader erroReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		errorThread = new Thread(() -> {
-			while(true) {
-				try {
-					// System.err.println("ascii:" + erroReader.lines());
-					// String actualError = null;
-					// actualError = erroReader.lines().collect(Collectors.joining());
-					// System.err.println("valami jön: " + actualError);
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
+			erroReader.lines().forEach(s -> System.err.println("debug from " + team.getName() + " : " + s));
 		});
 		errorThread.start();
 		out.println(team.getName());
@@ -76,14 +66,13 @@ public class TeamLeader {
 			answer = sc.nextLine();
 			split = answer.split(" ");
 		}
-		out.close();
 		System.err.println(team.getName() + " " + "ENDregistering");
 	}
 
 
 	public void communicate() {
-		System.err.println( team.getName() + "RUN:" + ++runCounter);
-		System.err.println(team.getName() + " " + "communicating");
+		System.err.println("ERR " + team.getName() + "RUN:" + ++runCounter);
+		System.err.println("ERR " + team.getName() + " " + "communicating");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
 		team.refillActionPoints();
@@ -91,11 +80,11 @@ public class TeamLeader {
 		out.println(team.units().size());
 		out.println(team.teamMembersToString(false).toString());
 		if(!sc.hasNext()) {
-			System.err.println("SZAR1");
+			System.err.println("ERR SZAR1");
 			return;
 		}
 		String answer = sc.nextLine();
-		System.err.println("pytohnból jött:" + answer);
+		System.err.println("ERR pytohnból jött:" + answer);
 		String[] split = answer.split(" ");
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
 			switch (split[0]) {
@@ -118,21 +107,21 @@ public class TeamLeader {
 				}
 					break;
 				default:
-					System.err.println("message starting with: " + split[0] + " could not be interpreted");
+					System.err.println("ERR message starting with: " + split[0] + " could not be interpreted");
 					break loop;
 			}
 			team.updateUnits();
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
 			if(!sc.hasNext()) {
-				System.err.println("SZAR2");
+				System.err.println("ERR SZAR2");
 				return;
 			}
 			answer = sc.nextLine();
-			System.err.println("pytohnból jött:" + answer);
+			System.err.println("ERR pytohnból jött:" + answer);
 			split = answer.split(" ");
 		}
-		System.err.println("ENDcommunicating");
+		System.err.println("ERR ENDcommunicating");
 	}
 
 	public void endSimu(boolean win) {
