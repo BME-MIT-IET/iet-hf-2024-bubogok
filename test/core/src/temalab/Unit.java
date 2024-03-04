@@ -50,22 +50,12 @@ public class Unit {
 		this.type = type;
         try {
 
-			//TODO: a steppabletyes beolvasása is lehetne a txtből
 			if(type == Unit.Type.TANK) {
-				sc = new Scanner(new File("desciptors/tankStats.txt"));
-				steppableTypes.add(Field.Type.GRASS);
-        		steppableTypes.add(Field.Type.MARSH);
+				sc = new Scanner(new File("desciptors/TANK.txt"));
 			} else if(type == Unit.Type.INFANTRY) {
-				sc = new Scanner(new File("desciptors/infantryStats.txt"));
-				steppableTypes.add(Field.Type.GRASS);
-				steppableTypes.add(Field.Type.MARSH);
-				steppableTypes.add(Field.Type.FOREST);
-				steppableTypes.add(Field.Type.WATER);
-				steppableTypes.add(Field.Type.BUILDING);
+				sc = new Scanner(new File("desciptors/INFANTRY.txt"));
 			} else if(type == Unit.Type.SCOUT) {
-				sc = new Scanner(new File("desciptors/scoutStats.txt"));
-				steppableTypes.add(Field.Type.GRASS);
-        		steppableTypes.add(Field.Type.MARSH);
+				sc = new Scanner(new File("desciptors/SCOUT.txt"));
 			}
             while(sc.hasNextLine()) {
                 maxHealth = Integer.parseInt(sc.nextLine());
@@ -77,7 +67,12 @@ public class Unit {
                 consumption = Integer.parseInt(sc.nextLine());
                 maxActionPoints = Integer.parseInt(sc.nextLine());
                 price = Integer.parseInt(sc.nextLine());
+				int dummy = Integer.parseInt(sc.nextLine());
+				break;
             }
+			while(sc.hasNextLine()) {
+				steppableTypes.add(Field.Type.valueOf(sc.nextLine()));
+			}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,14 +85,15 @@ public class Unit {
 	public void move(Field dest) {
 		System.err.println("moveba azért belépünk: curr: " +  field.pos().toString() + " dest: " + dest.pos().toString());
 		if(fuel - consumption >= 0 && actionPoints > 0 && field.isNeighbouring(dest)) {
-			System.out.println("elso");
+			System.err.println("elso");
 			if(steppableTypes.contains(dest.getType())) {
-				System.out.println("2");
+				System.err.println("2");
 				if(dest.arrive(this)) {
-					System.out.println("3");
+					System.err.println("3");
 					field.leave();
 					field = dest;
 					fuel -= consumption;
+					//System.err.println(type + " " + consumption + " " + fuel);
 					actionPoints--;
 				}
 			}
@@ -202,6 +198,7 @@ public class Unit {
 	public String toString(boolean toMonitor) {
 		if(toMonitor) {
 			return "ID: " + ID + "\n"
+			+ "Type: " + type.toString() + "\n"
 			+ "Pos: " + field.pos().toString() + "\n"
 			+ "Health: " + health  + "/" + maxHealth + "\n"
 			+ "Ammo: " + ammo  + "/" + maxAmmo + "\n"

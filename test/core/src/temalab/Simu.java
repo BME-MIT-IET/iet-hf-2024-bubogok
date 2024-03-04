@@ -148,7 +148,7 @@ public class Simu extends ApplicationAdapter {
 			dispose();
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) dispose();
+		if(Gdx.input.isKeyPressed(Input.Keys.Q)) dispose();
 	}
 	
 	@Override
