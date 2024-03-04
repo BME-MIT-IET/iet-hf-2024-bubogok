@@ -1,8 +1,6 @@
 package temalab;
 
 import java.util.Scanner;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.io.*;
 
 public class TeamLeader {
@@ -32,7 +30,12 @@ public class TeamLeader {
 		out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		BufferedReader erroReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		errorThread = new Thread(() -> {
-			erroReader.lines().forEach(s -> System.err.println("debug from " + team.getName() + " : " + s));
+			var color = team.getName();
+			if(color == "white") {
+				erroReader.lines().forEach(s -> System.err.println("\033[47;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
+			} else if(color == "red") {
+				erroReader.lines().forEach(s -> System.err.println("\033[41;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
+			}
 		});
 		errorThread.start();
 		out.println(team.getName());
@@ -71,8 +74,8 @@ public class TeamLeader {
 
 
 	public void communicate() {
-		System.err.println("ERR " + team.getName() + "RUN:" + ++runCounter);
-		System.err.println("ERR " + team.getName() + " " + "communicating");
+		System.err.println(team.getName() + "RUN:" + ++runCounter);
+		System.err.println(team.getName() + " " + "communicating");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
 		team.refillActionPoints();
@@ -80,11 +83,11 @@ public class TeamLeader {
 		out.println(team.units().size());
 		out.println(team.teamMembersToString(false).toString());
 		if(!sc.hasNext()) {
-			System.err.println("ERR SZAR1");
+			System.err.println("SZAR1");
 			return;
 		}
 		String answer = sc.nextLine();
-		System.err.println("ERR pytohnból jött:" + answer);
+		System.err.println("pytohnból jött:" + answer);
 		String[] split = answer.split(" ");
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
 			switch (split[0]) {
@@ -107,21 +110,21 @@ public class TeamLeader {
 				}
 					break;
 				default:
-					System.err.println("ERR message starting with: " + split[0] + " could not be interpreted");
+					System.err.println("message starting with: " + split[0] + " could not be interpreted");
 					break loop;
 			}
 			team.updateUnits();
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
 			if(!sc.hasNext()) {
-				System.err.println("ERR SZAR2");
+				System.err.println("SZAR2");
 				return;
 			}
 			answer = sc.nextLine();
-			System.err.println("ERR pytohnból jött:" + answer);
+			System.err.println("pytohnból jött:" + answer);
 			split = answer.split(" ");
 		}
-		System.err.println("ERR ENDcommunicating");
+		System.err.println("ENDcommunicating");
 	}
 
 	public void endSimu(boolean win) {
@@ -132,12 +135,12 @@ public class TeamLeader {
 
 	public void closeThread() {
 		process.destroy();
-		// try {
-		// 	errorThread.join();
-		// } catch (InterruptedException e) {
-		// 	// TODO Auto-generated catch block
-		// 	e.printStackTrace();
-		// }
+		try {
+			errorThread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public Team getTeam() {

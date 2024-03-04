@@ -1,35 +1,30 @@
 from typing import List
 from unit import Unit
 from pos import Pos
-import logger
+from logger import *
 
-import numpy as np
-import logging
-import itertools
 import sys
 import traceback
 import os
 from datetime import datetime
 
-
 team = input()
 
-if(os.path.isfile(f"{os.getcwd()}/python/logs/{team}leader.log")):
-    os.remove(f"{os.getcwd()}/python/logs/{team}leader.log")
-#leaderLogger = logging.basicConfig(filename=f"{os.getcwd()}/python/logs/{team}leader.log", encoding='utf-8', level=logging.DEBUG)
-leaderLogger = logger.loggerMaker("leader", f"{os.getcwd()}/python/logs/{team}leader.log", )
+units = []
 
 def readUnits():
-    units = []
-    numma = int(input())
-    leaderLogger.debug(f"in readunits, numma = {numma}")
+    debug_print("asdf")
+    numma = input()
+    debug_print(numma)
+    numma = int(numma)
+    ##numma = int(input())
+    debug_print(f"in readunits, numma = {numma}")
     temp = input()
     for i in range(numma):
-        leaderLogger.debug(f"writing for {i}. time")
+        debug_print(f"writing for {i}. time")
         units.append(readUnitIn())
         temp = input()
-    leaderLogger.debug(f"units read in")
-    return units
+    debug_print(f"units read in")
 
 
 def readUnitIn():    
@@ -79,27 +74,71 @@ def readUnitIn():
     testfuel = int(input())
     testActionPoints = int(input())
     testteam = input()
-    leaderLogger.debug(f"unit with id: {testID} was created and added for {testteam}")
+    debug_print(f"unit with id: {testID} was created and added for {testteam}")
     return Unit(testID, testType, testPosWType, testseenFields, testseenUnits, testseenControlPoints, testhealth, testammo, testfuel, testteam)
 
+def updateUnits():
+    numma = int(input())
+    debug_print(f"in updateUnits, numma = {numma}")
+    temp = input()
+    for i in range(numma):
+        debug_print(f"writing for {i}. time")
+        updateID = int(input())
+        for u in units:
+            if u.id == updateID:
+                u.update()
+
+        temp = input()
+    debug_print(f"units updated")
+
+def noop():
+    pass
 
 def main():
-    leaderLogger.debug(f"log from:{datetime.now()}")
+    print("hello from python", file=sys.stderr)
+    debug_print(f"log from:{datetime.now()}")
     try:
+        debug_print(f"reading in")
+        readUnits()
+        debug_print(f"past readunits")
+        debug_print(units)
+        debug_print(f"past unitwrite")
+        print("endTurn")
         while True:
-            leaderLogger.debug(f"reading in")
-            units = readUnits()
-            #readUnitIn()
-            leaderLogger.debug(f"past readunits")
-            leaderLogger.debug(units)
-            leaderLogger.debug(f"past unitwrite")
+            updateUnits()
             units[0].dummyMove()
-            units = readUnits()
+            updateUnits()
             print("endTurn")
-            leaderLogger.debug(f"FULL CIRCLE")
+            debug_print(f"FULL CIRCLE")
     except Exception as err:
-        leaderLogger.debug(f"valami rák, {err=}, {type(err)=}")
-        leaderLogger.debug(traceback.format_exception(err))
+        debug_print(f"valami rák, {err=}, {type(err)=}")
+        debug_print(traceback.format_exception(err))
         #raise
+
+
+
+# def tracefunc(frame, event, arg, indent=[0]):
+#       if event == "call":
+#           indent[0] += 2
+#           print("-" * indent[0] + "> call function", frame.f_code.co_name, file=sys.stderr)
+#       elif event == "return":
+#           print("<" + "-" * indent[0], "exit function", frame.f_code.co_name, file=sys.stderr)
+#           indent[0] -= 2
+#       return tracefunc
+
+# sys.setprofile(tracefunc)
+
+# main()
+    
+
+# tracer = trace.Trace(ignoredirs=[sys.prefix, sys.exec_prefix], trace=0, count=0, countfuncs=1)
+# tracer.run('main()')
+
+
+
+    
+# sys.settrace(debug_print)
+# sys.setprofile('call')
+# sys.call_tracing(main, ())
 
 main()
