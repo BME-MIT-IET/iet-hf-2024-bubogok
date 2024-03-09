@@ -2,22 +2,19 @@ from pos import Pos
 from controlPoint import ControlPoint
 from unitView import UnitView
 from field import Field
-from logger import *
+from logger import debug_print
 
 import time
 import os
 from datetime import datetime
 
-
-
 runCounter = 0
 
-
 class Unit:
-    def __init__(self, id, testType, testPosWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel,  team):
+    def __init__(self, id, tipus, posWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel, actionPoints, team):
         self.id = id
-        self.type = testType
-        self.field = Field(testPosWType)
+        self.type = tipus
+        self.field = Field(posWType)
         self.health = health
         self.ammo = ammo
         self.fuel = fuel
@@ -30,6 +27,7 @@ class Unit:
         self.seenControlPoints = []
         for cp in seenControlPoints:
             self.seenControlPoints.append(ControlPoint(cp))
+        self.actionPoints = actionPoints
         self.team = team
         descriptorFile = open(f"{os.getcwd()}/desciptors/{self.type}.txt", "r")
         self.maxHealth = int(descriptorFile.readline())
@@ -49,53 +47,22 @@ class Unit:
         debug_print(f"{self.id}, {self.type}, {self.steppables}")
         descriptorFile.close()
 
-    def update(self):
-        dummy = input() #type
-        testPosRaw = input().split(" ")
-        testPosWType = [int(testPosRaw[0]), int(testPosRaw[1]), testPosRaw[2].strip()]
-
-        #fields
-        xd = input()
-        tris = xd.replace("[", "").replace("]", "")
-        sublists = tris.split(",")
+    def update(self, posWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel, actionPoints):
+        self.field = Field(posWType)
         self.seenFields = []
-        for sublist in sublists:
-            sublist = sublist.strip()
-            elements = sublist.split(" ")
-            self.seenFields.append(Field([int(elements[0]), int(elements[1]), elements[2].strip()]))
-        #/fields
-
-
-        #seenUnits
-        xd = input()
-        tris = xd.replace("[", "").replace("]", "")
-        sublists = tris.split(",")
+        for f in seenFields:
+            self.seenFields.append(Field(f))
         self.seenUnits = []
-        for sublist in sublists:
-            sublist = sublist.strip()
-            elements = sublist.split(" ")
-            self.seenUnits.append(UnitView([int(elements[0]), int(elements[1]), elements[2].strip(), elements[3].strip()]))
-        #/seenUnits
-
-        
-        #controlPoints
-        xd = input()
-        xd = xd[1:-1]
-        lists = xd.split(",")
-        lists = [list_item.strip() for list_item in lists]
+        for u in seenUnits:
+            self.seenUnits.append(UnitView(u))
         self.seenControlPoints = []
-        for list_item in lists:
-            numbers = [int(num) for num in list_item.split()]
-            self.seenControlPoints.append(ControlPoint(numbers))
-        #/controlPoints
-
-
-        self.health = int(input())
-        self.ammo = int(input())
-        self.fuel = int(input())
-        self.ActionPoints = int(input())
-        dummy = input() #team
-
+        for cp in seenControlPoints:
+            self.seenControlPoints.append(ControlPoint(cp))
+        self.health = health
+        self.ammo = ammo
+        self.fuel = fuel
+        self.actionPoints = actionPoints
+        
 
 
 
@@ -118,7 +85,6 @@ class Unit:
         for n in neighbours:
             debug_print(f"current n to check:{n.val()}, {self.field.val()}, {n.type}")
             if n.type == "GRASS" and n.pos != self.field.pos:
-                debug_print(f"{time.time() * 1000}")
                 print("move", self.id, n.pos.x, n.pos.y)
                 debug_print(f"sending this message: |move {self.id} {n.pos.x} {n.pos.y}|")
                 break
@@ -155,5 +121,24 @@ class Unit:
             adjacentFields = []
 
             for f in self.seenFields:
-                if abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1 and f.type :
+                if abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1 and f.type in self.steppables:
+                    f.parent = current
                     adjacentFields.append(f)
+
+            for a in adjacentFields:
+
+                for c in closedList:
+                    if a == c:
+                        continue
+
+
+                a.g = current.g + 1
+                a.h = ((a.pos[0] - dest.pos[0]) ** 2) + ((a.pos[1] - dest.pos[1])**2)
+                a.f = a.g + a.h
+
+                for o in openList:
+                    if a == o and a.g > o.g:
+                        continue
+
+                openList.append(a)
+
