@@ -74,8 +74,8 @@ public class TeamLeader {
 
 
 	public void communicate() {
-		System.err.println(team.getName() + "RUN:" + ++runCounter);
-		System.err.println(team.getName() + " " + "communicating");
+		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + ++runCounter + "\033[0m");
+		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
 		team.refillActionPoints();
@@ -83,11 +83,11 @@ public class TeamLeader {
 		out.println(team.units().size());
 		out.println(team.teamMembersToString(false).toString());
 		if(!sc.hasNext()) {
-			System.err.println("SZAR1");
+			System.err.println("\033[0;35mdebug from " + "SZAR1" + "\033[0m");
 			return;
 		}
 		String answer = sc.nextLine();
-		System.err.println("pytohnból jött:" + answer);
+		System.err.println("\033[0;35mdebug from " + "pytohnból jött:" + answer + "\033[0m");
 		String[] split = answer.split(" ");
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
 			switch (split[0]) {
@@ -110,21 +110,21 @@ public class TeamLeader {
 				}
 					break;
 				default:
-					System.err.println("message starting with: " + split[0] + " could not be interpreted");
+					System.err.println("\033[0;35mdebug from " + "message starting with: " + split[0] + " could not be interpreted" + "\033[0m");
 					break loop;
 			}
 			team.updateUnits();
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
 			if(!sc.hasNext()) {
-				System.err.println("SZAR2");
+				System.err.println("\033[0;35mdebug from " + "SZAR2" + "\033[0m");
 				return;
 			}
 			answer = sc.nextLine();
-			System.err.println("pytohnból jött:" + answer);
+			System.err.println("\033[0;35mdebug from " + "pytohnból jött:" + answer + "\033[0m");
 			split = answer.split(" ");
 		}
-		System.err.println("ENDcommunicating");
+		System.err.println("\033[0;35mdebug from " + "ENDcommunicating" + "\033[0m");
 	}
 
 	public void endSimu(boolean win) {
