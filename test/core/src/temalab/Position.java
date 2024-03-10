@@ -28,7 +28,7 @@ public final class Position {
 	public Vector2 screenCoords() {
 		float size = Map.instance().squareSize();
 		float udc = Map.instance().universalDistanceConstant();
-		return new Vector2((udc * size + udc * x * size), (udc * size + udc * y * size));
+		return new Vector2((udc * size + udc * x * size)-size/2, (udc * size + udc * y * size)-size/2);
 	}
 
 	public boolean inDistance(Position p2, float rov) {
