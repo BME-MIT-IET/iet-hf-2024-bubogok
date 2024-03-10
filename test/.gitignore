@@ -6,8 +6,8 @@
 hs_err_pid*
 *.log
 ## pychache
-/assets/python/__pycache__/
-/desktop/bin/main/python/__pycache__/
+assets/python/__pycache__/
+desktop/bin/main/python/__pycache__/
 
 ## Robovm
 /ios/robovm-build/
