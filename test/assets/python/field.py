@@ -1,17 +1,14 @@
 from pos import Pos
 class Field:
-    def __init__(self, params, parent=None):
+    def __init__(self, params):
         self.pos = Pos(params[:2])
         self.type = params[2]
 
-        self.parent = parent
+        self.parent = None
         self.g = 0
         self.h = 0
         self.f = 0
     
-    def val(self):
-        return self.pos.val()
-
     def getPos(self):
         return self.pos.val()
 

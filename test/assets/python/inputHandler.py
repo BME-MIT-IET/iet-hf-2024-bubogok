@@ -73,7 +73,6 @@ def updateUnits(units):
     numma = int(input())
     debug_print(f"updating {numma} units")
     starterBrakets = input()
-
     for i in range(numma):
         # TODO: this is still fucking ungly
         data = readUnitIn()

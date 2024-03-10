@@ -5,6 +5,7 @@ from field import Field
 from logger import debug_print
 
 import time
+import math
 import os
 from datetime import datetime
 
@@ -91,54 +92,76 @@ class Unit:
         debug_print("end of iterating over neighbours")
 
     def heuristicMove(self):
-        pass
+        global runCounter
+        runCounter += 1
+        debug_print(f"starting------ {self.id}, {self.team}, {self.type}, RUN:{runCounter}")
+        debug_print(f"current pos ={self.field.pos.val()}")
+        path = self.astar(self.seenControlPoints[0])
+        if(path is None):
+            print("move", self.id, self.field.pos.x, self.field.pos.y)
+        elif(len(path) == 1):
+            print("move", self.id, path[0].pos.x, path[0].pos.y)
+        else:
+            print("move", self.id, path[-2].pos.x, path[-2].pos.y)
 
-    def astar(dest):
-        openList = []
-        closedList = []
+        
 
-        openList.append(self.pos)
+    def astar(self, dest):
+        debug_print("in A*")
+        closedSet = []
+        openSet = []
+        path = []
+        openSet.append(self.field)
+        while(len(openSet) > 0):
+            debug_print("A* in biggest loop")
+            winner = openSet[0]
+            for f in openSet:
+                if(f.f < winner.f):
+                    winner = f
 
-        while not openList:
-            current = openList[0]
-            currentIndex = 0
-            for idx, item in enumerate(open_list):
-                if item.f < current.f:
-                    current = item
-                    currentIndex = idx
-            
-            openList.pop(currentIndex)
-            closedList.append(current)
+            current = winner
+            debug_print(current.getPos())
+            if(current.pos == dest.pos):
+                debug_print("A* found the end!")
+                temp = current
+                path.append(temp)
+                while(temp.parent is not None):
+                    path.append(temp.parent)
+                    temp = temp.parent
+                debug_print("openSet:", openSet)
+                debug_print("path:", len(path))
+                return path
 
-            if current.pos == dest.pos:
-                path = []
-                curr = current
-                while curr is not None:
-                    path.append(curr.pos)
-                    curr = curr.parent
-                return path[::-1]
+            # self.removeField(openSet, current)
+            openSet.remove(current)
+            closedSet.append(current)
 
-            adjacentFields = []
-
+            neighbours = []
             for f in self.seenFields:
-                if abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1 and f.type in self.steppables:
-                    f.parent = current
-                    adjacentFields.append(f)
+                if abs(f.pos.x - current.pos.x) <= 1 and abs(f.pos.y - current.pos.y) <= 1:
+                    neighbours.append(f)
 
-            for a in adjacentFields:
+            for n in neighbours:
+                debug_print("N2check:", n.getPos())
+                if(not n in closedSet and n.type in self.steppables):
+                    tempG = current.g + max(abs(n.pos.x - current.pos.x), abs(n.pos.y - current.pos.y))
+                    newPath = False
+                    if n in openSet:
+                        debug_print("ASDF")
+                        if(tempG < n.g):
+                            n.g = tempG
+                            newPath = True
+                            # openSet.append(n)
+                    else:
+                        n.g = tempG
+                        newPath = True
+                        debug_print("appending", n.getPos(), " to openSet")
+                        openSet.append(n)
+                    if(newPath):
+                        debug_print("HERE")
+                        n.h = max(abs(n.pos.x - dest.pos.x), abs(n.pos.y - dest.pos.y))
+                        n.f = n.g + n.h
+                        n.parent = current
+                
 
-                for c in closedList:
-                    if a == c:
-                        continue
-
-
-                a.g = current.g + 1
-                a.h = ((a.pos[0] - dest.pos[0]) ** 2) + ((a.pos[1] - dest.pos[1])**2)
-                a.f = a.g + a.h
-
-                for o in openList:
-                    if a == o and a.g > o.g:
-                        continue
-
-                openList.append(a)
 
