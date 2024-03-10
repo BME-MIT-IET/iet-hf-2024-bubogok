@@ -45,17 +45,37 @@ public final class Map {
 			for (int j = 0; j < numberOfSquares; j++) {
 				var temPos = new Position(i, j);
 				var noiseProb = SimplexNoise.noise(i, j);
-				if(-1 < noiseProb && noiseProb <= 0) {
+				if (-1 < noiseProb && noiseProb <= 0) {
 					fields.put(temPos, new Field(temPos, Type.GRASS));
-				} else if(0 < noiseProb && noiseProb <= 0.2) {
+				} else if (0 < noiseProb && noiseProb <= 0.2) {
 					fields.put(temPos, new Field(temPos, Type.WATER));
-				} else if(0.2 < noiseProb && noiseProb <= 0.4) {
+				} else if (0.2 < noiseProb && noiseProb <= 0.4) {
 					fields.put(temPos, new Field(temPos, Type.FOREST));
-				} else if(0.4 < noiseProb && noiseProb <= 0.6) {
+				} else if (0.4 < noiseProb && noiseProb <= 0.6) {
 					fields.put(temPos, new Field(temPos, Type.BUILDING));
-				} else if(0.6 < noiseProb && noiseProb <= 1) {
+				} else if (0.6 < noiseProb && noiseProb <= 1) {
 					fields.put(temPos, new Field(temPos, Type.MARSH));
 				}
+			}
+		}
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				fields.replace(new Position(i, j), new Field(new Position(i, j), Type.GRASS));
+			}
+		}
+		for (int i = numberOfSquares - 1; i > numberOfSquares - 3; i--) {
+			for (int j = numberOfSquares - 1; j > numberOfSquares - 3; j--) {
+				fields.replace(new Position(i, j), new Field(new Position(i, j), Type.GRASS));
+			}
+		}
+
+	}
+
+	public void makeAllGreenMap() {
+		for (int i = 0; i < numberOfSquares; i++) {
+			for (int j = 0; j < numberOfSquares; j++) {
+				var temPos = new Position(i, j);
+				fields.put(temPos, new Field(temPos, Type.GRASS));
 			}
 		}
 	}
@@ -109,6 +129,7 @@ public final class Map {
 		}
 		return view;
 	}
+
 	public void addField(Field f) {
 		fields.put(f.pos(), f);
 	}
@@ -139,9 +160,9 @@ public final class Map {
 
 	public void registerListener(MapView mapView) {
 		var res = new ArrayList<Field>();
-			fields.forEach((p, f) -> {
-				res.add(f);
-			});
+		fields.forEach((p, f) -> {
+			res.add(f);
+		});
 		mapView.fields(res);
 	}
 }

@@ -40,11 +40,11 @@ public class Simu extends ApplicationAdapter {
 	}
 
 	public void demoUnits() {
-		var u1 = new Unit(new Position(4, 4), t1, Unit.Type.TANK);
-		var u2 = new Unit(new Position(10, 4), t1, Unit.Type.INFANTRY);
-		var u3 = new Unit(new Position(6, 6), t2, Unit.Type.SCOUT);
-		var u4 = new Unit(new Position(7, 8), t2, Unit.Type.INFANTRY);
-		var u5 = new Unit(new Position(10, 8), t2, Unit.Type.TANK);
+		var u1 = new Unit(new Position(1, 0), t1, Unit.Type.TANK);
+		var u2 = new Unit(new Position(0, 1), t1, Unit.Type.INFANTRY);
+		var u3 = new Unit(new Position(15, 15), t2, Unit.Type.SCOUT);
+		var u4 = new Unit(new Position(14, 15), t2, Unit.Type.INFANTRY);
+		var u5 = new Unit(new Position(15, 14), t2, Unit.Type.TANK);
 
 		unitViews.add(new UnitView(u1));
 		unitViews.add(new UnitView(u2));
