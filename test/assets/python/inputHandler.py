@@ -9,11 +9,11 @@ def readUnitIn():
     testPosWType = [int(testPosRaw[0]), int(testPosRaw[1]), testPosRaw[2].strip()]
 
     #fields
-    xd = input()
-    tris = xd.replace("[", "").replace("]", "")
-    sublists = tris.split(",")
+    fieldInput = input()
+    fieldtris = fieldInput.replace("[", "").replace("]", "")
+    fieldsublists = fieldtris.split(",")
     testseenFields = []
-    for sublist in sublists:
+    for sublist in fieldsublists:
         sublist = sublist.strip()
         elements = sublist.split(" ")
         testseenFields.append([int(elements[0]), int(elements[1]), elements[2].strip()])
@@ -21,26 +21,28 @@ def readUnitIn():
 
 
     #seenUnits
-    xd = input()
-    tris = xd.replace("[", "").replace("]", "")
-    sublists = tris.split(",")
+    unitsInput = input()
+    unitTris = unitsInput.replace("[", "").replace("]", "")
     testseenUnits = []
-    for sublist in sublists:
-        sublist = sublist.strip()
-        elements = sublist.split(" ")
-        testseenUnits.append([int(elements[0]), int(elements[1]), elements[2].strip(), elements[3].strip()])
-    #/seenUnits
+    if(len(unitTris) != 0):
+        unitsublists = unitTris.split(",")
+        for sublist in unitsublists:
+            sublist = sublist.strip()
+            elements = sublist.split(" ")
+            testseenUnits.append([int(elements[0]), int(elements[1]), elements[2].strip(), elements[3].strip()])
+        #/seenUnits
 
     
     #controlPoints
-    xd = input()
-    xd = xd[1:-1]
-    lists = xd.split(",")
-    lists = [list_item.strip() for list_item in lists]
     testseenControlPoints = []
-    for list_item in lists:
-        numbers = [int(num) for num in list_item.split()]
-        testseenControlPoints.append(numbers)
+    cpInput = input()
+    cpInput = cpInput[1:-1]
+    if(len(cpInput) != 0):
+        lists = cpInput.split(",")
+        lists = [list_item.strip() for list_item in lists]
+        for list_item in lists:
+            numbers = [int(num) for num in list_item.split()]
+            testseenControlPoints.append(numbers)
     #/controlPoints
 
 
