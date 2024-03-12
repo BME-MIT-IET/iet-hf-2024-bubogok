@@ -23,6 +23,9 @@ public class Simu extends ApplicationAdapter {
 	TeamLeader TL2;
 	Team t1 = new Team("white", 5000);
 	Team t2 = new Team("red", 5000);
+	private boolean pause = true;
+	private Thread commThread;
+	private Object waiter = new Object();
 
 	public void init() {
 		m = Map.init(Gdx.graphics.getHeight(), 16, 1.1f);
@@ -36,15 +39,15 @@ public class Simu extends ApplicationAdapter {
 		demoCPs();
 		TL1 = new TeamLeader(t1, "python/test1.py");
 		TL2 = new TeamLeader(t2, "python/test1.py");
-		//TL1.registerUnit();
+		// TL1.registerUnit();
 	}
 
 	public void demoUnits() {
-		var u1 = new Unit(new Position(1, 0), t1, Unit.Type.TANK);
-		var u2 = new Unit(new Position(0, 1), t1, Unit.Type.INFANTRY);
+		var u1 = new Unit(new Position(7, 6), t1, Unit.Type.TANK);
+		var u2 = new Unit(new Position(8, 5), t1, Unit.Type.INFANTRY);
 		var u3 = new Unit(new Position(15, 15), t2, Unit.Type.SCOUT);
-		var u4 = new Unit(new Position(14, 15), t2, Unit.Type.INFANTRY);
-		var u5 = new Unit(new Position(15, 14), t2, Unit.Type.TANK);
+		var u4 = new Unit(new Position(15, 1), t2, Unit.Type.INFANTRY);
+		var u5 = new Unit(new Position(10, 1), t2, Unit.Type.TANK);
 
 		unitViews.add(new UnitView(u1));
 		unitViews.add(new UnitView(u2));
@@ -63,7 +66,43 @@ public class Simu extends ApplicationAdapter {
 		controlPointViews.add(new ControlPointView(cp2));
 	}
 
-	
+	public void commThreadDoStuff() {
+		while (true) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			synchronized (waiter) {
+				while (pause) {
+					try {
+						waiter.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			// try {
+			// Thread.sleep(1000);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			TL1.communicate();
+			Map.instance().ControlPointsUpdate();
+			Gdx.graphics.requestRendering();
+			// try {
+			// Thread.sleep(1000);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			TL2.communicate();
+			Map.instance().ControlPointsUpdate();
+			Gdx.graphics.requestRendering();
+			System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
+		}
+
+	}
+
 	@Override
 	public void create() {
 		Gdx.graphics.setContinuousRendering(false);
@@ -74,49 +113,30 @@ public class Simu extends ApplicationAdapter {
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		init();
-		new Thread() {
+		commThread = new Thread() {
 			public void run() {
-				while(true) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					TL1.communicate();
-					Map.instance().ControlPointsUpdate();
-					Gdx.graphics.requestRendering();
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					TL2.communicate();
-					Map.instance().ControlPointsUpdate();
-					Gdx.graphics.requestRendering();
-					System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
-				}
+				commThreadDoStuff();
 			}
-		}.start();
+		};
+		commThread.start();
 	}
-	
+
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		camera.update();
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		Gdx.gl.glLineWidth(2);
 		Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 		Gdx.gl.glScissor(0, 0, Gdx.graphics.getHeight(), Gdx.graphics.getHeight());
 
-
-		
 		mapView.render(shapeRenderer, batch);
-		for(var uv: unitViews) {
+		for (var uv : unitViews) {
 			uv.render(shapeRenderer, batch);
 		}
-		for(var cpv : controlPointViews) {
+		for (var cpv : controlPointViews) {
 			cpv.render(shapeRenderer, batch);
 		}
 
@@ -127,30 +147,43 @@ public class Simu extends ApplicationAdapter {
 		ArrayList<String> t1Monitor = t1.teamMembersToString(true);
 		ArrayList<String> t2Monitor = t2.teamMembersToString(true);
 		int offset = 990;
-		for(var s : t1Monitor) {
+		for (var s : t1Monitor) {
 			font.draw(batch, s, 1200, offset);
 			offset -= 120;
 		}
 		offset = 990;
-		for(var s : t2Monitor) {
+		for (var s : t2Monitor) {
 			font.draw(batch, s, 1400, offset);
-			offset -= 120; 
+			offset -= 120;
 		}
 		batch.end();
 
-		if(t1.units().isEmpty()) {
+		if (t1.units().isEmpty()) {
 			TL1.endSimu(false);
 			TL2.endSimu(true);
 			dispose();
-		} else if(t2.units().isEmpty()) {
+		} else if (t2.units().isEmpty()) {
 			TL1.endSimu(true);
 			TL2.endSimu(false);
 			dispose();
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.Q)) dispose();
+		if (Gdx.input.isKeyPressed(Input.Keys.Q)) dispose();
+		if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+			synchronized (waiter) {
+				if (pause) {
+					pause = false;
+					waiter.notifyAll();
+					System.out.println("RESUMED");
+				} else {
+					pause = true;
+					System.out.println("PAUSED");
+				}
+			}
+			System.out.println("paused = " + pause);
+		}
 	}
-	
+
 	@Override
 	public void dispose() {
 		shapeRenderer.dispose();
