@@ -12,6 +12,8 @@ public class ControlPoint {
     private int percentage;
     private ControlPointListener listener;
     private Team controlTeam;
+    private Team prevControlTeam;
+    private int controlLenght;
 
     public ControlPoint(Position p, int percentage, int size) {
         pos = p;
@@ -39,9 +41,18 @@ public class ControlPoint {
                 if (entry.getValue() > max) {
                     max = entry.getValue();
                     controlTeam = entry.getKey();
+                    if(prevControlTeam == controlTeam) {
+                        controlLenght++;
+                    } else {
+                        prevControlTeam = controlTeam;
+                        controlLenght = 1;
+                    }
                 }
                 if (entry.getValue() == max && entry.getKey() != controlTeam) {
                     twoTeams = true;
+                    prevControlTeam = null;
+                    controlLenght = 0;
+
                 }
             } // megnézzük, hogy melyik csapathoz tartozik a ControlPoint
 
@@ -61,6 +72,10 @@ public class ControlPoint {
                 controlTeam = null;
             }
         }
+    }
+
+    public int getControlLenght() {
+        return controlLenght;
     }
 
     public Position pos() {

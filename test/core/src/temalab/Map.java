@@ -44,7 +44,7 @@ public final class Map {
 		for (int i = 0; i < numberOfSquares; i++) {
 			for (int j = 0; j < numberOfSquares; j++) {
 				var temPos = new Position(i, j);
-				var noiseProb = SimplexNoise.noise(i, j);
+				var noiseProb = SimplexNoise.noise(i/5.0, j/5.0, 10);
 				if (-1 < noiseProb && noiseProb <= 0) {
 					fields.put(temPos, new Field(temPos, Type.GRASS));
 				} else if (0 < noiseProb && noiseProb <= 0.2) {

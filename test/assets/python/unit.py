@@ -27,7 +27,6 @@ class Unit:
             self.seenUnits.append(UnitView(u))
 
         self.seenControlPoints = []
-        debug_print(f"seenControlPoints len for {self.id}:", len(seenControlPoints))
         for cp in seenControlPoints:
             self.seenControlPoints.append(ControlPoint(cp))
         self.actionPoints = actionPoints
@@ -109,7 +108,6 @@ class Unit:
         
 
     def astar(self, dest):
-        debug_print("in A*")
         closedSet = []
         openSet = []
         path = []
