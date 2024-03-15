@@ -19,8 +19,8 @@ public class Simu extends ApplicationAdapter {
 	private ArrayList<ControlPointView> controlPointViews;
 	private MapView mapView;
 	static Map m;
-	TeamLeader TL1;
-	TeamLeader TL2;
+	Communicator TL1;
+	Communicator TL2;
 	Team t1 = new Team("white", 5000);
 	Team t2 = new Team("red", 5000);
 	private boolean pause = true;
@@ -37,8 +37,8 @@ public class Simu extends ApplicationAdapter {
 		m.addTeam(t2);
 		demoUnits();
 		demoCPs();
-		TL1 = new TeamLeader(t1, "python/test1.py");
-		TL2 = new TeamLeader(t2, "python/test1.py");
+		TL1 = new Communicator(t1, "python/test1.py");
+		TL2 = new Communicator(t2, "python/test1.py");
 		// TL1.registerUnit();
 	}
 
