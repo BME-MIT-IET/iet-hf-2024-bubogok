@@ -82,19 +82,13 @@ public class Simu extends ApplicationAdapter {
 					}
 				}
 			}
-			// try {
-			// Thread.sleep(1000);
-			// } catch (InterruptedException e) {
-			// e.printStackTrace();
-			// }
+
+			t1.refillActionPoints();
 			TL1.communicate();
 			Map.instance().ControlPointsUpdate();
 			Gdx.graphics.requestRendering();
-			// try {
-			// Thread.sleep(1000);
-			// } catch (InterruptedException e) {
-			// e.printStackTrace();
-			// }
+
+			t2.refillActionPoints();
 			TL2.communicate();
 			Map.instance().ControlPointsUpdate();
 			Gdx.graphics.requestRendering();

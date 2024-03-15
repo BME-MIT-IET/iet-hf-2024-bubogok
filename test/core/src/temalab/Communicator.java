@@ -78,18 +78,17 @@ public class Communicator {
 		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
-		team.refillActionPoints();
-		team.updateUnits();
-		out.println(team.units().size());
-		out.println(team.teamMembersToString(false).toString());
-		if(!sc.hasNext()) {
-			System.err.println("\033[0;35mdebug from " + "SZAR1" + "\033[0m");
-			return;
-		}
-		String answer = sc.nextLine();
-		System.err.println("\033[0;35mdebug from " + "pytohnból jött:" + answer + "\033[0m");
-		String[] split = answer.split(" ");
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
+			team.updateUnits();
+			out.println(team.units().size());
+			out.println(team.teamMembersToString(false).toString());
+			if(!sc.hasNext()) {
+				System.err.println("\033[0;35mdebug from " + "SZAR1" + "\033[0m");
+				return;
+			}
+			String answer = sc.nextLine();
+			System.err.println("\033[0;35mdebug from " + "pytohnból jött:" + answer + "\033[0m");
+			String[] split = answer.split(" ");
 			switch (split[0]) {
 				case "endTurn":
 					break loop;
@@ -113,16 +112,6 @@ public class Communicator {
 					System.err.println("\033[0;35mdebug from " + "message starting with: " + split[0] + " could not be interpreted" + "\033[0m");
 					break loop;
 			}
-			team.updateUnits();
-			out.println(team.units().size());
-			out.println(team.teamMembersToString(false).toString());
-			if(!sc.hasNext()) {
-				System.err.println("\033[0;35mdebug from " + "SZAR2" + "\033[0m");
-				return;
-			}
-			answer = sc.nextLine();
-			System.err.println("\033[0;35mdebug from " + "pytohnból jött:" + answer + "\033[0m");
-			split = answer.split(" ");
 		}
 		System.err.println("\033[0;35mdebug from " + "ENDcommunicating" + "\033[0m");
 	}
