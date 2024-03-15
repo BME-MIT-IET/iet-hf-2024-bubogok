@@ -37,7 +37,7 @@ public final class Position {
 	}
 
 	public boolean isNeighbouring(Position p) {
-		return (Math.abs(this.x - p.x) <= 1 && Math.abs(this.y - p.y) <= 1) && this.hashCode() != p.hashCode();
+		return (Math.abs(this.x - p.x) <= 1 && Math.abs(this.y - p.y) <= 1);
 	}
 
 	@Override

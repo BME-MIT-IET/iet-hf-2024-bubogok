@@ -43,6 +43,7 @@ public class Communicator {
 
 	public void registerUnit() {
 		System.err.print("registering");
+		out.println("regPhase");
 		out.println(team.getBudget());
 		String answer = sc.nextLine();
 		String[] split = answer.split(" ");
@@ -80,6 +81,7 @@ public class Communicator {
 		// value
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
 			team.updateUnits();
+			out.println("commPhase");
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
 			if(!sc.hasNext()) {
@@ -118,6 +120,7 @@ public class Communicator {
 
 	public void endSimu(boolean win) {
 		//TODO: ez itt így hagy kívánni valót maga után
+		out.println("endPhase");
 		out.println(team.getName() +  " " + win);
 		out.close();
 	}
