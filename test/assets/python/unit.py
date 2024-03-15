@@ -75,14 +75,12 @@ class Unit:
     def dummyMove(self):
         neighbours = []
         for f in self.seenFields:
-            #debug_print(f"f: {f.pos.val()}, self: {self.field.val()}")
-            if abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1:
-                #debug_print("adding new neightbour")
+            if(abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1):
                 neighbours.append(f)
         for n in neighbours:
-            if n.type == "GRASS" and n.pos != self.field.pos:
-                f"move {self.id} {n.pos.x} {n.pos.y}"
-                break
+            if(n.type in self.steppables and n.pos != self.field.pos
+                and f.pos not in [u.pos for u in self.seenUnits]):
+                return f"move {self.id} {n.pos.x} {n.pos.y}"
 
     def heuristicAction(self):
         global runCounter
@@ -91,22 +89,24 @@ class Unit:
         if(self.actionPoints == 0):
             return None
         debug_print(self.id, self.actionPoints)
-        if(self.seenUnits is not None):
+        if(self.seenUnits is not None and self.ammo > 0):
             for unit in self.seenUnits:
                 if(unit.team != self.team):
                     return f"shoot {self.id} {unit.pos.x} {unit.pos.y}"
 
-
-        if(len(self.seenControlPoints) != 0):
-            path = self.astar(self.seenControlPoints[0])
-            if(path is None):
-                f"move {self.id} {self.field.pos.x} {self.field.pos.y}"
-            elif(len(path) == 1):
-                f"move {self.id} {path[0].pos.x} {path[0].pos.y}"
+        if(self.fuel > 0):
+            if(len(self.seenControlPoints) != 0):
+                path = self.astar(self.seenControlPoints[0])
+                if(path is None): #astar nem látja a dest-et
+                    # nem így!!!
+                    return None
+                elif(len(path) == 1): # már a destben vagyunk
+                    return None
+                else:
+                    return f"move {self.id} {path[-2].pos.x} {path[-2].pos.y}"
             else:
-                f"move {self.id} {path[-2].pos.x} {path[-2].pos.y}"
-        else:
-            self.dummyMove()
+                return self.dummyMove()
+        return None
 
         
 
@@ -136,7 +136,8 @@ class Unit:
 
             neighbours = []
             for f in self.seenFields:
-                if abs(f.pos.x - current.pos.x) <= 1 and abs(f.pos.y - current.pos.y) <= 1:
+                if(abs(f.pos.x - current.pos.x) <= 1 and abs(f.pos.y - current.pos.y) <= 1
+                    and f.pos not in [u.pos for u in self.seenUnits]):
                     neighbours.append(f)
 
             for n in neighbours:

@@ -1,6 +1,7 @@
 from unit import Unit
 from logger import debug_print
 
+
 # reads in a unit's data from stdin, return a list with the data
 def readUnitIn():    
     testID = int(input())
