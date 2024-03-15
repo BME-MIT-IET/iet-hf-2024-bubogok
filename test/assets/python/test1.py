@@ -9,9 +9,10 @@ import os
 from datetime import datetime
 
 def communicate(units):
-    result = "endTurn"
-
-
+    result = units[0].heuristicAction()
+    if(result is None):
+        result = "endTurn"
+    logger.debug_print(result)
     return result
 
 

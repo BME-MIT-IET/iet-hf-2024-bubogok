@@ -81,27 +81,30 @@ class Unit:
                 neighbours.append(f)
         for n in neighbours:
             if n.type == "GRASS" and n.pos != self.field.pos:
-                print("move", self.id, n.pos.x, n.pos.y)
+                f"move {self.id} {n.pos.x} {n.pos.y}"
                 break
 
     def heuristicAction(self):
         global runCounter
         runCounter += 1
         debug_print(f"starting------ {self.id}, {self.team}, {self.type}, {self.field.getPos()}, {self.actionPoints},  RUN:{runCounter}")
+        if(self.actionPoints == 0):
+            return None
+        debug_print(self.id, self.actionPoints)
         if(self.seenUnits is not None):
             for unit in self.seenUnits:
                 if(unit.team != self.team):
-                    print("shoot", self.id, unit.pos.x, unit.pos.y)
+                    return f"shoot {self.id} {unit.pos.x} {unit.pos.y}"
 
 
         if(len(self.seenControlPoints) != 0):
             path = self.astar(self.seenControlPoints[0])
             if(path is None):
-                print("move", self.id, self.field.pos.x, self.field.pos.y)
+                f"move {self.id} {self.field.pos.x} {self.field.pos.y}"
             elif(len(path) == 1):
-                print("move", self.id, path[0].pos.x, path[0].pos.y)
+                f"move {self.id} {path[0].pos.x} {path[0].pos.y}"
             else:
-                print("move", self.id, path[-2].pos.x, path[-2].pos.y)
+                f"move {self.id} {path[-2].pos.x} {path[-2].pos.y}"
         else:
             self.dummyMove()
 
