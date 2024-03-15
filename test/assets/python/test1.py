@@ -8,6 +8,11 @@ import traceback
 import os
 from datetime import datetime
 
+def communicate(units):
+    result = "endTurn"
+
+
+    return result
 
 
 def main():
@@ -15,17 +20,9 @@ def main():
     team = input()
     logger.debug_print(f"log from:{datetime.now()}")
     try:
-        # TODO:rohadtul nem így kellene csinálni ezt
-        units = inputHandler.makeUnits(units)
-        units[0].heuristicAction()
-        units = inputHandler.updateUnits(units)
-        print("endTurn")
         while True:
-            units = inputHandler.updateUnits(units)
-            units[0].heuristicAction()
-            units = inputHandler.updateUnits(units)
-            print("endTurn")
-            logger.debug_print(f"FULL CIRCLE")
+            units = inputHandler.makeUnits()
+            print(communicate(units))
     except Exception as err:
         logger.debug_print(f"valami rák, {err=}, {type(err)=}")
         for e in traceback.format_exception(err):
