@@ -13,10 +13,10 @@ public class Communicator {
 	Thread errorThread;
 	Process process;
 
-	public Communicator(Team team, String fileName) {
+	public Communicator(Team team, String fileName, String strategy) {
 		this.team = team;
 		String currDir = System.getProperty("user.dir");
-		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName);
+		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName, strategy);
 		try {
 			process = processBuilder.start();
 		} catch (IOException e) {
@@ -122,10 +122,11 @@ public class Communicator {
 		//TODO: ez itt így hagy kívánni valót maga után
 		out.println("endPhase");
 		out.println(team.getName() +  " " + win);
-		out.close();
+		// out.close();
 	}
 
 	public void closeThread() {
+
 		process.destroy();
 		try {
 			errorThread.join();
