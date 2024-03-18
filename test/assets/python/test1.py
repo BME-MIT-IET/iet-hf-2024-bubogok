@@ -2,6 +2,8 @@ from unit import Unit
 from pos import Pos
 import logger
 import inputHandler
+from heuristic import heuristicAction
+from dummy import dummyAction
 
 import sys
 import traceback
@@ -9,11 +11,16 @@ import os
 from datetime import datetime
 
 def communicate(units):
-    result = units[0].heuristicAction()
-    if(result is None):
-        result = "endTurn"
-    logger.debug_print(result)
-    return result
+    for u in units:
+        match sys.argv[1]:
+            case "heuristic":
+                result = heuristicAction(u)
+            case "dummy":
+                result = dummyAction(u)
+        if(result is not None):
+            return result
+    return "endTurn"
+        
 
 
 # majd a revard functionon itt kell hogy számoljanak lhgy nyertunk vagy sem
