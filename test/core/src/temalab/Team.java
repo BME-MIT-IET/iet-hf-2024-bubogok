@@ -67,27 +67,19 @@ public final class Team {
 	}
 	
 	public void moveUnit(int id, Position newPos) {
-			//TODO: kitalálni, hogy ez hogy lesz
-			// int x = Map.instance().r.nextInt(3) - 1;
-			// int y = Map.instance().r.nextInt(3) - 1;
-			// var newPos = new Position(u.pos().x() + x, u.pos().y() + y);
 			var newField = Map.instance().getField(newPos);
 			var u = units.get(id);
 			if(newField == null || u == null) {
-				return; //TODO: jobb hibauzenet
+				return;
 			}
 			u.move(newField);
 	}
 
 	public void fireUnit(int id, Position newPos) {
-			//TODO: kitalálni, hogy ez hogy lesz
-			// int x = Map.instance().r.nextInt(3) - 1;
-			// int y = Map.instance().r.nextInt(3) - 1;
-			// var newPos = new Position(u.pos().x() + x, u.pos().y() + y);
 			var newField = Map.instance().getField(newPos);
 			var u = units.get(id);
 			if(newField == null || u == null) {
-				return; //TODO: jobb hibauzenet
+				return;
 			}
 			u.shoot(newField);
 	}

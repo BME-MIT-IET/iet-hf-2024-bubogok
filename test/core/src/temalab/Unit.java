@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.management.RuntimeErrorException;
+
 import com.badlogic.gdx.graphics.Color;
 
 public class Unit {
@@ -98,6 +100,9 @@ public class Unit {
 		if(!dest.arrive(this)) {
 			throw new RuntimeException("move cannot arrive id: " + this.ID);
 		}
+		if(dest == field) {
+			return;
+		}
 		field.leave();
 		field = dest;
 		fuel -= consumption;
@@ -128,6 +133,7 @@ public class Unit {
 	public void takeShot(int recievedDamage) {	
 		health -= recievedDamage;
 		if(health <= 0) {
+			field.leave();
 			team.unitDied(ID);
 			if(listener != null) {
 				listener.unitDied();
