@@ -26,9 +26,10 @@ public class Simu extends ApplicationAdapter {
 	private boolean pause = true;
 	private Thread commThread;
 	private Object waiter = new Object();
+	private int nos = 32;
 
 	public void init() {
-		m = Map.init(Gdx.graphics.getHeight(), 16, 1.1f);
+		m = Map.init(Gdx.graphics.getHeight(), nos, 1.1f);
 		m.makeSimplexNoiseMap();
 		unitViews = new ArrayList<UnitView>();
 		controlPointViews = new ArrayList<ControlPointView>();
@@ -37,17 +38,17 @@ public class Simu extends ApplicationAdapter {
 		m.addTeam(t2);
 		demoUnits();
 		demoCPs();
-		TL1 = new Communicator(t1, "python/test1.py");
-		TL2 = new Communicator(t2, "python/test1.py");
+		TL1 = new Communicator(t1, "python/test1.py", "dummy");
+		TL2 = new Communicator(t2, "python/test1.py", "heuristic");
 		// TL1.registerUnit();
 	}
 
 	public void demoUnits() {
 		var u1 = new Unit(new Position(7, 6), t1, Unit.Type.TANK);
 		var u2 = new Unit(new Position(8, 5), t1, Unit.Type.INFANTRY);
-		var u3 = new Unit(new Position(15, 15), t2, Unit.Type.SCOUT);
-		var u4 = new Unit(new Position(15, 1), t2, Unit.Type.INFANTRY);
-		var u5 = new Unit(new Position(10, 1), t2, Unit.Type.TANK);
+		var u3 = new Unit(new Position(nos-1, nos-1), t2, Unit.Type.SCOUT);
+		var u4 = new Unit(new Position(nos-4, 2), t2, Unit.Type.INFANTRY);
+		var u5 = new Unit(new Position(nos-3, 2), t2, Unit.Type.TANK);
 
 		unitViews.add(new UnitView(u1));
 		unitViews.add(new UnitView(u2));
@@ -93,6 +94,7 @@ public class Simu extends ApplicationAdapter {
 			Map.instance().ControlPointsUpdate();
 			Gdx.graphics.requestRendering();
 			System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
+			pause = true;
 		}
 
 	}
@@ -153,10 +155,16 @@ public class Simu extends ApplicationAdapter {
 		batch.end();
 
 		if (t1.units().isEmpty()) {
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {}
 			TL1.endSimu(false);
 			TL2.endSimu(true);
 			dispose();
 		} else if (t2.units().isEmpty()) {
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {}
 			TL1.endSimu(true);
 			TL2.endSimu(false);
 			dispose();
