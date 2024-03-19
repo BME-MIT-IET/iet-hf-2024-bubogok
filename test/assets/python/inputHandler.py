@@ -1,6 +1,7 @@
 from unit import Unit
 from logger import debug_print
 
+
 # reads in a unit's data from stdin, return a list with the data
 def readUnitIn():    
     testID = int(input())
@@ -56,7 +57,8 @@ def readUnitIn():
 
 
 # makes unit from the data got from readUnitIn function
-def makeUnits(units):
+def makeUnits():
+    units = []
     numma = int(input())
     debug_print(f"making {numma} units")
     starterBrakets = input()
@@ -66,22 +68,4 @@ def makeUnits(units):
         units.append(Unit(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10]))
         separatinCommaOrEndingBracket = input()
     debug_print(f"units made")
-    return units
-
-
-
-# updates an existing unit, based on the readUnitIn function
-def updateUnits(units):
-    numma = int(input())
-    debug_print(f"updating {numma} units")
-    starterBrakets = input()
-    for i in range(numma):
-        # TODO: this is still fucking ungly
-        data = readUnitIn()
-        updateID = int(data[0])
-        for u in units:
-            if u.id == updateID:
-                u.update(data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9])
-        separatinCommaOrEndingBracket = input()
-    debug_print(f"units updated")
     return units

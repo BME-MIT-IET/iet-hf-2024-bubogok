@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.management.RuntimeErrorException;
+
 import com.badlogic.gdx.graphics.Color;
 
 public class Unit {
@@ -83,40 +85,55 @@ public class Unit {
 	}
 
 	public void move(Field dest) {
-		System.err.println("moveba azért belépünk: curr: " +  field.pos().toString() + " dest: " + dest.pos().toString());
-		if(fuel - consumption >= 0 && actionPoints > 0 && field.isNeighbouring(dest)) {
-			System.err.println("elso");
-			if(steppableTypes.contains(dest.getType())) {
-				System.err.println("2");
-				if(dest.arrive(this)) {
-					System.err.println("3");
-					field.leave();
-					field = dest;
-					fuel -= consumption;
-					//System.err.println(type + " " + consumption + " " + fuel);
-					actionPoints--;
-				}
-			}
+		if(actionPoints <= 0) {
+			throw new RuntimeException("move out of actionPoints: " + this.actionPoints + " id: " + this.ID);
 		}
+		if(fuel < consumption) {
+			throw new RuntimeException("move out of fuel: " + this.fuel + " id: " + this.ID);
+		}
+		if(!field.isNeighbouring(dest)) {
+			throw new RuntimeException("move is not neightbouring id: " + this.ID);
+		}
+		if(!steppableTypes.contains(dest.getType())) {
+			throw new RuntimeException("move is not steppable id: " + this.ID);
+		}
+		if(!dest.arrive(this)) {
+			throw new RuntimeException("move cannot arrive id: " + this.ID);
+		}
+		if(dest == field) {
+			return;
+		}
+		field.leave();
+		field = dest;
+		fuel -= consumption;
+		actionPoints--;
+		
 	}
 
 	public void shoot(Field target) {
 		//TODO: 0.5 offset a posban kellene
-		if (ammo > 0 && actionPoints > 0) {
-			if(field.inDistance(target, shootRange + 0.5f)) {
-				target.takeShot(damage);
-				if(listener != null) {
-					listener.onShoot(target.pos());
-				}
-				ammo--;
-				actionPoints--;
-			}			
+		if(actionPoints <= 0) {
+			throw new RuntimeException("shoot out of actionPoints: " + this.actionPoints + " id: " + this.ID);
 		}
+		if(ammo <= 0) {
+			throw new RuntimeException("shoot out of ammo: " + this.ammo + " id: " + this.ID);
+		}
+		if(!field.inDistance(target, shootRange + 0.5f)) {
+			throw new RuntimeException("shoot is not in dist: " + this.ID);
+		}
+
+		target.takeShot(damage);
+		if(listener != null) {
+			listener.onShoot(target.pos());
+		}
+		ammo--;
+		actionPoints--;
 	}
 
 	public void takeShot(int recievedDamage) {	
 		health -= recievedDamage;
 		if(health <= 0) {
+			field.leave();
 			team.unitDied(ID);
 			if(listener != null) {
 				listener.unitDied();
