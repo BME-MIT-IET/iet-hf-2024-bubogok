@@ -23,10 +23,11 @@ public class Simu extends ApplicationAdapter {
 	Communicator TL2;
 	Team t1 = new Team("white", 5000);
 	Team t2 = new Team("red", 5000);
-	private boolean pause = true;
+	private boolean pause;
 	private Thread commThread;
 	private Object waiter = new Object();
 	private int nos = 32;
+	private boolean manualResetEvent = true;
 
 	public void init() {
 		m = Map.init(Gdx.graphics.getHeight(), nos, 1.1f);
@@ -41,6 +42,9 @@ public class Simu extends ApplicationAdapter {
 		TL1 = new Communicator(t1, "python/test1.py", "dummy");
 		TL2 = new Communicator(t2, "python/test1.py", "heuristic");
 		// TL1.registerUnit();
+		if(manualResetEvent) {
+			pause = true;
+		}
 	}
 
 	public void demoUnits() {
@@ -48,7 +52,7 @@ public class Simu extends ApplicationAdapter {
 		var u2 = new Unit(new Position(8, 5), t1, Unit.Type.INFANTRY);
 		var u3 = new Unit(new Position(nos-1, nos-1), t2, Unit.Type.SCOUT);
 		var u4 = new Unit(new Position(nos-4, 2), t2, Unit.Type.INFANTRY);
-		var u5 = new Unit(new Position(nos-3, 2), t2, Unit.Type.TANK);
+		var u5 = new Unit(new Position(15, 2), t2, Unit.Type.TANK);
 
 		unitViews.add(new UnitView(u1));
 		unitViews.add(new UnitView(u2));
@@ -94,7 +98,9 @@ public class Simu extends ApplicationAdapter {
 			Map.instance().ControlPointsUpdate();
 			Gdx.graphics.requestRendering();
 			System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
-			pause = true;
+			if(manualResetEvent) {
+				pause = true;
+			}
 		}
 
 	}
