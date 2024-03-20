@@ -24,7 +24,7 @@ def communicate(units):
 
 
 # majd a revard functionon itt kell hogy számoljanak lhgy nyertunk vagy sem
-def endPhase():
+def endPhase(units):
     result = input()
     logger.debug_print(result)
 

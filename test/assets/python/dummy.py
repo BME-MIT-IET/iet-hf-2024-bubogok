@@ -3,19 +3,21 @@ from unitView import UnitView
 from pos import Pos
 from logger import debug_print
 
+import math
 
 def dummyAction(unit):
+	debug_print(f"dummyAction, for id: {unit.id}")
 	debug_print(unit.state())
 	if(unit.actionPoints == 0):
 		return None
 	if(unit.seenUnits is not None and unit.ammo > 0):
 		for u in unit.seenUnits:
 			if(unit.team != u.team):
-				dist = math.sqrt((unit.fields.pos.x - u.pos.x)**2 + (unit.field.pos.y - u.pos.y)**2)
+				dist = math.sqrt((unit.field.pos.x - u.pos.x)**2 + (unit.field.pos.y - u.pos.y)**2)
 				if(dist <= unit.shootRange):
 					return f"shoot {unit.id} {u.pos.x} {u.pos.y}"
 				else:
-					return None
+					break
 
 	if(unit.fuel - unit.consumption > 0):
 		neighbours = []

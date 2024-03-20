@@ -9,8 +9,6 @@ import math
 import os
 from datetime import datetime
 
-runCounter = 0
-
 class Unit:
     def __init__(self, id, tipus, posWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel, actionPoints, team):
         self.id = id

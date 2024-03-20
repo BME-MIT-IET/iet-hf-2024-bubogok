@@ -7,6 +7,7 @@ import math
 
 
 def dummyMove(unit):
+    debug_print(f"heuristicAction, for id: {unit.id}")
     neighbours = []
     for f in unit.seenFields:
         if(abs(f.pos.x - unit.field.pos.x) <= 1 and abs(f.pos.y - unit.field.pos.y) <= 1
@@ -24,11 +25,12 @@ def heuristicAction(unit):
     if(unit.seenUnits is not None and unit.ammo > 0):
         for u in unit.seenUnits:
             if(unit.team != u.team):
-                dist = math.sqrt((unit.fields.pos.x - u.pos.x)**2 + (unit.field.pos.y - u.pos.y)**2)
+                dist = math.sqrt((unit.field.pos.x - u.pos.x)**2 + (unit.field.pos.y - u.pos.y)**2)
                 if(dist <= unit.shootRange):
                     return f"shoot {unit.id} {u.pos.x} {u.pos.y}"
                 else:
-                    return None
+                    break
+                    return None #kilép az egészből, így a mozgás nem is lesz checkelev
 
     if(unit.fuel - unit.consumption > 0):
         if(len(unit.seenControlPoints) != 0):
