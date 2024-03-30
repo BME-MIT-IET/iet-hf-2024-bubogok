@@ -79,7 +79,7 @@ public class Communicator {
 		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
-		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
+		loop: while (true) {
 			team.updateUnits();
 			out.println("commPhase");
 			out.println(team.units().size());
