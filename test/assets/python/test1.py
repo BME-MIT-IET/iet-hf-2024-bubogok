@@ -4,6 +4,7 @@ import logger
 import inputHandler
 from heuristic import heuristicAction
 from dummy import dummyAction
+from sarlMove import sarlMove
 
 import sys
 import traceback
@@ -17,6 +18,8 @@ def communicate(units):
                 result = heuristicAction(u)
             case "dummy":
                 result = dummyAction(u)
+            case "sarlMove":
+                result = sarlMove(u)
         if(result is not None):
             return result
     return "endTurn"

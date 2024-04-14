@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.management.RuntimeErrorException;
-
 import com.badlogic.gdx.graphics.Color;
 
 public class Unit {
