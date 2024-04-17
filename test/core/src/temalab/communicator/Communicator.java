@@ -1,6 +1,12 @@
-package temalab;
+package temalab.communicator;
 
 import java.util.Scanner;
+
+import temalab.model.Position;
+import temalab.model.Team;
+import temalab.model.Unit;
+import temalab.model.Unit.Type;
+
 import java.io.*;
 
 public class Communicator {
@@ -79,13 +85,13 @@ public class Communicator {
 		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
-		loop: while (true) {
+		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
 			team.updateUnits();
 			out.println("commPhase");
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
 			if(!sc.hasNext()) {
-				System.err.println("\033[0;35mdebug from " + "HIBA" + "\033[0m");
+				System.err.println("\033[0;35mdebug from " + "SZAR1" + "\033[0m");
 				return;
 			}
 			String answer = sc.nextLine();

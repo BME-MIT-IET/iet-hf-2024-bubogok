@@ -1,4 +1,4 @@
-package temalab;
+package temalab.model;
 
 public class PerceivedUnit {
     protected String pos;

@@ -1,10 +1,12 @@
-package temalab;
+package temalab.model;
 
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.graphics.Color;
+
+import temalab.common.ControlPointListener;
 
 public class ControlPoint {
     private Position pos;

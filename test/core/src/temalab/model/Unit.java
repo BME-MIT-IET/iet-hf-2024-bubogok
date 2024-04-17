@@ -1,12 +1,12 @@
-package temalab;
+package temalab.model;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.management.RuntimeErrorException;
-
 import com.badlogic.gdx.graphics.Color;
+
+import temalab.common.UnitListener;
 
 public class Unit {
 	private final int ID;
@@ -106,8 +106,7 @@ public class Unit {
 		field.leave();
 		field = dest;
 		fuel -= consumption;
-		actionPoints--;
-		
+		actionPoints--;		
 	}
 
 	public void shoot(Field target) {

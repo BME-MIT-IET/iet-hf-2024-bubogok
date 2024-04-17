@@ -1,4 +1,4 @@
-package temalab;
+package temalab.gui.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-import temalab.Unit.Type;
+import temalab.common.UnitListener;
+import temalab.model.Position;
+import temalab.model.Unit;
+import temalab.model.Unit.Type;
 
 public class UnitView implements UnitListener {
     private Unit u;
@@ -18,9 +21,12 @@ public class UnitView implements UnitListener {
 	private Color c;
 	private Texture texture;
 	private boolean visibility;
+	private MapView mv;
+	private float squareSize = 34.375f;
 
-    public UnitView(Unit u) {
+    public UnitView(Unit u, MapView mv) {
         this.u = u;
+		this.mv = mv;
 		u.registerListener(this);
         currentlyShooting = false;
 		visibility = true;
@@ -38,7 +44,7 @@ public class UnitView implements UnitListener {
 
     public void render(ShapeRenderer sr, SpriteBatch sb) {
 		if(visibility) {
-			float size = Map.instance().squareSize();
+			float size = squareSize;
 			Vector2 center = u.pos().screenCoords();
 			
 			sr.begin(ShapeRenderer.ShapeType.Filled);
@@ -52,8 +58,8 @@ public class UnitView implements UnitListener {
 			
 			sr.begin(ShapeRenderer.ShapeType.Line);
 			sr.setColor(c);
-			sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * size * shootRange);
-			sr.circle(center.x, center.y, Map.instance().universalDistanceConstant() * size * viewRange);
+			sr.circle(center.x, center.y, mv.universalDistanceConstant() * size * shootRange);
+			sr.circle(center.x, center.y, mv.universalDistanceConstant() * size * viewRange);
 			sr.end();
 			if(currentlyShooting) {
 				sr.begin(ShapeRenderer.ShapeType.Line);
