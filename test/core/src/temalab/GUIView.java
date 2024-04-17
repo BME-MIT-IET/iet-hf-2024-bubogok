@@ -37,7 +37,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 
 	@Override
 	public void create() {
-		Gdx.graphics.setContinuousRendering(false);
+		Gdx.graphics.setContinuousRendering(true);
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		font = new BitmapFont();

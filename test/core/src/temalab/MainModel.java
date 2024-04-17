@@ -19,13 +19,16 @@ public class MainModel {
         m.addTeam(t1);
 		m.addTeam(t2);
         listeners = new ArrayList<>();
-        t1.addUnit(new Unit(new Position(0, 0), t1, Type.TANK));
+        t2.addUnit(new Unit(new Position(0, 0), t2, Type.TANK));
     }
 
     public void addListener(MainModelListener mml) {
         this.listeners.add(mml);
         mml.mapCreated(m);
         for(var u : t1.units().values()) {
+            mml.unitCreated(u);
+        }
+        for(var u : t2.units().values()) {
             mml.unitCreated(u);
         }
     }

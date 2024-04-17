@@ -10,14 +10,11 @@ import temalab.model.Map;
 
 public class MapView {
 
-    private Map m;
     private ArrayList<FieldView> fieldViews;
-
     private float squareSize;
 	private float universalDistanceConstant;
 
     public MapView(Map m, int size, float sizingFactor) {
-        this.m = m;
         universalDistanceConstant = sizingFactor;
 		squareSize = (size / universalDistanceConstant) / m.numberOfSquares();
         fieldViews = new ArrayList<FieldView>();

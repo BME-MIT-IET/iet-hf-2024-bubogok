@@ -106,8 +106,7 @@ public class Unit {
 		field.leave();
 		field = dest;
 		fuel -= consumption;
-		actionPoints--;
-		
+		actionPoints--;		
 	}
 
 	public void shoot(Field target) {
