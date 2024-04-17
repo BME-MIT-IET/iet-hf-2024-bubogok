@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import com.badlogic.gdx.graphics.Color;
 
-import temalab.ControlPointListener;
+import temalab.common.ControlPointListener;
 
 public class ControlPoint {
     private Position pos;

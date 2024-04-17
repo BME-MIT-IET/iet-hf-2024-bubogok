@@ -1,4 +1,4 @@
-package temalab;
+package temalab.common;
 
 import temalab.model.Position;
 

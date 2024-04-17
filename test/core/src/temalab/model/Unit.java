@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import com.badlogic.gdx.graphics.Color;
 
-import temalab.UnitListener;
+import temalab.common.UnitListener;
 
 public class Unit {
 	private final int ID;

@@ -9,9 +9,17 @@ import temalab.model.Field;
 import temalab.model.Map;
 
 public class MapView {
+
+    private Map m;
     private ArrayList<FieldView> fieldViews;
 
-    public MapView(Map m) {
+    private float squareSize;
+	private float universalDistanceConstant;
+
+    public MapView(Map m, int size, float sizingFactor) {
+        this.m = m;
+        universalDistanceConstant = sizingFactor;
+		squareSize = (size / universalDistanceConstant) / m.numberOfSquares();
         fieldViews = new ArrayList<FieldView>();
         m.registerListener(this);
     }
@@ -23,7 +31,15 @@ public class MapView {
 	}
     public void fields(ArrayList<Field> fields) {
         for(var f : fields) {
-            fieldViews.add(new FieldView(f));
+            fieldViews.add(new FieldView(f, this));
         }
     }
+
+    public float squareSize() {
+		return squareSize;
+	}
+
+	public float universalDistanceConstant() {
+		return universalDistanceConstant;
+	}
 }
