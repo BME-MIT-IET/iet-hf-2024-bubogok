@@ -1,10 +1,12 @@
-package temalab;
+package temalab.model;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.badlogic.gdx.graphics.Color;
+
+import temalab.UnitListener;
 
 public class Unit {
 	private final int ID;

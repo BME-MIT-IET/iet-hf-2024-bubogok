@@ -1,9 +1,12 @@
-package temalab;
+package temalab.gui.view;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import temalab.model.Field;
+import temalab.model.Map;
 
 public class MapView {
     private ArrayList<FieldView> fieldViews;

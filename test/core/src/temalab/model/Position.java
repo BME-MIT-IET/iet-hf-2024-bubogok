@@ -1,4 +1,4 @@
-package temalab;
+package temalab.model;
 
 import com.badlogic.gdx.math.Vector2;
 

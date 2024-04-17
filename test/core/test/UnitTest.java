@@ -1,12 +1,12 @@
 import static org.junit.Assert.*;
 import org.junit.*;
 
-import temalab.Field;
-import temalab.Map;
-import temalab.Position;
-import temalab.Team;
-import temalab.Unit;
-import temalab.Unit.Type;
+import temalab.model.Field;
+import temalab.model.Map;
+import temalab.model.Position;
+import temalab.model.Team;
+import temalab.model.Unit;
+import temalab.model.Unit.Type;
 
 public class UnitTest {
     static Map m;

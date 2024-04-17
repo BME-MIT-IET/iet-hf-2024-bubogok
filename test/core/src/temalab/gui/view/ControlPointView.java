@@ -1,9 +1,13 @@
-package temalab;
+package temalab.gui.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+
+import temalab.ControlPointListener;
+import temalab.model.ControlPoint;
+import temalab.model.Map;
 
 public class ControlPointView implements ControlPointListener{
     private Vector2 center;

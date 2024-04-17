@@ -10,6 +10,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import temalab.communicator.Communicator;
+import temalab.gui.view.ControlPointView;
+import temalab.gui.view.MapView;
+import temalab.gui.view.UnitView;
+import temalab.model.ControlPoint;
+import temalab.model.Map;
+import temalab.model.Position;
+import temalab.model.Team;
+import temalab.model.Unit;
+
 public class Simu extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch;

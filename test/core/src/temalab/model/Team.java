@@ -1,4 +1,4 @@
-package temalab;
+package temalab.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

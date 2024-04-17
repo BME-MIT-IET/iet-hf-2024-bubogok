@@ -1,11 +1,13 @@
-package temalab;
+package temalab.gui.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-import temalab.Field.Type;
+import temalab.model.Field;
+import temalab.model.Map;
+import temalab.model.Field.Type;
 
 public class FieldView {
     private Color color;

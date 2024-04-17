@@ -1,8 +1,10 @@
-package temalab;
+package temalab.model;
 
 import java.util.*;
 
-import temalab.Field.Type;
+import temalab.gui.view.MapView;
+import temalab.model.Field.Type;
+import temalab.util.SimplexNoise;
 
 public final class Map {
 	public Random r;
