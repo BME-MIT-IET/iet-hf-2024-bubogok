@@ -5,7 +5,6 @@ import java.util.Scanner;
 import temalab.model.Position;
 import temalab.model.Team;
 import temalab.model.Unit;
-import temalab.model.Unit.Type;
 
 import java.io.*;
 

@@ -8,30 +8,12 @@ import temalab.util.SimplexNoise;
 
 public final class Map {
 	public Random r;
-	private static Map instance;
 	private int numberOfSquares;
 	private HashMap<Position, Field> fields;
 	private ArrayList<Team> teams;
 	private ArrayList<ControlPoint> controlPoints;
 
-
-	public static Map instance() throws RuntimeException {
-		if (instance == null) {
-			throw new RuntimeException("not inited");
-		}
-		return instance;
-	}
-
-	public static Map init(int nos) throws RuntimeException {
-		if (instance == null) {
-			instance = new Map(nos);
-			return instance;
-		} else {
-			throw new RuntimeException("already inited");
-		}
-	}
-
-	private Map(int nos) {
+	public Map(int nos) {
 		fields = new HashMap<Position, Field>();
 		teams = new ArrayList<Team>();
 		controlPoints = new ArrayList<ControlPoint>();
@@ -110,22 +92,6 @@ public final class Map {
 				view.add(f);
 			}
 		});
-		return view;
-	}
-
-	public ArrayList<Unit> requestUnits(Position pos, float size) {
-		var view = new ArrayList<Unit>();
-		for (var t : teams) {
-			view.addAll(t.requestUnits(pos, size));
-		}
-		return view;
-	}
-
-	public ArrayList<PerceivedUnit> requestPerceivedUnits(Position pos, float size) {
-		var view = new ArrayList<PerceivedUnit>();
-		for (var t : teams) {
-			view.addAll(t.requestPerceivedUnits(pos, size));
-		}
 		return view;
 	}
 

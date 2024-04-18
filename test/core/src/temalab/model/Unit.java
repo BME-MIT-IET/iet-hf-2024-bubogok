@@ -51,7 +51,6 @@ public class Unit {
 		team.addUnit(this);
 		this.type = type;
         try {
-
 			if(type == Unit.Type.TANK) {
 				sc = new Scanner(new File("desciptors/TANK.txt"));
 			} else if(type == Unit.Type.INFANTRY) {
@@ -110,7 +109,6 @@ public class Unit {
 	}
 
 	public void shoot(Field target) {
-		//TODO: 0.5 offset a posban kellene
 		if(actionPoints <= 0) {
 			throw new RuntimeException("shoot out of actionPoints: " + this.actionPoints + " id: " + this.ID);
 		}
