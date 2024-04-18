@@ -22,11 +22,13 @@ public class UnitView implements UnitListener {
 	private Texture texture;
 	private boolean visibility;
 	private MapView mv;
+	private GUIView gv;
 	private float squareSize = 34.375f;
 
-    public UnitView(Unit u, MapView mv) {
+    public UnitView(Unit u, MapView mv, GUIView guiv) {
         this.u = u;
 		this.mv = mv;
+		this.gv = guiv;
 		u.registerListener(this);
         currentlyShooting = false;
 		visibility = true;
@@ -79,6 +81,6 @@ public class UnitView implements UnitListener {
 
 	@Override
 	public void unitDied() {
-		visibility = false;
+		gv.unitDestoryed(u);
 	}
 }

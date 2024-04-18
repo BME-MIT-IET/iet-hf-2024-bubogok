@@ -1,6 +1,6 @@
 package temalab.communicator;
 
-import temalab.MainModel;
+import temalab.common.MainModel;
 import temalab.model.Map;
 
 public class MainCommunicator {

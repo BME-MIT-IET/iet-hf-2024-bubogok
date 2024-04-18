@@ -1,10 +1,9 @@
-package temalab;
+package temalab.common;
 
 import java.util.ArrayList;
 import java.util.List;
 import temalab.model.*;
 import temalab.model.Unit.Type;
-import temalab.common.MainModelListener;
 
 public class MainModel {
     Map m;
@@ -19,6 +18,7 @@ public class MainModel {
         m.addTeam(t1);
 		m.addTeam(t2);
         listeners = new ArrayList<>();
+        t1.addUnit(new Unit(new Position(3, 3), t1, Type.INFANTRY));
         t2.addUnit(new Unit(new Position(0, 0), t2, Type.TANK));
     }
 

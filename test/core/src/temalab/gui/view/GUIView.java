@@ -1,4 +1,4 @@
-package temalab;
+package temalab.gui.view;
 
 import java.util.HashMap;
 
@@ -11,10 +11,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import temalab.common.MainModel;
 import temalab.common.MainModelListener;
-import temalab.gui.view.ControlPointView;
-import temalab.gui.view.MapView;
-import temalab.gui.view.UnitView;
 import temalab.model.ControlPoint;
 import temalab.model.Map;
 import temalab.model.Unit;
@@ -129,7 +127,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 
 	@Override
 	public void unitCreated(Unit u) {
-		unitViews.put(u, new UnitView(u, mapView));
+		unitViews.put(u, new UnitView(u, mapView, this));
 	}
 
 	@Override
