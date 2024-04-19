@@ -13,7 +13,7 @@ public class Communicator {
 	Thread errorThread;
 	Process process;
 
-	public Communicator(Team team, String fileName, String strategy) {
+	public Communicator( Team team, String fileName, String strategy) {
 		this.team = team;
 		String currDir = System.getProperty("user.dir");
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName, strategy);
@@ -80,6 +80,12 @@ public class Communicator {
 		// TODO: when communication will be done with python, there should be a timeout
 		// value
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			team.updateUnits();
 			out.println("commPhase");
 			out.println(team.units().size());
@@ -94,6 +100,10 @@ public class Communicator {
 			switch (split[0]) {
 				case "endTurn":
 					break loop;
+
+				case "reset":
+					team.reset();
+					//TODO: unitokat vissza az alaphelyzetbe, runcoiunter reset, minden reset
 				case "move": {
 					if (split.length == 4) {
 						// TODO: a parseInt dobhat kivételt, ha nem int

@@ -19,7 +19,7 @@ public final class Field {
 	}
 
 	public boolean arrive(Unit u) {
-		if(unit != null) {
+		if(unit != null && unit != u) {
 			return false;
 		}
 		unit = u;
@@ -53,5 +53,9 @@ public final class Field {
 	}
 	public Position pos() {
 		return pos;
+	}
+
+	public void setPos(Position p) {
+		this.pos = p;
 	}
 }

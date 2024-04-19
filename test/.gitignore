@@ -8,7 +8,7 @@ hs_err_pid*
 ## pychache
 assets/python/__pycache__/
 desktop/bin/main/python/__pycache__/
-
+assets/python/rewards.txt
 
 #documentation
 doku/

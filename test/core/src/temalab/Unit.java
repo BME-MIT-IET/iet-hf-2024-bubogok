@@ -90,7 +90,7 @@ public class Unit {
 			throw new RuntimeException("move out of fuel: " + this.fuel + " id: " + this.ID);
 		}
 		if(!field.isNeighbouring(dest)) {
-			throw new RuntimeException("move is not neightbouring id: " + this.ID);
+			throw new RuntimeException("move is not neightbouring id: " + this.ID + " dest: " + dest.toString() + " curr: " + this.field.pos().toString());
 		}
 		if(!steppableTypes.contains(dest.getType())) {
 			throw new RuntimeException("move is not steppable id: " + this.ID);
@@ -103,8 +103,8 @@ public class Unit {
 		}
 		field.leave();
 		field = dest;
-		fuel -= consumption;
-		actionPoints--;
+		// fuel -= consumption;
+		// actionPoints--;
 		
 	}
 
@@ -230,5 +230,11 @@ public class Unit {
 		+ fuel + "\n"
 		+ actionPoints + "\n"
 		+ team.getName() + "\n";
+	}
+
+	public void setField(Field f) {
+		this.field.leave();
+		f.arrive(this);
+		this.field = f;
 	}
 }

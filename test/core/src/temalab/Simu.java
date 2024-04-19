@@ -26,8 +26,8 @@ public class Simu extends ApplicationAdapter {
 	private boolean pause;
 	private Thread commThread;
 	private Object waiter = new Object();
-	private int nos = 32;
-	private boolean manualResetEvent = true;
+	private int nos = 16;
+	private boolean manualResetEvent = false;
 
 	public void init() {
 		m = Map.init(Gdx.graphics.getHeight(), nos, 1.1f);
@@ -39,7 +39,7 @@ public class Simu extends ApplicationAdapter {
 		m.addTeam(t2);
 		demoUnits();
 		demoCPs();
-		TL1 = new Communicator(t1, "python/test1.py", "dummy");
+		TL1 = new Communicator(t1, "python/test1.py", "sarlMove");
 		TL2 = new Communicator(t2, "python/test1.py", "heuristic");
 		// TL1.registerUnit();
 		if(manualResetEvent) {
@@ -48,27 +48,27 @@ public class Simu extends ApplicationAdapter {
 	}
 
 	public void demoUnits() {
-		var u1 = new Unit(new Position(7, 6), t1, Unit.Type.TANK);
-		var u2 = new Unit(new Position(8, 5), t1, Unit.Type.INFANTRY);
-		var u3 = new Unit(new Position(nos-1, nos-1), t2, Unit.Type.SCOUT);
-		var u4 = new Unit(new Position(nos-4, 2), t2, Unit.Type.INFANTRY);
-		var u5 = new Unit(new Position(15, 2), t2, Unit.Type.TANK);
+		var u1 = new Unit(new Position(4, 4), t1, Unit.Type.SCOUT);
+		// var u2 = new Unit(new Position(8, 5), t1, Unit.Type.INFANTRY);
+		// var u3 = new Unit(new Position(nos-1, nos-1), t2, Unit.Type.SCOUT);
+		// var u4 = new Unit(new Position(nos-4, 2), t2, Unit.Type.INFANTRY);
+		// var u5 = new Unit(new Position(15, 2), t2, Unit.Type.TANK);
 
 		unitViews.add(new UnitView(u1));
-		unitViews.add(new UnitView(u2));
-		unitViews.add(new UnitView(u3));
-		unitViews.add(new UnitView(u4));
-		unitViews.add(new UnitView(u5));
+		// unitViews.add(new UnitView(u2));
+		// unitViews.add(new UnitView(u3));
+		// unitViews.add(new UnitView(u4));
+		// unitViews.add(new UnitView(u5));
 	}
 
 	public void demoCPs() {
-		var cp1 = new ControlPoint(new Position(10, 10), 10, 2);
+		var cp1 = new ControlPoint(new Position(0, 10), 10, 2);
 		m.addControlPoint(cp1);
 		controlPointViews.add(new ControlPointView(cp1));
 
-		var cp2 = new ControlPoint(new Position(1, 1), 5, 3);
-		m.addControlPoint(cp2);
-		controlPointViews.add(new ControlPointView(cp2));
+		// var cp2 = new ControlPoint(new Position(1, 1), 5, 3);
+		// m.addControlPoint(cp2);
+		// controlPointViews.add(new ControlPointView(cp2));
 	}
 
 	public void commThreadDoStuff() {
@@ -91,8 +91,6 @@ public class Simu extends ApplicationAdapter {
 			t1.refillActionPoints();
 			TL1.communicate();
 			Map.instance().ControlPointsUpdate();
-			Gdx.graphics.requestRendering();
-
 			t2.refillActionPoints();
 			TL2.communicate();
 			Map.instance().ControlPointsUpdate();
@@ -107,7 +105,7 @@ public class Simu extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		Gdx.graphics.setContinuousRendering(false);
+		Gdx.graphics.setContinuousRendering(true);
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
@@ -160,21 +158,21 @@ public class Simu extends ApplicationAdapter {
 		}
 		batch.end();
 
-		if (t1.units().isEmpty()) {
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {}
-			TL1.endSimu(false);
-			TL2.endSimu(true);
-			dispose();
-		} else if (t2.units().isEmpty()) {
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {}
-			TL1.endSimu(true);
-			TL2.endSimu(false);
-			dispose();
-		}
+		// if (t1.units().isEmpty()) {
+		// 	try {
+		// 		Thread.sleep(10000);
+		// 	} catch (InterruptedException e) {}
+		// 	TL1.endSimu(false);
+		// 	TL2.endSimu(true);
+		// 	dispose();
+		// } else if (t2.units().isEmpty()) {
+		// 	try {
+		// 		Thread.sleep(10000);
+		// 	} catch (InterruptedException e) {}
+		// 	TL1.endSimu(true);
+		// 	TL2.endSimu(false);
+		// 	dispose();
+		// }
 
 		if (Gdx.input.isKeyPressed(Input.Keys.Q)) dispose();
 		if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {

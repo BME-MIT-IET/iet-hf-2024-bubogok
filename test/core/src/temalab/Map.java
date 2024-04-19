@@ -135,7 +135,10 @@ public final class Map {
 	}
 
 	public Field getField(Position pos) {
-		return fields.get(pos);
+		System.err.println(pos);
+		var f = fields.get(pos);
+		System.err.println(f.pos());
+		return f;
 	}
 
 	public float squareSize() {

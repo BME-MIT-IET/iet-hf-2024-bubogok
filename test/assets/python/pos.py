@@ -1,3 +1,5 @@
+import math
+
 class Pos:
     def __init__(self, coords):
         self.x = coords[0]
@@ -8,3 +10,11 @@ class Pos:
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
+
+    # Chebyshev distance
+    def dist(self, other):
+        return max(abs(self.x - other.x), abs(self.y - other.y))
+
+    def euclDist(self, other):
+        return math.sqrt(((self.x - other.x)**2) + ((self.y - other.y)**2))
+

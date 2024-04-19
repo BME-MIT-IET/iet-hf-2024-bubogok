@@ -46,7 +46,7 @@ def main():
                     units = inputHandler.makeUnits()
                     print(communicate(units))
                 case "endPhase":
-                    endPhase()
+                    endPhase(units)
     except Exception as err:
         logger.debug_print(f"valami rák, {err=}, {type(err)=}")
         for e in traceback.format_exception(err):

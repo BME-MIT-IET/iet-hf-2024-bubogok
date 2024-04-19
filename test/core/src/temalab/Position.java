@@ -47,6 +47,7 @@ public final class Position {
 		hash = Integer.hashCode(hash + y);
 		return hash;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Position) {
