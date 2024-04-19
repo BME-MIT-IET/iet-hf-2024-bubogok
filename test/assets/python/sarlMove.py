@@ -32,10 +32,17 @@ file = open("rewards.txt", "w")
 totalCounteer = 1
 runcounter = 0
 total_episode_reward = 0
+total_couter_all = list()
 total_rewards_per_episode = list()
+movement_map = np.zeros((16, 16))
 
 
-plt.imshow(Q_table, cmap='hot', interpolation='nearest')
+
+
+# sampl = np.random.uniform(low=-5, high=0, size=(10,10))
+# plt.imshow(sampl, cmap='hot', interpolation='lanczos')
+# plt.show()
+
 
 def sarlMove(unit):
 	global exploration_proba
@@ -71,21 +78,35 @@ def sarlMove(unit):
 
 	#We update the exploration proba using exponential decay formula 
 	exploration_proba = max(min_exploration_proba, np.exp(-exploration_decreasing_decay*totalCounteer))
-	if(exploration_proba < 0.1):
-		plt.show()
+	
 	# global rewards_per_episode
 	# rewards_per_episode.append(total_episode_reward)
 
 	totalCounteer += 1
+	total_couter_all.append(totalCounteer)
 	total_rewards_per_episode.append(total_episode_reward)
 	runcounter += 1
 
+	if(totalCounteer > 100):
+		plt.rcParams["figure.autolayout"] = True
+		plt.subplot(1, 3, 1)
+		plt.title("Q_table values heatmap")
+		plt.imshow(Q_table, cmap='hot', interpolation='nearest')
+		plt.subplot(1, 3, 2)
+		plt.title("total rewards / episode")
+		plt.plot(total_couter_all, total_rewards_per_episode)
+		plt.subplot(1, 3, 3)
+		plt.title("movement heatmap")
+		plt.imshow(np.flipud(movement_map), cmap='hot', interpolation='nearest')
+		plt.show()
+
 	if(runcounter == max_iter_episode):
-		file.write(f"{total_episode_reward} \n")
-		file.flush()
+		# file.write(f"{total_episode_reward} \n")
+		# file.flush()
 		runcounter = 0
 		total_episode_reward = 0
 		return "reset"
+	movement_map[unit.field.pos.x, unit.field.pos.y] += 1
 	return f"move {unit.id} {next_state.x} {next_state.y}"
 
 def rewardCalc(unit, next_state):
@@ -95,7 +116,7 @@ def rewardCalc(unit, next_state):
 	if(unit.field.pos.euclDist(unit.seenControlPoints[0].pos) < unit.seenControlPoints[0].size):
 		return 200
 	if(unit.field.pos == next_state):
-		return -2
+		return -20
 	return (16 - currDist)
 
 

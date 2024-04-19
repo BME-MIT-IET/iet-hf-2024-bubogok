@@ -9,7 +9,7 @@ hs_err_pid*
 assets/python/__pycache__/
 desktop/bin/main/python/__pycache__/
 assets/python/rewards.txt
-
+assets/rewards.txt
 #documentation
 doku/
 ## Robovm

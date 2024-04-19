@@ -81,7 +81,7 @@ public class Communicator {
 		// value
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
 			try {
-				Thread.sleep(100);
+				Thread.sleep(16);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
