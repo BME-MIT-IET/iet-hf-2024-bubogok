@@ -104,7 +104,7 @@ public class Unit {
 		field.leave();
 		field = dest;
 		// fuel -= consumption;
-		// actionPoints--;
+		actionPoints--;
 		
 	}
 

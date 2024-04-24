@@ -26,10 +26,8 @@ lr = 0.01
 #TODO: a qtables az tipus alapjan azonositja a unitokat
 #Q_table
 Q_table = np.zeros((16*16, actions))
-
-
-file = open("rewards.txt", "w")
-totalCounteer = 1
+q_tables = {}
+totalCounter = 1
 runcounter = 0
 total_episode_reward = 0
 total_couter_all = list()
@@ -37,19 +35,23 @@ total_rewards_per_episode = list()
 movement_map = np.zeros((16, 16))
 
 
-
-
-# sampl = np.random.uniform(low=-5, high=0, size=(10,10))
-# plt.imshow(sampl, cmap='hot', interpolation='lanczos')
-# plt.show()
+def rlInit(units):
+	for u in units:
+		global q_tables
+		# TODO: a méret kiszámolása jobb kelle, hogy legyen
+		# TODO: több unitra still nem megyen, mert az action pontokat nem vonom le, minding csak ugyan azt a unitot pörgeti
+		q_tables[u.id] = np.zeros((16*16, actions))
 
 
 def sarlMove(unit):
+	if(unit.actionPoints == 0):
+		return None
 	global exploration_proba
 	global runcounter
 	global total_episode_reward
-	global totalCounteer
-	debug_print(exploration_proba, runcounter)
+	global totalCounter
+	debug_print(exploration_proba, runcounter, totalCounter)
+	Q_table = q_tables[unit.id]
 	#we iterate over episodes
 
 	current_state_idx = toidx(unit.field.pos)
@@ -77,32 +79,20 @@ def sarlMove(unit):
 	# If the episode is finished, we leave the for loop
 
 	#We update the exploration proba using exponential decay formula 
-	exploration_proba = max(min_exploration_proba, np.exp(-exploration_decreasing_decay*totalCounteer))
+	exploration_proba = max(min_exploration_proba, np.exp(-exploration_decreasing_decay*totalCounter))
 	
 	# global rewards_per_episode
 	# rewards_per_episode.append(total_episode_reward)
 
-	totalCounteer += 1
-	total_couter_all.append(totalCounteer)
+	totalCounter += 1
+	total_couter_all.append(totalCounter)
 	total_rewards_per_episode.append(total_episode_reward)
 	runcounter += 1
 
-	if(totalCounteer > 100):
-		plt.rcParams["figure.autolayout"] = True
-		plt.subplot(1, 3, 1)
-		plt.title("Q_table values heatmap")
-		plt.imshow(Q_table, cmap='hot', interpolation='nearest')
-		plt.subplot(1, 3, 2)
-		plt.title("total rewards / episode")
-		plt.plot(total_couter_all, total_rewards_per_episode)
-		plt.subplot(1, 3, 3)
-		plt.title("movement heatmap")
-		plt.imshow(np.flipud(movement_map), cmap='hot', interpolation='nearest')
-		plt.show()
+	# if(totalCounter > 100):
+	# 	plotData()
 
 	if(runcounter == max_iter_episode):
-		# file.write(f"{total_episode_reward} \n")
-		# file.flush()
 		runcounter = 0
 		total_episode_reward = 0
 		return "reset"
@@ -151,3 +141,14 @@ def nextState(state, action):
 		next_state.x = min(15, max(0, next_state.x))
 		next_state.y = min(15, max(0, next_state.y))
 		return next_state
+
+def plotData():
+	graph, (Q_plot, reward_plot, move_plot) = plt.subplots(1, 3)
+	Q_plot.set_title("Q_table values heatmap")
+	Q_plot.imshow(Q_table, cmap='binary', interpolation='nearest')
+	reward_plot.set_title("total rewards / episode")
+	reward_plot.plot(total_couter_all, total_rewards_per_episode, color='black', linewidth=0.5)
+	move_plot.set_title("movement heatmap")
+	move_plot.imshow(movement_map, origin='lower', cmap='hot', interpolation='nearest')
+	graph.tight_layout()
+	plt.show()

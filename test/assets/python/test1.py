@@ -4,7 +4,7 @@ import logger
 import inputHandler
 from heuristic import heuristicAction
 from dummy import dummyAction
-from sarlMove import sarlMove
+from sarlMove import sarlMove, rlInit
 
 import sys
 import traceback
@@ -13,6 +13,7 @@ from datetime import datetime
 
 def communicate(units):
     for u in units:
+        rlInit(units)
         match sys.argv[1]:
             case "heuristic":
                 result = heuristicAction(u)
