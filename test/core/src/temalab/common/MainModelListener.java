@@ -9,6 +9,6 @@ public interface MainModelListener {
     public void controlPointCreated(ControlPoint cp);
     public void controlPointDestoryed(ControlPoint cp);
 
-    public void mapCreated(Map m);
-    public void mapDestoryed(Map m);
+    public void fieldCreated(Field f);
+    public void fieldDestroyed(Field f);
 }

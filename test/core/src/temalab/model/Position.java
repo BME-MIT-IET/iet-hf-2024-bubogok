@@ -6,7 +6,7 @@ public final class Position {
 	private int x;
 	private int y;
 
-	private float squareSize = 34.375f;
+	private float squareSize = 56.8f;
 	private float universalDistanceConstant = 1.1f;
 	
 	public Position(int x, int y) {
@@ -28,6 +28,7 @@ public final class Position {
 	public String toString() {
 		return  x + " " + y;
 	}
+
 	public Vector2 screenCoords() {
 		float size = squareSize;
 		float udc = universalDistanceConstant;
@@ -50,6 +51,7 @@ public final class Position {
 		hash = Integer.hashCode(hash + y);
 		return hash;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Position) {

@@ -21,13 +21,11 @@ public class UnitView implements UnitListener {
 	private Color c;
 	private Texture texture;
 	private boolean visibility;
-	private MapView mv;
 	private GUIView gv;
 	private float squareSize = 34.375f;
 
-    public UnitView(Unit u, MapView mv, GUIView guiv) {
+    public UnitView(Unit u, GUIView guiv) {
         this.u = u;
-		this.mv = mv;
 		this.gv = guiv;
 		u.registerListener(this);
         currentlyShooting = false;
@@ -60,8 +58,8 @@ public class UnitView implements UnitListener {
 			
 			sr.begin(ShapeRenderer.ShapeType.Line);
 			sr.setColor(c);
-			sr.circle(center.x, center.y, mv.universalDistanceConstant() * size * shootRange);
-			sr.circle(center.x, center.y, mv.universalDistanceConstant() * size * viewRange);
+			sr.circle(center.x, center.y, gv.universalDistanceConstant() * size * shootRange);
+			sr.circle(center.x, center.y, gv.universalDistanceConstant() * size * viewRange);
 			sr.end();
 			if(currentlyShooting) {
 				sr.begin(ShapeRenderer.ShapeType.Line);

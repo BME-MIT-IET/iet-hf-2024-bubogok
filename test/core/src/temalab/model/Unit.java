@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.badlogic.gdx.graphics.Color;
 
+import temalab.common.MainModel;
 import temalab.common.UnitListener;
 
 public class Unit {
@@ -42,12 +43,12 @@ public class Unit {
 		INFANTRY
 	}
 
-	public Unit(Position pos, Team team, Type type) {
+	public Unit(Field f, Team team, Type type) {
 		seenFields = new ArrayList<Field>();
 		seenUnits = new ArrayList<PerceivedUnit>();
 		steppableTypes = new ArrayList<Field.Type>();
 		ID = idCounter++;
-		this.field = Map.instance().getField(pos);
+		this.field = f;
 		field.arrive(this);
 		this.team = team;
 		team.addUnit(this);
@@ -140,10 +141,10 @@ public class Unit {
 		}
 	}
 	
-	public void updateWorld() {
-		seenFields = Map.instance().requestFileds(field.pos(), viewRange + 0.5f);
-		seenUnits = Map.instance().requestPerceivedUnits(field.pos(), viewRange + 0.5f);
-		seenControlPoints = Map.instance().requestControlPoints(field.pos(), viewRange + 0.5f);
+	public void updateWorld(MainModel mm) {
+		seenFields = mm.requestFileds(field.pos(), viewRange + 0.5f);
+		seenUnits = mm.requestPerceivedUnits(field.pos(), viewRange + 0.5f);
+		seenControlPoints = mm.requestControlPoints(field.pos(), viewRange + 0.5f);
 	}
 
 	public void refillActionPoints() {

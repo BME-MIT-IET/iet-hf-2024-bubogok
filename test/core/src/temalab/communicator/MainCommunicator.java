@@ -1,7 +1,6 @@
 package temalab.communicator;
 
 import temalab.common.MainModel;
-import temalab.model.Map;
 
 public class MainCommunicator {
     private boolean manualResetEvent = true;
@@ -11,9 +10,9 @@ public class MainCommunicator {
     Communicator TL1;
 	Communicator TL2;
 
-    public MainCommunicator(MainModel m) {
-        TL1 = new Communicator(m.t1(), "python/test1.py", "dummy");
-		TL2 = new Communicator(m.t2(), "python/test1.py", "heuristic");
+    public MainCommunicator(MainModel mm) {
+        TL1 = new Communicator(mm.t1(), "python/test1.py", "dummy");
+		TL2 = new Communicator(mm.t2(), "python/test1.py", "heuristic");
 
         commThread = new Thread() {
 			public void run() {
@@ -32,11 +31,11 @@ public class MainCommunicator {
                             }
                         }
                     }
-                    m.t1().refillActionPoints();
+                    mm.t1().refillActionPoints();
                     TL1.communicate();
-                    Map.instance().ControlPointsUpdate();
+                    mm.ControlPointsUpdate();
         
-                    m.t2().refillActionPoints();
+                    mm.t2().refillActionPoints();
                     TL2.communicate();
                     System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
                     if(manualResetEvent) {

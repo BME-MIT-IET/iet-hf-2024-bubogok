@@ -7,8 +7,10 @@ import java.util.Map.Entry;
 import com.badlogic.gdx.graphics.Color;
 
 import temalab.common.ControlPointListener;
+import temalab.common.MainModel;
 
 public class ControlPoint {
+    //TODO: pos helyett field kellene
     private Position pos;
     private int size;
     private int percentage;
@@ -16,16 +18,18 @@ public class ControlPoint {
     private Team controlTeam;
     private Team prevControlTeam;
     private int controlLenght;
+    private MainModel mm;
 
-    public ControlPoint(Position p, int percentage, int size) {
+    public ControlPoint(Position p, int percentage, int size, MainModel mm) {
         pos = p;
         this.size = size;
         this.percentage = percentage;
+        this.mm = mm;
     }
 
     public void updateNearbyUnits() {
         boolean twoTeams = false;
-        var seenUnits = Map.instance().requestUnits(pos, size + 0.5f);
+        var seenUnits = mm.requestUnits(pos, size + 0.5f);
         if (seenUnits.size() != 0) {
             var unitCount = new HashMap<Team, Integer>();
             for (var u : seenUnits) {

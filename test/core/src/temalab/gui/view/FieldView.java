@@ -11,10 +11,10 @@ import temalab.model.Field.Type;
 public class FieldView {
     private Color color;
     private Vector2 center;
-	private MapView mv;
+	private GUIView gv;
 
-    public FieldView(Field f, MapView mv) {
-		this.mv = mv;
+    public FieldView(Field f, GUIView gv) {
+		this.gv = gv;
         center = f.pos().screenCoords();
         var t = f.getType();
         if(t == Type.GRASS) {
@@ -30,7 +30,7 @@ public class FieldView {
 		}
     }
     public void render(ShapeRenderer sr, SpriteBatch sb) {
-        float size = mv.squareSize();
+        float size = gv.squareSize();
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(color);
 		sr.rect(center.x - size/2, center.y - size/2,	size, size);
