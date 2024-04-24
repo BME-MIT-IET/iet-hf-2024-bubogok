@@ -1,16 +1,20 @@
-package temalab;
+package temalab.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.badlogic.gdx.graphics.Color;
 
+import temalab.common.MainModel;
+
 public final class Team {
 	private Color color;
 	private String name;
+	private String strategy;
 	private final HashMap<Integer, Unit> units;
 	private int budget = 0;
+	private MainModel mm;
 	
-	public Team(String name, int budget) {
+	public Team(String name, String strategy, int budget, MainModel mm) {
 		units = new HashMap<Integer, Unit>();
 		if(name == "white") {
 			this.color = new Color(1, 1, 1, 1);
@@ -21,17 +25,26 @@ public final class Team {
 		}
 		this.name = name;
 		this.budget = budget;
+		this.mm = mm;
+		this.strategy = strategy;
 	}
 
 	public Color getColor() {
 		return color;
 	}
+
 	public String getName() {
 		return name;
 	}
+
+	public String getStrategy() {
+		return strategy;
+	}
+	
 	public int getBudget() {
 		return budget;
 	}
+
 	public void addUnit(Unit v) {
 		int currentBalance = 0;
 		for (java.util.Map.Entry<Integer, Unit> entry : units.entrySet()) {
@@ -67,7 +80,7 @@ public final class Team {
 	}
 	
 	public void moveUnit(int id, Position newPos) {
-			var newField = Map.instance().getField(newPos);
+			var newField = mm.getField(newPos);
 			var u = units.get(id);
 			if(newField == null || u == null) {
 				return;
@@ -76,7 +89,7 @@ public final class Team {
 	}
 
 	public void fireUnit(int id, Position newPos) {
-			var newField = Map.instance().getField(newPos);
+			var newField = mm.getField(newPos);
 			var u = units.get(id);
 			if(newField == null || u == null) {
 				return;
@@ -86,7 +99,7 @@ public final class Team {
 
 	public void updateUnits() {
 		units.forEach((id, u) -> {
-			u.updateWorld();
+			u.updateWorld(mm);
 		});
 	}
 

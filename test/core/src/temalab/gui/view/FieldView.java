@@ -1,18 +1,21 @@
-package temalab;
+package temalab.gui.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-import temalab.Field.Type;
+import temalab.model.Field;
+import temalab.model.Field.Type;
 
 public class FieldView {
     private Color color;
     private Vector2 center;
+	private GUIView gv;
 
-    public FieldView(Field f) {
-        center = f.pos().screenCoords();
+    public FieldView(Field f, GUIView gv) {
+		this.gv = gv;
+        center = f.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
         var t = f.getType();
         if(t == Type.GRASS) {
 			this.color = new Color(0, 1, 0, 1);
@@ -27,7 +30,7 @@ public class FieldView {
 		}
     }
     public void render(ShapeRenderer sr, SpriteBatch sb) {
-        float size = Map.instance().squareSize();
+        float size = gv.squareSize();
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.setColor(color);
 		sr.rect(center.x - size/2, center.y - size/2,	size, size);
