@@ -11,4 +11,7 @@ public interface MainModelListener {
 
     public void fieldCreated(Field f);
     public void fieldDestroyed(Field f);
+
+    public void teamCreated(Team t);
+    public void teamDestroyed(Team t);
 }

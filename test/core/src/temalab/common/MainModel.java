@@ -30,7 +30,7 @@ public class MainModel {
     }
 
     private void testUnits() {
-        new Unit(fields.get(new Position(3, 3)), teams.get(0), Type.INFANTRY);
+        new Unit(fields.get(new Position(10, 10)), teams.get(0), Type.INFANTRY);
         new Unit(fields.get(new Position(0, 0)), teams.get(1), Type.TANK);
     }
 
@@ -91,6 +91,9 @@ public class MainModel {
         }
         for(var f : fields.values()) {
             mml.fieldCreated(f);
+        }
+        for(var t: teams) {
+            mml.teamCreated(t);
         }
         
     }
