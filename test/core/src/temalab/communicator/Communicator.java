@@ -76,6 +76,7 @@ public class Communicator {
 
 
 	public void communicate() {
+		team.refillActionPoints();
 		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + ++runCounter + "\033[0m");
 		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
 		// TODO: when communication will be done with python, there should be a timeout

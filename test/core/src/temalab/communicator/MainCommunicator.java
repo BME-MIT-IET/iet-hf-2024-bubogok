@@ -1,5 +1,8 @@
 package temalab.communicator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import temalab.common.MainModel;
 
 public class MainCommunicator {
@@ -9,10 +12,12 @@ public class MainCommunicator {
     private boolean pause;
     Communicator TL1;
 	Communicator TL2;
+    private List<Communicator> communictors;
 
     public MainCommunicator(MainModel mm) {
-        TL1 = new Communicator(mm.t1(), "python/test1.py", "dummy");
-		TL2 = new Communicator(mm.t2(), "python/test1.py", "heuristic");
+        communictors = new ArrayList<>();
+        communictors.add(new Communicator(mm.team("white"), "python/test1.py", "dummy"));
+		communictors.add(new Communicator(mm.team("red"), "python/test1.py", "heuristic"));
 
         commThread = new Thread() {
 			public void run() {
@@ -31,15 +36,13 @@ public class MainCommunicator {
                             }
                         }
                     }
-                    mm.t1().refillActionPoints();
-                    TL1.communicate();
-                    mm.ControlPointsUpdate();
-        
-                    mm.t2().refillActionPoints();
-                    TL2.communicate();
-                    System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
-                    if(manualResetEvent) {
-                        pause = true;
+                    for(var c : communictors) {
+                        c.communicate();
+                        mm.ControlPointsUpdate();
+                        System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
+                        if(manualResetEvent) {
+                            pause = true;
+                        }
                     }
                 }
 			}

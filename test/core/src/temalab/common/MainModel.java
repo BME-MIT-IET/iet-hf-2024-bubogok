@@ -3,6 +3,8 @@ package temalab.common;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import temalab.model.*;
 import temalab.model.Unit.Type;
 import temalab.util.SimplexNoise;
@@ -11,8 +13,8 @@ public class MainModel {
     //measured in fields
     private int mapSize;
 
-    private List<Team> teams;
-	private HashMap<Position, Field> fields;
+    private Map<String, Team> teams;
+	private Map<Position, Field> fields;
 	private ArrayList<ControlPoint> controlPoints;
     private List<MainModelListener> listeners;
 
@@ -20,9 +22,9 @@ public class MainModel {
         mapSize = w;
 		fields = new HashMap<Position, Field>();
 		controlPoints = new ArrayList<ControlPoint>();
-        teams = new ArrayList<>();
-        teams.add(new Team("white", 5000, this));
-        teams.add(new Team("red", 5000, this));
+        teams = new HashMap<>();
+        teams.put("white", new Team("white", 5000, this));
+        teams.put("red", new Team("red", 5000, this));
         listeners = new ArrayList<>();
         makeAllGreenMap();
         testUnits();
@@ -30,8 +32,8 @@ public class MainModel {
     }
 
     private void testUnits() {
-        new Unit(fields.get(new Position(10, 10)), teams.get(0), Type.INFANTRY);
-        new Unit(fields.get(new Position(0, 0)), teams.get(1), Type.TANK);
+        new Unit(fields.get(new Position(10, 10)), teams.get("white"), Type.INFANTRY);
+        new Unit(fields.get(new Position(0, 0)), teams.get("red"), Type.TANK);
     }
 
     private void testControlPoints() {
@@ -81,7 +83,8 @@ public class MainModel {
 
     public void addListener(MainModelListener mml) {
         this.listeners.add(mml);
-        for(var t : teams) {
+
+        for(var t : teams.values()) {
             for(var u : t.units().values()) {
                 mml.unitCreated(u);
             }
@@ -92,7 +95,7 @@ public class MainModel {
         for(var f : fields.values()) {
             mml.fieldCreated(f);
         }
-        for(var t: teams) {
+        for(var t: teams.values()) {
             mml.teamCreated(t);
         }
         
@@ -103,17 +106,13 @@ public class MainModel {
     
     }
 
-    public Team t1() {
-        return teams.get(0);
-    }
-
-    public Team t2() {
-        return teams.get(1);
+    public Team team(String name) {
+        return teams.get(name);
     }
 
     public ArrayList<Unit> requestUnits(Position pos, float size) {
 		var view = new ArrayList<Unit>();
-		for (var t : teams) {
+		for (var t : teams.values()) {
 			view.addAll(t.requestUnits(pos, size));
 		}
 		return view;
@@ -121,7 +120,7 @@ public class MainModel {
 
 	public ArrayList<PerceivedUnit> requestPerceivedUnits(Position pos, float size) {
 		var view = new ArrayList<PerceivedUnit>();
-		for (var t : teams) {
+		for (var t : teams.values()) {
 			view.addAll(t.requestPerceivedUnits(pos, size));
 		}
 		return view;
