@@ -1,10 +1,8 @@
 package temalab.gui.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.checkerframework.checker.units.qual.s;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -36,11 +34,9 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
     private Map<ControlPoint, ControlPointView> controlPointViews;
 	private MainModel mm;
 
-	public void addMM(MainModel mm, int size, float sizingFactor) {
+	public void addMM(MainModel mm, float sizingFactor) {
 		this.mm = mm;
 		universalDistanceConstant = sizingFactor;
-		squareSize = (size / universalDistanceConstant) / mm.width();
-		System.err.println(squareSize);
 	}
 
 	@Override
@@ -51,6 +47,9 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		font = new BitmapFont();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		int size = Math.min(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		squareSize = (size / universalDistanceConstant) / mm.width();
 
 		fieldViews = new HashMap<>();
 		unitViews = new HashMap<>();

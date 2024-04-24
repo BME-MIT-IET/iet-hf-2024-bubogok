@@ -8,14 +8,14 @@ import temalab.gui.view.GUIView;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		MainModel mm = new MainModel(16, 16);
+		MainModel mm = new MainModel(32);
 		MainCommunicator mc = new MainCommunicator(mm);
 		if(arg[0].equals("graf")) {
 			Lwjgl3ApplicationConfiguration simu = new Lwjgl3ApplicationConfiguration();
 			simu.setTitle("float");
 			simu.setWindowedMode(1600, 1000);
 			var gv = new GUIView();
-			gv.addMM(mm, 1000, 1.1f);
+			gv.addMM(mm, 1.1f);
 			new Lwjgl3Application(gv, simu);
 		}
 	}

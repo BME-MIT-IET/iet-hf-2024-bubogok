@@ -16,7 +16,7 @@ public class ControlPointView implements ControlPointListener{
 
     public ControlPointView(ControlPoint cp, GUIView gv) {
         this.gv = gv;
-        this.center = cp.pos().screenCoords();
+        this.center = cp.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
         this.size = cp.size();
         this.c = new Color(Color.CYAN);
         cp.registerListener(this);

@@ -15,7 +15,7 @@ public class FieldView {
 
     public FieldView(Field f, GUIView gv) {
 		this.gv = gv;
-        center = f.pos().screenCoords();
+        center = f.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
         var t = f.getType();
         if(t == Type.GRASS) {
 			this.color = new Color(0, 1, 0, 1);

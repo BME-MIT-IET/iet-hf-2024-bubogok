@@ -22,7 +22,6 @@ public class UnitView implements UnitListener {
 	private Texture texture;
 	private boolean visibility;
 	private GUIView gv;
-	private float squareSize = 34.375f;
 
     public UnitView(Unit u, GUIView guiv) {
         this.u = u;
@@ -44,8 +43,8 @@ public class UnitView implements UnitListener {
 
     public void render(ShapeRenderer sr, SpriteBatch sb) {
 		if(visibility) {
-			float size = squareSize;
-			Vector2 center = u.pos().screenCoords();
+			float size = gv.squareSize();
+			Vector2 center = u.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
 			
 			sr.begin(ShapeRenderer.ShapeType.Filled);
 			sr.setColor(c);
@@ -64,7 +63,7 @@ public class UnitView implements UnitListener {
 			if(currentlyShooting) {
 				sr.begin(ShapeRenderer.ShapeType.Line);
 				sr.setColor(c);
-				sr.line(center, shootingPos.screenCoords());
+				sr.line(center, shootingPos.screenCoords(gv.squareSize(), gv.universalDistanceConstant()));
 				sr.end();
 				currentlyShooting = false;
 			}

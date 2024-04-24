@@ -5,9 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 public final class Position {
 	private int x;
 	private int y;
-
-	private float squareSize = 56.8f;
-	private float universalDistanceConstant = 1.1f;
 	
 	public Position(int x, int y) {
 		this.x = x;
@@ -29,10 +26,8 @@ public final class Position {
 		return  x + " " + y;
 	}
 
-	public Vector2 screenCoords() {
-		float size = squareSize;
-		float udc = universalDistanceConstant;
-		return new Vector2((udc * size + udc * x * size)-size/2, (udc * size + udc * y * size)-size/2);
+	public Vector2 screenCoords(float size, float udc) {
+		return new Vector2((udc * size + udc * x * size)-size*udc/2, (udc * size + udc * y * size)-size*udc/2);
 	}
 
 	public boolean inDistance(Position p2, float rov) {

@@ -9,17 +9,15 @@ import temalab.util.SimplexNoise;
 
 public class MainModel {
     //measured in fields
-    private int mapWidth;
-    private int mapHeight;
+    private int mapSize;
 
     private List<Team> teams;
 	private HashMap<Position, Field> fields;
 	private ArrayList<ControlPoint> controlPoints;
     private List<MainModelListener> listeners;
 
-    public MainModel(int w, int h) {
-        mapWidth = w;
-        mapHeight = h;
+    public MainModel(int w) {
+        mapSize = w;
 		fields = new HashMap<Position, Field>();
 		controlPoints = new ArrayList<ControlPoint>();
         teams = new ArrayList<>();
@@ -42,8 +40,8 @@ public class MainModel {
 
 
     private void makeSimplexNoiseMap() {
-		for (int i = 0; i < mapWidth; i++) {
-			for (int j = 0; j < mapHeight; j++) {
+		for (int i = 0; i < mapSize; i++) {
+			for (int j = 0; j < mapSize; j++) {
 				var temPos = new Position(i, j);
 				var noiseProb = SimplexNoise.noise(i/5.0, j/5.0, 10);
 				if (-1 < noiseProb && noiseProb <= 0) {
@@ -64,8 +62,8 @@ public class MainModel {
 				fields.replace(new Position(i, j), new Field(new Position(i, j), Field.Type.GRASS));
 			}
 		}
-		for (int i = mapWidth - 1; i > mapWidth - 3; i--) {
-			for (int j = mapHeight - 1; j > mapHeight - 3; j--) {
+		for (int i = mapSize - 1; i > mapSize - 3; i--) {
+			for (int j = mapSize - 1; j > mapSize - 3; j--) {
 				fields.replace(new Position(i, j), new Field(new Position(i, j), Field.Type.GRASS));
 			}
 		}
@@ -73,8 +71,8 @@ public class MainModel {
 	}
 
 	private void makeAllGreenMap() {
-		for (int i = 0; i < mapWidth; i++) {
-			for (int j = 0; j < mapHeight; j++) {
+		for (int i = 0; i < mapSize; i++) {
+			for (int j = 0; j < mapSize; j++) {
 				var temPos = new Position(i, j);
 				fields.put(temPos, new Field(temPos, Field.Type.GRASS));
 			}
@@ -157,6 +155,6 @@ public class MainModel {
 	}
 
     public int width() {
-        return mapWidth;
+        return mapSize;
     }
 }
