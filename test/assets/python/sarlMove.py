@@ -89,8 +89,8 @@ def sarlMove(unit):
 	total_rewards_per_episode.append(total_episode_reward)
 	runcounter += 1
 
-	# if(totalCounter > 100):
-	# 	plotData()
+	if(totalCounter > 10):
+		plotData()
 
 	if(runcounter == max_iter_episode):
 		runcounter = 0
@@ -143,6 +143,7 @@ def nextState(state, action):
 		return next_state
 
 def plotData():
+	Q_table = q_tables[0]
 	graph, (Q_plot, reward_plot, move_plot) = plt.subplots(1, 3)
 	Q_plot.set_title("Q_table values heatmap")
 	Q_plot.imshow(Q_table, cmap='binary', interpolation='nearest')

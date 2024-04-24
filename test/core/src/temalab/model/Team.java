@@ -3,7 +3,6 @@ package temalab.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
 
 import temalab.common.MainModel;
 
@@ -123,11 +122,10 @@ public final class Team {
 		return res;
 	}
 
-
 	public void reset() {
 		units.forEach((id, u) -> {
 			// u.setField(Map.instance().getField(new Position(Map.instance().r.nextInt(0, 16), Map.instance().r.nextInt(0, 16))));
-			u.setField(Map.instance().getField(new Position(4, 4)));
+			u.setField(mm.getField(new Position(4, 4)));
 		});
 	}
 }

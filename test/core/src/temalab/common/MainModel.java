@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import temalab.communicator.Communicator;
-import temalab.communicator.MainCommunicatorListener;
 import temalab.model.*;
 import temalab.model.Unit.Type;
 import temalab.util.SimplexNoise;
@@ -19,15 +17,14 @@ public class MainModel {
 	private Map<Position, Field> fields;
 	private ArrayList<ControlPoint> controlPoints;
     private List<MainModelListener> listeners;
-    private MainCommunicatorListener mcl;
 
     public MainModel(int w) {
         mapSize = w;
 		fields = new HashMap<Position, Field>();
 		controlPoints = new ArrayList<ControlPoint>();
         teams = new HashMap<>();
-        teams.put("white", new Team("white", "dummy", 5000, this));
-        teams.put("red", new Team("red","heuristic", 5000, this));
+        teams.put("white", new Team("white", "sarlMove", 5000, this));
+        // teams.put("red", new Team("red","heuristic", 5000, this));
         listeners = new ArrayList<>();
         makeAllGreenMap();
         testUnits();
@@ -36,7 +33,7 @@ public class MainModel {
 
     private void testUnits() {
         new Unit(fields.get(new Position(10, 10)), teams.get("white"), Type.INFANTRY);
-        new Unit(fields.get(new Position(0, 0)), teams.get("red"), Type.TANK);
+        // new Unit(fields.get(new Position(0, 0)), teams.get("red"), Type.TANK);
     }
 
     private void testControlPoints() {
