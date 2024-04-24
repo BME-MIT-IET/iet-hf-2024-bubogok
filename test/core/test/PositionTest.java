@@ -4,8 +4,8 @@ import org.junit.*;
 
 import com.badlogic.gdx.math.Vector2;
 
-import temalab.Position;
-import temalab.Map;
+import temalab.model.Map;
+import temalab.model.Position;
 
 public class PositionTest {
     static Position p;

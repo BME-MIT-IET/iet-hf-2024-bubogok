@@ -1,4 +1,4 @@
-package temalab;
+package temalab.model;
 
 public final class Field {
 	private Position pos;

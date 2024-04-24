@@ -1,6 +1,7 @@
-package temalab;
+package temalab.communicator;
 
 import java.util.Scanner;
+import temalab.model.*;
 import java.io.*;
 
 public class Communicator {
@@ -42,39 +43,40 @@ public class Communicator {
 	}
 
 	public void registerUnit() {
-		System.err.print("registering");
-		out.println("regPhase");
-		out.println(team.getBudget());
-		String answer = sc.nextLine();
-		String[] split = answer.split(" ");
-		loop:while(true) {
-			switch (split[0]) {
-				case "done": 
-					break loop;
-				case "add": {
-					switch (split[1]) {
-						case "tank": {
-							team.addUnit(new Unit(new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])), team, Unit.Type.TANK));
-						} break;
-						case "scout": {
-							team.addUnit(new Unit(new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])), team, Unit.Type.SCOUT));
-						} break;
-						case "infantry": {
-							team.addUnit(new Unit(new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])), team, Unit.Type.INFANTRY));
-						} break;
-						default:
-							break loop;
-					}
-				}
-			}
-			answer = sc.nextLine();
-			split = answer.split(" ");
-		}
-		System.err.println(team.getName() + " " + "ENDregistering");
+		// System.err.print("registering");
+		// out.println("regPhase");
+		// out.println(team.getBudget());
+		// String answer = sc.nextLine();
+		// String[] split = answer.split(" ");
+		// loop:while(true) {
+		// 	switch (split[0]) {
+		// 		case "done": 
+		// 			break loop;
+		// 		case "add": {
+		// 			switch (split[1]) {
+		// 				case "tank": {
+		// 					team.addUnit(new Unit(new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])), team, Unit.Type.TANK));
+		// 				} break;
+		// 				case "scout": {
+		// 					team.addUnit(new Unit(new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])), team, Unit.Type.SCOUT));
+		// 				} break;
+		// 				case "infantry": {
+		// 					team.addUnit(new Unit(new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])), team, Unit.Type.INFANTRY));
+		// 				} break;
+		// 				default:
+		// 					break loop;
+		// 			}
+		// 		}
+		// 	}
+		// 	answer = sc.nextLine();
+		// 	split = answer.split(" ");
+		// }
+		// System.err.println(team.getName() + " " + "ENDregistering");
 	}
 
 
 	public void communicate() {
+		team.refillActionPoints();
 		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + ++runCounter + "\033[0m");
 		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
 		// TODO: when communication will be done with python, there should be a timeout
