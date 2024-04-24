@@ -6,7 +6,7 @@ import java.util.List;
 import temalab.common.MainModel;
 
 public class MainCommunicator{
-    private boolean manualResetEvent = false;
+    private boolean manualResetEvent = true;
     private Thread commThread;
     private Object waiter = new Object();
     private boolean pause;
