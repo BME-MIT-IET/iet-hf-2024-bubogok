@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import temalab.common.MainModel;
 import temalab.common.MainModelListener;
+import temalab.communicator.MainCommunicator;
 import temalab.model.ControlPoint;
 import temalab.model.Field;
 import temalab.model.Team;
@@ -28,6 +29,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 	private OrthographicCamera camera;
 	int width;
 	int height;
+	int mapSize;
 
 
 	private float squareSize;
@@ -37,10 +39,12 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
     private Map<ControlPoint, ControlPointView> controlPointViews;
 	private Map<Team, TeamView> teamViews;
 	private MainModel mm;
+	private MainCommunicator mc;
 
-	public void addMM(MainModel mm, float sizingFactor) {
-		this.mm = mm;
+	public void init(MainModel mm, MainCommunicator mc, float sizingFactor) {
 		universalDistanceConstant = sizingFactor;
+		this.mm = mm;
+		this.mc = mc;
 	}
 
 	@Override
@@ -57,11 +61,11 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		int size = Math.min(width, height);
 		squareSize = (size / universalDistanceConstant) / mm.width();
 
+		
 		fieldViews = new HashMap<>();
 		unitViews = new HashMap<>();
 		controlPointViews = new HashMap<>();
 		teamViews = new HashMap<>();
-
 		mm.addListener(this);
 	}
 
@@ -113,19 +117,9 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		// }
 
 		if (Gdx.input.isKeyPressed(Input.Keys.Q)) dispose();
-		// if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-		// 	synchronized (waiter) {
-		// 		if (pause) {
-		// 			pause = false;
-		// 			waiter.notifyAll();
-		// 			System.out.println("RESUMED");
-		// 		} else {
-		// 			pause = true;
-		// 			System.out.println("PAUSED");
-		// 		}
-		// 	}
-		// 	System.out.println("paused = " + pause);
-		// }
+		if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+			mc.change();
+		}
 	}
 
 	@Override

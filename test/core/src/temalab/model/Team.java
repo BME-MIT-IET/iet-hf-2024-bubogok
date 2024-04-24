@@ -9,11 +9,12 @@ import temalab.common.MainModel;
 public final class Team {
 	private Color color;
 	private String name;
+	private String strategy;
 	private final HashMap<Integer, Unit> units;
 	private int budget = 0;
 	private MainModel mm;
 	
-	public Team(String name, int budget, MainModel mm) {
+	public Team(String name, String strategy, int budget, MainModel mm) {
 		units = new HashMap<Integer, Unit>();
 		if(name == "white") {
 			this.color = new Color(1, 1, 1, 1);
@@ -25,6 +26,7 @@ public final class Team {
 		this.name = name;
 		this.budget = budget;
 		this.mm = mm;
+		this.strategy = strategy;
 	}
 
 	public Color getColor() {
@@ -35,6 +37,10 @@ public final class Team {
 		return name;
 	}
 
+	public String getStrategy() {
+		return strategy;
+	}
+	
 	public int getBudget() {
 		return budget;
 	}

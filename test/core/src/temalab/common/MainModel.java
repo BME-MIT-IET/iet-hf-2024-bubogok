@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import temalab.communicator.Communicator;
+import temalab.communicator.MainCommunicatorListener;
 import temalab.model.*;
 import temalab.model.Unit.Type;
 import temalab.util.SimplexNoise;
@@ -17,14 +19,15 @@ public class MainModel {
 	private Map<Position, Field> fields;
 	private ArrayList<ControlPoint> controlPoints;
     private List<MainModelListener> listeners;
+    private MainCommunicatorListener mcl;
 
     public MainModel(int w) {
         mapSize = w;
 		fields = new HashMap<Position, Field>();
 		controlPoints = new ArrayList<ControlPoint>();
         teams = new HashMap<>();
-        teams.put("white", new Team("white", 5000, this));
-        teams.put("red", new Team("red", 5000, this));
+        teams.put("white", new Team("white", "dummy", 5000, this));
+        teams.put("red", new Team("red","heuristic", 5000, this));
         listeners = new ArrayList<>();
         makeAllGreenMap();
         testUnits();
@@ -39,7 +42,6 @@ public class MainModel {
     private void testControlPoints() {
         controlPoints.add(new ControlPoint(new Position(10, 10), 10, 3, this));
     }
-
 
     private void makeSimplexNoiseMap() {
 		for (int i = 0; i < mapSize; i++) {
@@ -98,7 +100,6 @@ public class MainModel {
         for(var t: teams.values()) {
             mml.teamCreated(t);
         }
-        
     }
 
     public void removeistener(MainModelListener mml) {
@@ -158,5 +159,9 @@ public class MainModel {
 
     public int width() {
         return mapSize;
+    }
+
+    public List<Team> getTeams() {
+        return new ArrayList<Team>(teams.values());
     }
 }

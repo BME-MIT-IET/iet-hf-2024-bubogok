@@ -5,20 +5,19 @@ import java.util.List;
 
 import temalab.common.MainModel;
 
-public class MainCommunicator {
-    private boolean manualResetEvent = true;
+public class MainCommunicator{
+    private boolean manualResetEvent = false;
     private Thread commThread;
     private Object waiter = new Object();
     private boolean pause;
-    Communicator TL1;
-	Communicator TL2;
     private List<Communicator> communictors;
 
     public MainCommunicator(MainModel mm) {
         communictors = new ArrayList<>();
-        communictors.add(new Communicator(mm.team("white"), "python/test1.py", "dummy"));
-		communictors.add(new Communicator(mm.team("red"), "python/test1.py", "heuristic"));
-
+        var teams = mm.getTeams();
+        for(var t : teams) {
+            communictors.add(new Communicator(t, "python/test1.py", t.getStrategy()));
+        }
         commThread = new Thread() {
 			public void run() {
 				while (true) {
@@ -51,7 +50,22 @@ public class MainCommunicator {
     }
 
     public void stop() {
-        TL1.closeThread();
-		TL2.closeThread();
+        for(var c : communictors) {
+            c.closeThread();
+        }
+    }
+
+    public void change() {
+        synchronized (waiter) {
+            if (pause) {
+                pause = false;
+                waiter.notifyAll();
+                System.out.println("RESUMED");
+            } else {
+                pause = true;
+                System.out.println("PAUSED");
+            }
+        }
+        System.out.println("paused = " + pause);
     }
 }
