@@ -32,7 +32,9 @@ public class Unit {
 	private int price;
 	private int maxActionPoints;
 	private int actionPoints;
+
 	private static Scanner sc;
+	private static int idCounter = 0;
 	
 	public enum Type {
 		SCOUT,
@@ -44,7 +46,7 @@ public class Unit {
 		seenFields = new ArrayList<Field>();
 		seenUnits = new ArrayList<PerceivedUnit>();
 		steppableTypes = new ArrayList<Field.Type>();
-		ID = Map.instance().r.nextInt(1000000);
+		ID = idCounter++;
 		this.field = Map.instance().getField(pos);
 		field.arrive(this);
 		this.team = team;

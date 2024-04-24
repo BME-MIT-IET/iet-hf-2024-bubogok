@@ -7,8 +7,6 @@ import temalab.model.Unit.Type;
 
 public class MainModel {
     private Map m;
-    private Team t1;
-    private Team t2;
     private List<Team> teams;
     private List<MainModelListener> listeners;
 

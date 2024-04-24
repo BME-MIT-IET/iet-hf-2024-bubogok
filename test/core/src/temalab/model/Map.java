@@ -7,18 +7,15 @@ import temalab.model.Field.Type;
 import temalab.util.SimplexNoise;
 
 public final class Map {
-	public Random r;
+
 	private int numberOfSquares;
 	private HashMap<Position, Field> fields;
-	private ArrayList<Team> teams;
 	private ArrayList<ControlPoint> controlPoints;
 
 	public Map(int nos) {
 		fields = new HashMap<Position, Field>();
-		teams = new ArrayList<Team>();
 		controlPoints = new ArrayList<ControlPoint>();
 		numberOfSquares = nos;
-		r = new Random();
 	}
 
 	public void makeSimplexNoiseMap() {
@@ -59,10 +56,6 @@ public final class Map {
 				fields.put(temPos, new Field(temPos, Type.GRASS));
 			}
 		}
-	}
-
-	public void addTeam(Team t) {
-		teams.add(t);
 	}
 
 	public void addControlPoint(ControlPoint cp) {
