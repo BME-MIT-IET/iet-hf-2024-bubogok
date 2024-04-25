@@ -21,11 +21,6 @@ public class MainCommunicator{
         commThread = new Thread() {
 			public void run() {
 				while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     synchronized (waiter) {
                         while (pause) {
                             try {
@@ -53,6 +48,10 @@ public class MainCommunicator{
         for(var c : communictors) {
             c.closeThread();
         }
+    }
+
+    public void setSteppability() {
+        manualResetEvent = true;
     }
 
     public void change() {

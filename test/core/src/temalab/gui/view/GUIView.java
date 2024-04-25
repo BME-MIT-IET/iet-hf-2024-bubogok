@@ -45,6 +45,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		universalDistanceConstant = sizingFactor;
 		this.mm = mm;
 		this.mc = mc;
+		mc.setSteppability();
 	}
 
 	@Override
