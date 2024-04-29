@@ -21,6 +21,8 @@
 
 ### Teljesítmény, stresszteszt
 - szálak szinkronizációja
+    - Java, python logging egy fájlban, időhelyesen, javaból vezérelve
+  
 
 ### BDD
 - cucumber
