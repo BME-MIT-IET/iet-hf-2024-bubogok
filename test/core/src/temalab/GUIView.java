@@ -1,8 +1,6 @@
-package temalab.gui.view;
+package temalab;
 
 import java.util.HashMap;
-import java.util.Map;
-
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -13,12 +11,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import temalab.common.MainModel;
 import temalab.common.MainModelListener;
-import temalab.communicator.MainCommunicator;
+import temalab.gui.view.ControlPointView;
+import temalab.gui.view.MapView;
+import temalab.gui.view.UnitView;
 import temalab.model.ControlPoint;
-import temalab.model.Field;
-import temalab.model.Team;
+import temalab.model.Map;
 import temalab.model.Unit;
 
 
@@ -27,45 +25,27 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 	SpriteBatch batch;
 	BitmapFont font;
 	private OrthographicCamera camera;
-	int width;
-	int height;
-	int mapSize;
 
-
-	private float squareSize;
-	private float universalDistanceConstant;
-	private Map<Unit, UnitView> unitViews;
-	private Map<Field, FieldView> fieldViews;
-    private Map<ControlPoint, ControlPointView> controlPointViews;
-	private Map<Team, TeamView> teamViews;
+	private java.util.Map<Unit, UnitView> unitViews;
+	private java.util.Map<ControlPoint, ControlPointView> controlPointViews;
+	private MapView mapView;
 	private MainModel mm;
-	private MainCommunicator mc;
 
-	public void init(MainModel mm, MainCommunicator mc, float sizingFactor) {
-		universalDistanceConstant = sizingFactor;
+	public void addMM(MainModel mm) {
 		this.mm = mm;
-		this.mc = mc;
 	}
 
 	@Override
 	public void create() {
-		width = Gdx.graphics.getWidth();
-		height = Gdx.graphics.getHeight();
 		Gdx.graphics.setContinuousRendering(true);
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, width, height);
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		int size = Math.min(width, height);
-		squareSize = (size / universalDistanceConstant) / mm.width();
-
-		
-		fieldViews = new HashMap<>();
 		unitViews = new HashMap<>();
 		controlPointViews = new HashMap<>();
-		teamViews = new HashMap<>();
 		mm.addListener(this);
 	}
 
@@ -78,11 +58,10 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		Gdx.gl.glLineWidth(2);
 		Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-		Gdx.gl.glScissor(0, 0, height, height);
+		Gdx.gl.glScissor(0, 0, Gdx.graphics.getHeight(), Gdx.graphics.getHeight());
 
-		fieldViews.forEach((f, fv) -> {
-			fv.render(shapeRenderer, batch);
-		});
+		mapView.render(shapeRenderer, batch);
+
 		unitViews.forEach((u, uv) -> {
 			uv.render(shapeRenderer, batch);
 		});
@@ -93,12 +72,20 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		shapeRenderer.flush();
 		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
 
-		int i = 1;
-		for(var tv : teamViews.values()) {
-			int x = (width - height) *  i / (teamViews.size() + 1);
-			tv.render(batch, font, height + x,  990);
-			i++;
-		}
+		// batch.begin();
+		// ArrayList<String> t1Monitor = t1.teamMembersToString(true);
+		// ArrayList<String> t2Monitor = t2.teamMembersToString(true);
+		// int offset = 990;
+		// for (var s : t1Monitor) {
+		// 	font.draw(batch, s, 1200, offset);
+		// 	offset -= 120;
+		// }
+		// offset = 990;
+		// for (var s : t2Monitor) {
+		// 	font.draw(batch, s, 1400, offset);
+		// 	offset -= 120;
+		// }
+		// batch.end();
 
 		// if (t1.units().isEmpty()) {
 		// 	try {
@@ -117,9 +104,19 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		// }
 
 		if (Gdx.input.isKeyPressed(Input.Keys.Q)) dispose();
-		if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-			mc.change();
-		}
+		// if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+		// 	synchronized (waiter) {
+		// 		if (pause) {
+		// 			pause = false;
+		// 			waiter.notifyAll();
+		// 			System.out.println("RESUMED");
+		// 		} else {
+		// 			pause = true;
+		// 			System.out.println("PAUSED");
+		// 		}
+		// 	}
+		// 	System.out.println("paused = " + pause);
+		// }
 	}
 
 	@Override
@@ -129,28 +126,20 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		font.dispose();
 		System.exit(0);
 	}
-	
-	public float squareSize() {
-		return squareSize;
-	}
-	
-	public float universalDistanceConstant() {
-		return universalDistanceConstant;
-	}
 
 	@Override
 	public void unitCreated(Unit u) {
-		unitViews.put(u, new UnitView(u, this));
+		unitViews.put(u, new UnitView(u, mapView));
 	}
 
 	@Override
 	public void unitDestoryed(Unit u) {
 		unitViews.remove(u);
 	}
-	
+
 	@Override
 	public void controlPointCreated(ControlPoint cp) {
-		controlPointViews.put(cp, new ControlPointView(cp, this));
+		controlPointViews.put(cp, new ControlPointView(cp, mapView));
 	}
 
 	@Override
@@ -159,20 +148,15 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 	}
 
 	@Override
-	public void fieldCreated(temalab.model.Field f) {
-		fieldViews.put(f, new FieldView(f, this));
+	public void mapCreated(Map m) {
+		if(mapView != null) {
+			throw new RuntimeException("Map already exsists");
+		}
+		mapView = new MapView(m, Gdx.graphics.getHeight(), 1.1f);
 	}
 
 	@Override
-	public void fieldDestroyed(temalab.model.Field f) {}
-
-	@Override
-	public void teamCreated(Team t) {
-		teamViews.put(t, new TeamView(t));
-	}
-
-	@Override
-	public void teamDestroyed(Team t) {
-		teamViews.remove(t);
+	public void mapDestoryed(Map m) {
+		mapView = null;
 	}
 }

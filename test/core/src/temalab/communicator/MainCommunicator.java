@@ -1,23 +1,20 @@
 package temalab.communicator;
 
-import java.util.ArrayList;
-import java.util.List;
+import temalab.MainModel;
+import temalab.model.Map;
 
-import temalab.common.MainModel;
-
-public class MainCommunicator{
+public class MainCommunicator {
     private boolean manualResetEvent = true;
     private Thread commThread;
     private Object waiter = new Object();
     private boolean pause;
-    private List<Communicator> communictors;
+    Communicator TL1;
+	Communicator TL2;
 
-    public MainCommunicator(MainModel mm) {
-        communictors = new ArrayList<>();
-        var teams = mm.getTeams();
-        for(var t : teams) {
-            communictors.add(new Communicator(t, "python/test1.py", t.getStrategy()));
-        }
+    public MainCommunicator(MainModel m) {
+        TL1 = new Communicator(m.t1(), "python/test1.py", "dummy");
+		TL2 = new Communicator(m.t2(), "python/test1.py", "heuristic");
+
         commThread = new Thread() {
 			public void run() {
 				while (true) {
@@ -35,13 +32,15 @@ public class MainCommunicator{
                             }
                         }
                     }
-                    for(var c : communictors) {
-                        c.communicate();
-                        mm.ControlPointsUpdate();
-                        System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
-                        if(manualResetEvent) {
-                            pause = true;
-                        }
+                    m.t1().refillActionPoints();
+                    TL1.communicate();
+                    Map.instance().ControlPointsUpdate();
+        
+                    m.t2().refillActionPoints();
+                    TL2.communicate();
+                    System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
+                    if(manualResetEvent) {
+                        pause = true;
                     }
                 }
 			}
@@ -50,22 +49,7 @@ public class MainCommunicator{
     }
 
     public void stop() {
-        for(var c : communictors) {
-            c.closeThread();
-        }
-    }
-
-    public void change() {
-        synchronized (waiter) {
-            if (pause) {
-                pause = false;
-                waiter.notifyAll();
-                System.out.println("RESUMED");
-            } else {
-                pause = true;
-                System.out.println("PAUSED");
-            }
-        }
-        System.out.println("paused = " + pause);
+        TL1.closeThread();
+		TL2.closeThread();
     }
 }

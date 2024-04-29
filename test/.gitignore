@@ -9,9 +9,6 @@ hs_err_pid*
 assets/python/__pycache__/
 desktop/bin/main/python/__pycache__/
 
-
-#documentation
-doku/
 ## Robovm
 /ios/robovm-build/
 
