@@ -20,16 +20,13 @@ public class UnitView implements UnitListener {
     private int viewRange;
 	private Color c;
 	private Texture texture;
-	private boolean visibility;
-	private MapView mv;
-	private float squareSize = 34.375f;
+	private GUIView gv;
 
-    public UnitView(Unit u, MapView mv) {
+    public UnitView(Unit u, GUIView guiv) {
         this.u = u;
-		this.mv = mv;
+		this.gv = guiv;
 		u.registerListener(this);
         currentlyShooting = false;
-		visibility = true;
         shootRange = u.shootRange();
         viewRange = u.viewRange();
 		this.c = u.color();
@@ -43,32 +40,31 @@ public class UnitView implements UnitListener {
     }
 
     public void render(ShapeRenderer sr, SpriteBatch sb) {
-		if(visibility) {
-			float size = squareSize;
-			Vector2 center = u.pos().screenCoords();
-			
-			sr.begin(ShapeRenderer.ShapeType.Filled);
-			sr.setColor(c);
-			sr.circle(center.x, center.y, size / 2);
-			sr.end();
-			
-			sb.begin();
-			sb.draw(texture, center.x - (size / 2), center.y - (size / 2), size, size);
-			sb.end();
-			
+		float size = gv.squareSize();
+		Vector2 center = u.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
+		
+		sr.begin(ShapeRenderer.ShapeType.Filled);
+		sr.setColor(c);
+		sr.circle(center.x, center.y, size / 2);
+		sr.end();
+		
+		sb.begin();
+		sb.draw(texture, center.x - (size / 2), center.y - (size / 2), size, size);
+		sb.end();
+		
+		sr.begin(ShapeRenderer.ShapeType.Line);
+		sr.setColor(c);
+		sr.circle(center.x, center.y, gv.universalDistanceConstant() * size * shootRange);
+		sr.circle(center.x, center.y, gv.universalDistanceConstant() * size * viewRange);
+		sr.end();
+		if(currentlyShooting) {
 			sr.begin(ShapeRenderer.ShapeType.Line);
 			sr.setColor(c);
-			sr.circle(center.x, center.y, mv.universalDistanceConstant() * size * shootRange);
-			sr.circle(center.x, center.y, mv.universalDistanceConstant() * size * viewRange);
+			sr.line(center, shootingPos.screenCoords(gv.squareSize(), gv.universalDistanceConstant()));
 			sr.end();
-			if(currentlyShooting) {
-				sr.begin(ShapeRenderer.ShapeType.Line);
-				sr.setColor(c);
-				sr.line(center, shootingPos.screenCoords());
-				sr.end();
-				currentlyShooting = false;
-			}
+			currentlyShooting = false;
 		}
+		
 	}
 
     @Override
@@ -79,6 +75,6 @@ public class UnitView implements UnitListener {
 
 	@Override
 	public void unitDied() {
-		visibility = false;
+		gv.unitDestoryed(u);
 	}
 }

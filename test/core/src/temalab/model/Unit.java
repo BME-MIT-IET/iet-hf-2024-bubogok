@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.badlogic.gdx.graphics.Color;
 
+import temalab.common.MainModel;
 import temalab.common.UnitListener;
 
 public class Unit {
@@ -32,7 +33,9 @@ public class Unit {
 	private int price;
 	private int maxActionPoints;
 	private int actionPoints;
+
 	private static Scanner sc;
+	private static int idCounter = 0;
 	
 	public enum Type {
 		SCOUT,
@@ -40,18 +43,17 @@ public class Unit {
 		INFANTRY
 	}
 
-	public Unit(Position pos, Team team, Type type) {
+	public Unit(Field f, Team team, Type type) {
 		seenFields = new ArrayList<Field>();
 		seenUnits = new ArrayList<PerceivedUnit>();
 		steppableTypes = new ArrayList<Field.Type>();
-		ID = Map.instance().r.nextInt(1000000);
-		this.field = Map.instance().getField(pos);
+		ID = idCounter++;
+		this.field = f;
 		field.arrive(this);
 		this.team = team;
 		team.addUnit(this);
 		this.type = type;
         try {
-
 			if(type == Unit.Type.TANK) {
 				sc = new Scanner(new File("desciptors/TANK.txt"));
 			} else if(type == Unit.Type.INFANTRY) {
@@ -110,7 +112,6 @@ public class Unit {
 	}
 
 	public void shoot(Field target) {
-		//TODO: 0.5 offset a posban kellene
 		if(actionPoints <= 0) {
 			throw new RuntimeException("shoot out of actionPoints: " + this.actionPoints + " id: " + this.ID);
 		}
@@ -140,10 +141,10 @@ public class Unit {
 		}
 	}
 	
-	public void updateWorld() {
-		seenFields = Map.instance().requestFileds(field.pos(), viewRange + 0.5f);
-		seenUnits = Map.instance().requestPerceivedUnits(field.pos(), viewRange + 0.5f);
-		seenControlPoints = Map.instance().requestControlPoints(field.pos(), viewRange + 0.5f);
+	public void updateWorld(MainModel mm) {
+		seenFields = mm.requestFileds(field.pos(), viewRange + 0.5f);
+		seenUnits = mm.requestPerceivedUnits(field.pos(), viewRange + 0.5f);
+		seenControlPoints = mm.requestControlPoints(field.pos(), viewRange + 0.5f);
 	}
 
 	public void refillActionPoints() {

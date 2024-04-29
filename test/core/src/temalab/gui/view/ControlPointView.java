@@ -12,18 +12,18 @@ public class ControlPointView implements ControlPointListener{
     private Vector2 center;
     private int size;
     private Color c;
-    private MapView mv;
+    private GUIView gv;
 
-    public ControlPointView(ControlPoint cp, MapView mv) {
-        this.mv = mv;
-        this.center = cp.pos().screenCoords();
+    public ControlPointView(ControlPoint cp, GUIView gv) {
+        this.gv = gv;
+        this.center = cp.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
         this.size = cp.size();
         this.c = new Color(Color.CYAN);
         cp.registerListener(this);
     }
 
     public void render(ShapeRenderer sr, SpriteBatch sb) {
-        float sqareSize = mv.squareSize() * (size + 1.5f);
+        float sqareSize = gv.squareSize() * (size + 1.5f);
         sr.begin(ShapeRenderer.ShapeType.Line);
         sr.setColor(c);
         sr.circle(center.x, center.y, sqareSize);
