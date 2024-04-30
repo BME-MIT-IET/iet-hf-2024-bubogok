@@ -5,3 +5,4 @@ class ControlPoint:
         self.pos = Pos(params[:2])
         self.percentage = params[2]
         self.size = params[3]
+        self.id = params[4]

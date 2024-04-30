@@ -5,6 +5,7 @@ import inputHandler
 from heuristic import heuristicAction
 from dummy import dummyAction
 from sarlMove import sarlMove, rlInit
+from teamLeader import tLAction
 
 import sys
 import traceback
@@ -13,7 +14,7 @@ from datetime import datetime
 
 def communicate(units):
     for u in units:
-        rlInit(units)
+        tlInit(units)
         match sys.argv[1]:
             case "heuristic":
                 result = heuristicAction(u)
@@ -45,7 +46,8 @@ def main():
                     pass
                 case "commPhase":
                     units = inputHandler.makeUnits()
-                    print(communicate(units))
+                    print(tLAction(units))
+                    # print(communicate(units))
                 case "endPhase":
                     endPhase(units)
     except Exception as err:

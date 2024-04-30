@@ -30,7 +30,7 @@ def readUnitIn():
         for sublist in unitsublists:
             sublist = sublist.strip()
             elements = sublist.split(" ")
-            testseenUnits.append([int(elements[0]), int(elements[1]), elements[2].strip(), elements[3].strip()])
+            testseenUnits.append([int(elements[0]), int(elements[1]), elements[2].strip(), elements[3].strip(), elements[4].strip()])
         #/seenUnits
 
     
