@@ -207,7 +207,7 @@ public class Unit {
 	}
 
 	public PerceivedUnit getPerception() {
-		return new PerceivedUnit(field.pos().toString(), team.getName(), type.toString());
+		return new PerceivedUnit(field.pos().toString(), team.getName(), type.toString(), ID);
 	}
 	
 	public int actionPoints() {

@@ -24,7 +24,7 @@ public class MainModel {
 		controlPoints = new ArrayList<ControlPoint>();
         teams = new HashMap<>();
         teams.put("white", new Team("white", "sarlMove", 5000, this));
-        // teams.put("red", new Team("red","heuristic", 5000, this));
+        teams.put("red", new Team("red","heuristic", 5000, this));
         listeners = new ArrayList<>();
         makeAllGreenMap();
         testUnits();
@@ -32,8 +32,8 @@ public class MainModel {
     }
 
     private void testUnits() {
-        new Unit(fields.get(new Position(10, 10)), teams.get("white"), Type.INFANTRY);
-        // new Unit(fields.get(new Position(0, 0)), teams.get("red"), Type.TANK);
+        new Unit(fields.get(new Position(10, 10)), teams.get("white"), Type.SCOUT);
+        new Unit(fields.get(new Position(0, 0)), teams.get("red"), Type.TANK);
     }
 
     private void testControlPoints() {

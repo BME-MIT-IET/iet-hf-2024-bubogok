@@ -50,8 +50,8 @@ public class MainCommunicator{
         }
     }
 
-    public void setSteppability() {
-        manualResetEvent = true;
+    public void setSteppability(Boolean b) {
+        manualResetEvent = b;
     }
 
     public void change() {

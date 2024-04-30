@@ -19,12 +19,15 @@ public class ControlPoint {
     private Team prevControlTeam;
     private int controlLenght;
     private MainModel mm;
+    private final int ID;
+    private static int idCounter = 0;
 
     public ControlPoint(Position p, int percentage, int size, MainModel mm) {
         pos = p;
         this.size = size;
         this.percentage = percentage;
         this.mm = mm;
+        this.ID = idCounter++;
     }
 
     public void updateNearbyUnits() {
@@ -97,6 +100,6 @@ public class ControlPoint {
 	}
 
     public String toString() {
-		return this.pos.toString() + " " + this.percentage + " " + this.size;
+		return this.pos.toString() + " " + this.percentage + " " + this.size + " " + this.ID ;
 	}
 }
