@@ -10,9 +10,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+actions = ["attack", "retreat"]
 
+resolution = 3
+
+# id - cp
 collectiveControlPoints = {}
+
+# id - unit
 collectiveEnemys = {}
+
+# AxB
+mapParts = np.zeros((3, 3, 2), dtype=int)
+
 
 
 def collectiveSight(units):
@@ -24,10 +34,51 @@ def collectiveSight(units):
 			if(cp.id not in collectiveControlPoints.keys()):
 				collectiveControlPoints[cp.id] = cp
 	debug_print(f"enemys: {collectiveEnemys}, cps: {collectiveControlPoints}")
-	return None
 
+# fel kellene bontani a pályát részekre
+def participator():
+	global collectiveEnemys
+	global mapParts
+	for enemyId in collectiveEnemys:
+		x = collectiveEnemys[enemyId].pos.x
+		y = collectiveEnemys[enemyId].pos.y
+		debug_print(f"x: {x}, y: {y}")
+		if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
+			mapParts[0][0][0] += 1
+			# mapParts[0][0][0].append(collectiveEnemys[enemyId])
+		elif(x >= 0 and x <= 10 and y > 10 and y <= 20):
+			mapParts[0][1][0] += 1
+		elif(x >= 0 and x <= 10 and y > 20 and y <= 30):
+			mapParts[0][2][0] += 1
+
+		elif(x > 10 and x <= 20 and y >= 0 and y <= 10):
+			mapParts[1][0][0] += 1
+		elif(x > 10 and x <= 20 and y > 10 and y <= 20):
+			mapParts[1][1][0] += 1
+		elif(x > 10 and x <= 20 and y > 20 and y <= 30):
+			mapParts[1][2][0] += 1
+
+		elif(x > 20 and x <= 30 and y >= 0 and y <= 10):
+			mapParts[0][0][0] += 1
+		elif(x > 20 and x <= 30 and y > 10 and y <= 20):
+			mapParts[0][1][0] += 1
+		elif(x > 20 and x <= 30 and y > 20 and y <= 30):
+			mapParts[0][2][0] += 1
+
+	debug_print(mapParts)
+
+
+
+
+# itt kellene tömöríteni a tudást nesekbe
+def asdf():
+	pass
 
 
 def tLAction(units):
+	global mapParts
 	collectiveSight(units)
+	participator()
+
+	mapParts = np.zeros((3, 3, 2), dtype=int)
 	return "endTurn"

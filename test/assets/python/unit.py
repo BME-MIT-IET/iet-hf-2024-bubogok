@@ -50,4 +50,4 @@ class Unit:
         descriptorFile.close()
 
     def state(self):
-        return f"id:{self.id}, aps: {self.actionPoints} type:{self.type}, pos: {self.field.getPos()},\n\thealth: {self.health}, ammo: {self.ammo}, fuel:{self.fuel} \n cps:{self.seenControlPoints}"
+        return f"id:{self.id}, aps: {self.actionPoints} type:{self.type}, pos: {self.field.getPos()},\n\thealth: {self.health}, ammo: {self.ammo}, fuel:{self.fuel}"

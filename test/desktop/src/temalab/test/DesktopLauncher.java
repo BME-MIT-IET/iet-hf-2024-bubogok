@@ -8,7 +8,7 @@ import temalab.gui.view.GUIView;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		MainModel mm = new MainModel(32);
+		MainModel mm = new MainModel(30);
 		MainCommunicator mc = new MainCommunicator(mm);
 		if(arg[0].equals("graf")) {
 			Lwjgl3ApplicationConfiguration simu = new Lwjgl3ApplicationConfiguration();

@@ -8,6 +8,12 @@ class Pos:
     def val(self):
         return self.x, self.y
 
+    def x(self):
+        return self.x
+
+    def y(self):
+        return self.y
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
 
