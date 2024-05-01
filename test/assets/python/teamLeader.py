@@ -42,7 +42,6 @@ def participator():
 	for enemyId in collectiveEnemys:
 		x = collectiveEnemys[enemyId].pos.x
 		y = collectiveEnemys[enemyId].pos.y
-		debug_print(f"x: {x}, y: {y}")
 		if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
 			mapParts[0][0][0] += 1
 			# mapParts[0][0][0].append(collectiveEnemys[enemyId])
@@ -64,6 +63,32 @@ def participator():
 			mapParts[0][1][0] += 1
 		elif(x > 20 and x <= 30 and y > 20 and y <= 30):
 			mapParts[0][2][0] += 1
+
+
+	for cpId in collectiveControlPoints:
+		x = collectiveControlPoints[cpId].pos.x
+		y = collectiveControlPoints[cpId].pos.y
+		if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
+			mapParts[0][0][1] += 1
+			# mapParts[0][0][0].append(collectiveEnemys[enemyId])
+		elif(x >= 0 and x <= 10 and y > 10 and y <= 20):
+			mapParts[0][1][1] += 1
+		elif(x >= 0 and x <= 10 and y > 20 and y <= 30):
+			mapParts[0][2][1] += 1
+
+		elif(x > 10 and x <= 20 and y >= 0 and y <= 10):
+			mapParts[1][0][1] += 1
+		elif(x > 10 and x <= 20 and y > 10 and y <= 20):
+			mapParts[1][1][1] += 1
+		elif(x > 10 and x <= 20 and y > 20 and y <= 30):
+			mapParts[1][2][1] += 1
+
+		elif(x > 20 and x <= 30 and y >= 0 and y <= 10):
+			mapParts[0][0][1] += 1
+		elif(x > 20 and x <= 30 and y > 10 and y <= 20):
+			mapParts[0][1][1] += 1
+		elif(x > 20 and x <= 30 and y > 20 and y <= 30):
+			mapParts[0][2][1] += 1
 
 	debug_print(mapParts)
 
