@@ -41,11 +41,11 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 	private MainModel mm;
 	private MainCommunicator mc;
 
-	public void init(MainModel mm, MainCommunicator mc, float sizingFactor) {
+	public void init(MainModel mm, MainCommunicator mc, float sizingFactor, boolean steppable) {
 		universalDistanceConstant = sizingFactor;
 		this.mm = mm;
 		this.mc = mc;
-		mc.setSteppability(false);
+		mc.setSteppability(steppable);
 	}
 
 	@Override

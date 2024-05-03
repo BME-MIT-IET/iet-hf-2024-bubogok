@@ -36,6 +36,8 @@ public class MainModel {
         new Unit(fields.get(new Position(0, 0)), teams.get("red"), Type.TANK);
 		new Unit(fields.get(new Position(20, 20)), teams.get("red"), Type.TANK);
 		new Unit(fields.get(new Position(5, 5)), teams.get("red"), Type.TANK);
+		new Unit(fields.get(new Position(7, 3)), teams.get("red"), Type.TANK);
+		new Unit(fields.get(new Position(7, 25)), teams.get("red"), Type.TANK);
     }
 
     private void testControlPoints() {

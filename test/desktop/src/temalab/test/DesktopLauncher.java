@@ -15,7 +15,7 @@ public class DesktopLauncher {
 			simu.setTitle("float");
 			simu.setWindowedMode(1600, 1000);
 			var gv = new GUIView();
-			gv.init(mm, mc, 1.1f);
+			gv.init(mm, mc, 1.1f, false);
 			new Lwjgl3Application(gv, simu);
 		}
 	}
