@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.checkerframework.checker.units.qual.h;
+
 import com.badlogic.gdx.graphics.Color;
 
 import temalab.common.MainModel;
@@ -207,7 +209,7 @@ public class Unit {
 	}
 
 	public PerceivedUnit getPerception() {
-		return new PerceivedUnit(field.pos().toString(), team.getName(), type.toString(), ID);
+		return new PerceivedUnit(field.pos().toString(), team.getName(), type.toString(), ID, health);
 	}
 	
 	public int actionPoints() {
