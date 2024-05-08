@@ -23,7 +23,7 @@ total_rewards_per_episode = list()
 #maximum of iteration per episode
 max_iter_episode = 30
 #initialize the exploration probability to 1
-exploration_proba = 1
+exploration_proba = 0.1
 #exploartion decreasing decay for exponential decreasing
 exploration_decreasing_decay = 0.001
 # minimum of exploration proba
@@ -145,8 +145,7 @@ def makeGroups(units):
 	global groups
 	closest = units[0]
 	furthest = units[1]
-	group1.append(closest)
-	group2.append(furthest)
+	
 	closestDist = math.sqrt((closest.field.pos.x**2 + closest.field.pos.y**2))
 	furthestDist = math.sqrt((furthest.field.pos.x**2 + furthest.field.pos.y**2))
 	for u in units:
@@ -157,6 +156,8 @@ def makeGroups(units):
 		if(currDist > furthestDist):
 			furthest = u
 			furthestDist = currDist
+	group1.append(closest)
+	group2.append(furthest)
 	for u in units:
 		if(u == closest or u == furthest):
 			continue
@@ -167,83 +168,81 @@ def makeGroups(units):
 				group1.append(u)
 			else:
 				group2.append(u)
-
+	groups = []
 	groups.append(group1)
 	groups.append(group2)
 
+prevState = None
+prevAction = None
+reward = 0
 
 def commanndeer(group, groupIndex):
+	commandQueue = list()
+
 	for u in group:
-		debug_print(u.actionPoints)
 		if(u.actionPoints != 0):
 			break
 	else:
-		debug_print("dani gec")
 		return None
 
 	Q_table = q_tables[groupIndex]
-	global exploration_proba
-	global runcounter
-	global total_episode_reward
-	global totalCounter
-	debug_print(exploration_proba, runcounter, totalCounter)
-
 	current_state_idx = toidx(group[0].field.pos)
+	global prevState
+	global prevAction
+	global reward
+	if(prevState is not None):
+		prevState_idx = toidx(prevState)
+		Q_table[prevState_idx, prevAction] = (1-lr) * Q_table[prevState_idx, prevAction] + lr*(reward + gamma*max(Q_table[current_state_idx,:] - Q_table[prevState_idx, prevAction]))
+
+
+	prevState = fromidx(current_state_idx)
 
 	if np.random.uniform(0,1) < exploration_proba:
-		action = random.randint(0, 2)
+		action = random.randint(0, 1)
 	else:
 		action = np.argmax(Q_table[current_state_idx,:])
+	debug_print(f"action: {action}")
+
+	prevAction = action
+	reward = rewardCalc(group, action)
 
 	if(action == 0):
-		attack(group)
+		commandQueue += attack(group)
 	else:
-		retreat(group)
+		commandQueue += retreat(group)
 
-	next_state_idx = current_state_idx
-	next_state = fromidx(next_state_idx)
-	reward = rewardCalc(group, action)
 	debug_print(f"current reward: {reward}")
-
-
-
-
-	Q_table[current_state_idx, action] = (1-lr) * Q_table[current_state_idx, action] + lr*(reward + gamma*max(Q_table[toidx(next_state),:] - Q_table[current_state_idx, action]))
-
-	total_episode_reward = total_episode_reward + reward
-	# If the episode is finished, we leave the for loop
-
-	#We update the exploration proba using exponential decay formula 
-	exploration_proba = max(min_exploration_proba, np.exp(-exploration_decreasing_decay*totalCounter))
-	
-	# global rewards_per_episode
-	# rewards_per_episode.append(total_episode_reward)
-
-	totalCounter += 1
-	total_couter_all.append(totalCounter)
-	total_rewards_per_episode.append(total_episode_reward)
-	runcounter += 1
-
-	# if(totalCounter > 100):
-	# 	plotData()
-
-	if(runcounter == max_iter_episode):
-		runcounter = 0
-		total_episode_reward = 0
-		return "reset"
+	return commandQueue
 
 
 def attack(group):
-	for unit in group:
-		move = unit.astar(collectiveControlPoints[0].pos)
-		if(move is not None):
-			print(f"move {unit.id} {move.pos.x} {move.pos.y}")
+	commands = list()
+	collectiveEnemys = []
+	for key in collectiveUnits:
+		if(collectiveUnits[key].team != group[0].team):
+			collectiveEnemys.append(collectiveUnits[key])
+	if(len(collectiveEnemys) != 0):
+		for unit in group:
+			move = unit.astar(collectiveEnemys[0].pos)
+			if(move is not None):
+				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+	else:
+		for unit in group:
+			move = unit.dummy()
+			if(move is not None):
+				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+
+	return commands
+
 
 def retreat(group):
-	for unit in group:
-		move = unit.astar(collectiveControlPoints[0].pos)
-		if(move is not None):
-			print(f"move {unit.id} {move.pos.x} {move.pos.y}")
+	commands = list()
+	if(len(collectiveControlPoints) != 0):
+		for unit in group:
+			move = unit.astar(collectiveControlPoints[0].pos)
+			if(move is not None):
+				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+	return commands
 
 
 def toidx(pos):
@@ -259,31 +258,42 @@ def rewardCalc(group, action):
 	if(group[0].field.pos.euclDist(group[0].seenControlPoints[0].pos) < group[0].seenControlPoints[0].size):
 		return 200
 	return (30 - currDist)
-	
-
-def nextState(state, action):
-	next_state = None
-	match action:
-		case 0:
-
 
 
 def tLAction(units):
 	global mapParts
+	global runcounter
+	global total_episode_reward
+	global totalCounter
 	collectiveSight(units)
 	participator()
 	makeGroups(units)
-	debug_print("mapParts:")
-	for r in mapParts:
-		for c in r:
-			debug_print(c.printStatus())
-	debug_print("mapPartsDONE")
+	teamCommands = list()
+	# debug_print("mapParts:")
+	# for r in mapParts:
+	# 	for c in r:
+	# 		debug_print(c.printStatus())
+	# debug_print("mapPartsDONE")
 
 	for i, g in enumerate(groups):
-		debug_print(f"groups: {groups}")
-		commanndeer(g, i)
+		debug_print(f"groups: {[[str(unit) for unit in group] for group in groups]}")
+		teamCommands += commanndeer(g, i)
 
 
+	total_episode_reward = total_episode_reward + reward
+	
+	totalCounter += 1
+	total_couter_all.append(totalCounter)
+	total_rewards_per_episode.append(total_episode_reward)
+	runcounter += 1
+
+	if(totalCounter > 300):
+		plotData()
+
+	if(runcounter == max_iter_episode):
+		runcounter = 0
+		total_episode_reward = 0
+		teamCommands.append("reset")
 
 	# debug_print("g1:")
 	# for u in group1:
@@ -293,7 +303,26 @@ def tLAction(units):
 	# 	debug_print(u.id)
 	# debug_print(f"g1:{u.id for u in group1}, g2:{u.id for u in group2}")
 
+	
+
 
 # ez itt egy picit kókány
 	mapParts = [[MapPart(i, j) for i in range(3)] for j in range(3)]
-	return "endTurn"
+
+	teamCommands.append("endTurn")
+	debug_print(teamCommands)
+	return teamCommands
+
+
+def plotData():
+	Q_table = q_tables[0]
+	graph, (Q_plot1, reward_plot, Q_plot2) = plt.subplots(1, 3)
+	Q_plot1.set_title("Q_table for group1 values heatmap")
+	Q_plot1.imshow(Q_table, cmap='binary', interpolation='nearest')
+	reward_plot.set_title("total rewards / episode")
+	reward_plot.plot(total_couter_all, total_rewards_per_episode, color='black', linewidth=0.5)
+	Q_table = q_tables[1]
+	Q_plot2.set_title("Q_table for group2 values heatmap")
+	Q_plot2.imshow(Q_table, cmap='binary', interpolation='nearest')
+	graph.tight_layout()
+	plt.show()

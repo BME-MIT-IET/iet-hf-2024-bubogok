@@ -125,7 +125,7 @@ public final class Team {
 	public void reset() {
 		units.forEach((id, u) -> {
 			// u.setField(Map.instance().getField(new Position(Map.instance().r.nextInt(0, 16), Map.instance().r.nextInt(0, 16))));
-			u.setField(mm.getField(new Position(4, 4)));
+			u.setField(mm.getField(u.getStartingPos()));
 		});
 	}
 }

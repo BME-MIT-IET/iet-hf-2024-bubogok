@@ -17,3 +17,6 @@ class Field:
 
     def __eq__(self, other):
         return self.pos == other.pos
+
+    def __str__(self):
+        return str(self.pos)

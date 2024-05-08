@@ -57,28 +57,28 @@ class Unit:
         openSet = []
         path = []
         if(self.field.pos.dist(dest) > self.viewRange):
-            debug_print("pyton in bruteForce")
             x = self.field.pos.x
             y = self.field.pos.y
-            bruteForce = None
-            if(dest.x > x and dest.y > y):
+            if(dest.x >= x and dest.y >= y):
                 for f in self.seenFields:
                     if(f.pos.x == x+1 and f.pos.y == y+1):
-                        bruteForce = f
-            if(dest.x < x and dest.y > y):
+                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
+                        return f
+            if(dest.x <= x and dest.y >= y):
                 for f in self.seenFields:
                     if(f.pos.x == x-1 and f.pos.y == y+1):
-                        bruteForce = f
-            if(dest.x > x and dest.y < y):
+                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
+                        return f
+            if(dest.x >= x and dest.y <= y):
                 for f in self.seenFields:
                     if(f.pos.x == x+1 and f.pos.y == y-1):
-                        bruteForce = f
-            if(dest.x < x and dest.y < y):
+                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
+                        return f
+            if(dest.x <= x and dest.y <= y):
                 for f in self.seenFields:
                     if(f.pos.x == x-1 and f.pos.y == y-1):
-                        bruteForce = f
-            return bruteForce
-
+                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
+                        return f
 
         openSet.append(self.field)
         while(len(openSet) > 0):
@@ -96,6 +96,7 @@ class Unit:
                     temp = temp.parent
                 if(len(path) == 1):
                     return None
+                debug_print(f"{self.id}: {self.field.pos}, astar path: {[str(field.pos) for field in path]}")
                 return path[-2]
 
             openSet.remove(current)
@@ -123,3 +124,19 @@ class Unit:
                         n.h = max(abs(n.pos.x - dest.x), abs(n.pos.y - dest.y))
                         n.f = n.g + n.h
                         n.parent = current
+
+
+    def dummyMove(self):
+        neighbours = []
+        for f in self.seenFields:
+            if(abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1
+                    and f.pos not in [u.pos for u in self.seenUnits]):
+                neighbours.append(f)
+        for n in neighbours:
+            if(n.type in self.steppables and n.pos != self.field.pos
+                and f.pos not in [u.pos for u in self.seenUnits]):
+                return n
+
+
+    def __str__(self):
+        return f"{self.id}, {str(self.field.pos)}"

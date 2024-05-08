@@ -13,6 +13,8 @@ public class MainModel {
     //measured in fields
     private int mapSize;
 
+	public int ackNumber = 1;
+
     private Map<String, Team> teams;
 	private Map<Position, Field> fields;
 	private ArrayList<ControlPoint> controlPoints;

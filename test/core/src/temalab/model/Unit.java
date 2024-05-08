@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import org.checkerframework.checker.units.qual.h;
-
 import com.badlogic.gdx.graphics.Color;
 
 import temalab.common.MainModel;
@@ -35,6 +33,7 @@ public class Unit {
 	private int price;
 	private int maxActionPoints;
 	private int actionPoints;
+	private Position statingPos;
 
 	private static Scanner sc;
 	private static int idCounter = 0;
@@ -55,6 +54,7 @@ public class Unit {
 		this.team = team;
 		team.addUnit(this);
 		this.type = type;
+		this.statingPos = f.pos();
         try {
 			if(type == Unit.Type.TANK) {
 				sc = new Scanner(new File("desciptors/TANK.txt"));
@@ -215,6 +215,11 @@ public class Unit {
 	public int actionPoints() {
 		return actionPoints;
 	}
+
+	public Position getStartingPos() {
+		return statingPos;
+	}
+
 	public String toString(boolean toMonitor) {
 		if(toMonitor) {
 			return "ID: " + ID + "\n"

@@ -11,6 +11,7 @@ public class Communicator {
 	private Scanner sc;
 	private PrintWriter out;
 	private int runCounter = 0;
+	private int messageCounter = 0;
 	Thread errorThread;
 	Process process;
 
@@ -36,6 +37,12 @@ public class Communicator {
 				erroReader.lines().forEach(s -> System.err.println("\033[47;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
 			} else if(color == "red") {
 				erroReader.lines().forEach(s -> System.err.println("\033[41;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
+			}
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		});
 		errorThread.start();
@@ -77,21 +84,22 @@ public class Communicator {
 
 	public void communicate() {
 		team.refillActionPoints();
-		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + ++runCounter + "\033[0m");
+		runCounter++;
+		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + runCounter + "\033[0m");
 		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
-		// TODO: when communication will be done with python, there should be a timeout
-		// value
 		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
+			messageCounter++;
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(17);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			team.updateUnits();
+			out.println(messageCounter);
 			out.println("commPhase");
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
+			System.err.println("itt kene jonnie");
 			if(!sc.hasNext()) {
 				System.err.println("\033[0;35mdebug from " + "SZAR1" + "\033[0m");
 				return;
@@ -105,10 +113,8 @@ public class Communicator {
 
 				case "reset":
 					team.reset();
-					//TODO: unitokat vissza az alaphelyzetbe, runcoiunter reset, minden reset
 				case "move": {
 					if (split.length == 4) {
-						// TODO: a parseInt dobhat kivételt, ha nem int
 						team.moveUnit(Integer.parseInt(split[1]),
 								new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])));
 					}
@@ -116,7 +122,6 @@ public class Communicator {
 					break;
 				case "shoot": {
 					if (split.length == 4) {
-						// TODO: a parseInt dobhat kivételt, ha nem int
 						team.fireUnit(Integer.parseInt(split[1]),
 								new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])));
 					}
@@ -131,10 +136,8 @@ public class Communicator {
 	}
 
 	public void endSimu(boolean win) {
-		//TODO: ez itt így hagy kívánni valót maga után
 		out.println("endPhase");
 		out.println(team.getName() +  " " + win);
-		// out.close();
 	}
 
 	public void closeThread() {
@@ -143,7 +146,6 @@ public class Communicator {
 		try {
 			errorThread.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -12,6 +12,8 @@ import traceback
 import os
 from datetime import datetime
 
+
+
 def communicate(units):
     for u in units:
         tlInit(units)
@@ -35,18 +37,29 @@ def endPhase(units):
 
 
 def main():
+    sys.stdout = open(os.devnull, 'w')
     units = []
+    teamCommands = list()
     team = input()
     logger.debug_print(f"log from:{datetime.now()}")
     try:
         while True:
+            messageCounter = int(input())
+            logger.setMessageCounter(messageCounter)
             phase = input()
             match phase:
                 case "regPhase":
                     pass
                 case "commPhase":
                     units = inputHandler.makeUnits()
-                    print(tLAction(units))
+                    if(len(teamCommands) == 0):
+                        teamCommands += tLAction(units)
+                    if(len(teamCommands) == 0):
+                        teamCommands.append("endTurn")
+                    logger.debug_print(f"teamCommands: {teamCommands}")
+                    print(teamCommands.pop(0), file=sys.__stdout__, flush=True)
+                    logger.debug_print(f"teamCommands: {teamCommands}")
+                    sys.stdout = open(os.devnull, 'w')
                     # print(communicate(units))
                 case "endPhase":
                     endPhase(units)

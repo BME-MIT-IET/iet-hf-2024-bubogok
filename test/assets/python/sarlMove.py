@@ -89,8 +89,8 @@ def sarlMove(unit):
 	total_rewards_per_episode.append(total_episode_reward)
 	runcounter += 1
 
-	# if(totalCounter > 100):
-	# 	plotData()
+	if(totalCounter > 1000):
+		plotData()
 
 	if(runcounter == max_iter_episode):
 		runcounter = 0
