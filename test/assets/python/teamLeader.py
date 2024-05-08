@@ -13,6 +13,12 @@ import numpy as np
 
 
 
+totalCounter = 1
+runcounter = 0
+total_episode_reward = 0
+total_couter_all = list()
+total_rewards_per_episode = list()
+
 
 #maximum of iteration per episode
 max_iter_episode = 30
@@ -54,7 +60,7 @@ q_tables[1] = g2Qtable
 
 group1 = []
 group2 = []
-groups = [group1, group2]
+groups = []
 
 
 def collectiveSight(units):
@@ -131,10 +137,12 @@ def participator():
 def makeGroups(units):
 	if(len(units) < 2):
 		return None
+	# erre itt valami sokkal okosabbat kellene kitalálni, mert 1 uniutnál nincs group, ez okés, de kettőnél van, kettő külön, még ha egymás mellett is vannak
 	global group1
 	group1 = list()
 	global group2
 	group2 = list()
+	global groups
 	closest = units[0]
 	furthest = units[1]
 	group1.append(closest)
@@ -160,19 +168,104 @@ def makeGroups(units):
 			else:
 				group2.append(u)
 
+	groups.append(group1)
+	groups.append(group2)
+
 
 def commanndeer(group, groupIndex):
 	for u in group:
+		debug_print(u.actionPoints)
 		if(u.actionPoints != 0):
 			break
 	else:
+		debug_print("dani gec")
 		return None
+
 	Q_table = q_tables[groupIndex]
 	global exploration_proba
 	global runcounter
 	global total_episode_reward
 	global totalCounter
 	debug_print(exploration_proba, runcounter, totalCounter)
+
+	current_state_idx = toidx(group[0].field.pos)
+
+	if np.random.uniform(0,1) < exploration_proba:
+		action = random.randint(0, 2)
+	else:
+		action = np.argmax(Q_table[current_state_idx,:])
+
+	if(action == 0):
+		attack(group)
+	else:
+		retreat(group)
+
+	next_state_idx = current_state_idx
+	next_state = fromidx(next_state_idx)
+	reward = rewardCalc(group, action)
+	debug_print(f"current reward: {reward}")
+
+
+
+
+	Q_table[current_state_idx, action] = (1-lr) * Q_table[current_state_idx, action] + lr*(reward + gamma*max(Q_table[toidx(next_state),:] - Q_table[current_state_idx, action]))
+
+	total_episode_reward = total_episode_reward + reward
+	# If the episode is finished, we leave the for loop
+
+	#We update the exploration proba using exponential decay formula 
+	exploration_proba = max(min_exploration_proba, np.exp(-exploration_decreasing_decay*totalCounter))
+	
+	# global rewards_per_episode
+	# rewards_per_episode.append(total_episode_reward)
+
+	totalCounter += 1
+	total_couter_all.append(totalCounter)
+	total_rewards_per_episode.append(total_episode_reward)
+	runcounter += 1
+
+	# if(totalCounter > 100):
+	# 	plotData()
+
+	if(runcounter == max_iter_episode):
+		runcounter = 0
+		total_episode_reward = 0
+		return "reset"
+
+
+def attack(group):
+	for unit in group:
+		move = unit.astar(collectiveControlPoints[0].pos)
+		if(move is not None):
+			print(f"move {unit.id} {move.pos.x} {move.pos.y}")
+
+def retreat(group):
+	for unit in group:
+		move = unit.astar(collectiveControlPoints[0].pos)
+		if(move is not None):
+			print(f"move {unit.id} {move.pos.x} {move.pos.y}")
+
+
+def toidx(pos):
+	return (pos.x//10) * 3 + (pos.y//10)
+
+def fromidx(idx):
+	return Pos([idx // 3, idx % 3])
+
+def rewardCalc(group, action):
+	if(len(group[0].seenControlPoints) == 0):
+		return -10
+	currDist = group[0].field.pos.dist(group[0].seenControlPoints[0].pos)
+	if(group[0].field.pos.euclDist(group[0].seenControlPoints[0].pos) < group[0].seenControlPoints[0].size):
+		return 200
+	return (30 - currDist)
+	
+
+def nextState(state, action):
+	next_state = None
+	match action:
+		case 0:
+
 
 
 def tLAction(units):
@@ -186,8 +279,9 @@ def tLAction(units):
 			debug_print(c.printStatus())
 	debug_print("mapPartsDONE")
 
-	# for i, g in enumerate(groups):
-	# 	commanndeer(g, i)
+	for i, g in enumerate(groups):
+		debug_print(f"groups: {groups}")
+		commanndeer(g, i)
 
 
 
