@@ -87,10 +87,12 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		unitViews.forEach((u, uv) -> {
 			uv.render(shapeRenderer, batch);
 		});
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		controlPointViews.forEach((cp, cpv) -> {
 			cpv.render(shapeRenderer, batch);
 		});
-
+		Gdx.gl.glDisable(GL20.GL_BLEND);	
 		shapeRenderer.flush();
 		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
 

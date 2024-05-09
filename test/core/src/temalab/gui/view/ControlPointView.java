@@ -24,8 +24,10 @@ public class ControlPointView implements ControlPointListener{
 
     public void render(ShapeRenderer sr, SpriteBatch sb) {
         float sqareSize = gv.squareSize() * (size + 1.5f);
-        sr.begin(ShapeRenderer.ShapeType.Line);
-        sr.setColor(c);
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        var opaColor = c;
+        opaColor.a = 0.5f;
+        sr.setColor(opaColor);
         sr.circle(center.x, center.y, sqareSize);
         sr.end();
     }
