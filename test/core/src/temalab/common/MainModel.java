@@ -28,15 +28,16 @@ public class MainModel {
         teams.put("white", new Team("white", "sarlMove", 5000, this));
         teams.put("red", new Team("red","heuristic", 5000, this));
         listeners = new ArrayList<>();
-        makeAllGreenMap();
+        // makeAllGreenMap();
+		makeSimplexNoiseMap();
         testUnits();
         testControlPoints();
     }
 
     private void testUnits() {
-        new Unit(fields.get(new Position(8, 8)), teams.get("white"), Type.SCOUT);
+        new Unit(fields.get(new Position(38, 15)), teams.get("white"), Type.SCOUT);
         new Unit(fields.get(new Position(0, 0)), teams.get("red"), Type.TANK);
-		new Unit(fields.get(new Position(40, 40)), teams.get("red"), Type.TANK);
+		new Unit(fields.get(new Position(40, 40)), teams.get("red"), Type.SCOUT);
 		new Unit(fields.get(new Position(5, 5)), teams.get("red"), Type.TANK);
 		new Unit(fields.get(new Position(7, 3)), teams.get("red"), Type.TANK);
 		new Unit(fields.get(new Position(38, 25)), teams.get("red"), Type.TANK);
@@ -50,7 +51,7 @@ public class MainModel {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
 				var temPos = new Position(i, j);
-				var noiseProb = SimplexNoise.noise(i/5.0, j/5.0, 10);
+				var noiseProb = SimplexNoise.noise(i/30.0, j/30.0, 10);
 				if (-1 < noiseProb && noiseProb <= 0) {
 					fields.put(temPos, new Field(temPos, Field.Type.GRASS));
 				} else if (0 < noiseProb && noiseProb <= 0.2) {

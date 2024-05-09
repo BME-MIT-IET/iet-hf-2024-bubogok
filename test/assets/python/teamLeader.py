@@ -39,8 +39,8 @@ lr = 0.01
 
 
 
-
-actions = ["attack", "retreat"]
+			# 0 		1 			2
+actions = ["attack", "retreat", "spread"]
 
 # id - cp
 collectiveControlPoints = {}
@@ -85,55 +85,14 @@ def participator():
 	for enemyId in collectiveUnits:
 		x = collectiveUnits[enemyId].pos.x // int((size//resolution))
 		y = collectiveUnits[enemyId].pos.y // int((size//resolution))
-		debug_print(f"mpz: {int((size//resolution))} ### {collectiveUnits[enemyId].pos.x} -> {x}, {collectiveUnits[enemyId].pos.y} -> {y}")
+		# debug_print(f"mpz: {int((size//resolution))} ### {collectiveUnits[enemyId].pos.x} -> {x}, {collectiveUnits[enemyId].pos.y} -> {y}")
 		mapParts[x][y].addUnit(collectiveUnits[enemyId])
-
-		# if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
-		# 	mapParts[0][0].addUnit(collectiveUnits[enemyId])
-		# elif(x >= 0 and x <= 10 and y > 10 and y <= 20):
-		# 	mapParts[0][1].addUnit(collectiveUnits[enemyId])
-		# elif(x >= 0 and x <= 10 and y > 20 and y <= 30):
-		# 	mapParts[0][2].addUnit(collectiveUnits[enemyId])
-
-		# elif(x > 10 and x <= 20 and y >= 0 and y <= 10):
-		# 	mapParts[1][0].addUnit(collectiveUnits[enemyId])
-		# elif(x > 10 and x <= 20 and y > 10 and y <= 20):
-		# 	mapParts[1][1].addUnit(collectiveUnits[enemyId])
-		# elif(x > 10 and x <= 20 and y > 20 and y <= 30):
-		# 	mapParts[1][2].addUnit(collectiveUnits[enemyId])
-
-		# elif(x > 20 and x <= 30 and y >= 0 and y <= 10):
-		# 	mapParts[0][0].addUnit(collectiveUnits[enemyId])
-		# elif(x > 20 and x <= 30 and y > 10 and y <= 20):
-		# 	mapParts[0][1].addUnit(collectiveUnits[enemyId])
-		# elif(x > 20 and x <= 30 and y > 20 and y <= 30):
-		# 	mapParts[0][2].addUnit(collectiveUnits[enemyId])
 
 
 	for cpId in collectiveControlPoints:
 		x = collectiveUnits[enemyId].pos.x // int((size//resolution))
 		y = collectiveUnits[enemyId].pos.y // int((size//resolution))
 		mapParts[x][y].addCp(collectiveControlPoints[cpId])
-		# if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
-		# 	mapParts[0][0].addCp(collectiveControlPoints[cpId])
-		# elif(x >= 0 and x <= 10 and y > 10 and y <= 20):
-		# 	mapParts[0][1].addCp(collectiveControlPoints[cpId])
-		# elif(x >= 0 and x <= 10 and y > 20 and y <= 30):
-		# 	mapParts[0][2].addCp(collectiveControlPoints[cpId])
-
-		# elif(x > 10 and x <= 20 and y >= 0 and y <= 10):
-		# 	mapParts[1][0].addCp(collectiveControlPoints[cpId])
-		# elif(x > 10 and x <= 20 and y > 10 and y <= 20):
-		# 	mapParts[1][1].addCp(collectiveControlPoints[cpId])
-		# elif(x > 10 and x <= 20 and y > 20 and y <= 30):
-		# 	mapParts[1][2].addCp(collectiveControlPoints[cpId])
-
-		# elif(x > 20 and x <= 30 and y >= 0 and y <= 10):
-		# 	mapParts[0][0].addCp(collectiveControlPoints[cpId])
-		# elif(x > 20 and x <= 30 and y > 10 and y <= 20):
-		# 	mapParts[0][1].addCp(collectiveControlPoints[cpId])
-		# elif(x > 20 and x <= 30 and y > 20 and y <= 30):
-		# 	mapParts[0][2].addCp(collectiveControlPoints[cpId])
 
 	# for r in mapParts:
 	# 	for c in r:
@@ -141,17 +100,19 @@ def participator():
 
 
 def makeGroups(units):
-	if(len(units) < 2):
-		return None
+	global groups
+	groups = []
 	# erre itt valami sokkal okosabbat kellene kitalálni, mert 1 uniutnál nincs group, ez okés, de kettőnél van, kettő külön, még ha egymás mellett is vannak
 	global group1
 	group1 = list()
+	closest = units[0]
+	if(len(units) < 2):
+		group1.append(units[0])
+		groups.append(group1)
+		return
 	global group2
 	group2 = list()
-	global groups
-	closest = units[0]
 	furthest = units[1]
-	
 	closestDist = closest.field.pos.dist(Pos([0, 0]))
 	furthestDist = furthest.field.pos.dist(Pos([0, 0]))
 	for u in units:
@@ -174,7 +135,7 @@ def makeGroups(units):
 				group1.append(u)
 			else:
 				group2.append(u)
-	groups = []
+	
 	groups.append(group1)
 	groups.append(group2)
 
@@ -234,7 +195,7 @@ def attack(group):
 				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
 	else:
 		for unit in group:
-			move = unit.dummy()
+			move = unit.dummyMove()
 			if(move is not None):
 				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
 
@@ -251,6 +212,9 @@ def retreat(group):
 				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
 	return commands
 
+def spread(group):
+	commands = list()
+
 
 def toidx(pos):
 	return (pos.x//int((size//resolution))) * resolution + (pos.y//int((size//resolution)))
@@ -259,6 +223,7 @@ def fromidx(idx):
 	return Pos([idx // resolution, idx % resolution])
 
 def rewardCalc(group, action):
+	# reward számolásnál figyelembe kellene venni, hogy milyen akciór végeztünk
 	if(len(group[0].seenControlPoints) == 0):
 		return -10
 	currDist = group[0].field.pos.dist(group[0].seenControlPoints[0].pos)
