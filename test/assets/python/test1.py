@@ -5,7 +5,7 @@ import inputHandler
 from heuristic import heuristicAction
 from dummy import dummyAction
 from sarlMove import sarlMove, rlInit
-from teamLeader import tLAction
+from teamLeader import tLAction, tlInit
 
 import sys
 import traceback
@@ -42,6 +42,8 @@ def main():
     teamCommands = list()
     team = input()
     logger.debug_print(f"log from:{datetime.now()}")
+    size = int(input())
+    tlInit(size)
     try:
         while True:
             messageCounter = int(input())

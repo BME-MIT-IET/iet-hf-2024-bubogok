@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+size = 0
+resolution = 6
 
 totalCounter = 1
 runcounter = 0
@@ -21,7 +23,7 @@ total_rewards_per_episode = list()
 
 
 #maximum of iteration per episode
-max_iter_episode = 30
+max_iter_episode = 50
 #initialize the exploration probability to 1
 exploration_proba = 0.1
 #exploartion decreasing decay for exponential decreasing
@@ -47,11 +49,11 @@ collectiveControlPoints = {}
 collectiveUnits = {}
 
 # AxB
-mapParts = [[MapPart(i, j) for i in range(3)] for j in range(3)]
+mapParts = [[MapPart(i, j) for i in range(resolution)] for j in range(resolution)]
 
 
-g1Qtable = np.zeros((3*3, len(actions)))
-g2Qtable = np.zeros((3*3, len(actions)))
+g1Qtable = np.zeros((resolution*resolution, len(actions)))
+g2Qtable = np.zeros((resolution*resolution, len(actions)))
 
 q_tables = {}
 q_tables[0] = g1Qtable
@@ -81,53 +83,57 @@ def participator():
 	global collectiveUnits
 	global mapParts
 	for enemyId in collectiveUnits:
-		x = collectiveUnits[enemyId].pos.x
-		y = collectiveUnits[enemyId].pos.y
-		if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
-			mapParts[0][0].addUnit(collectiveUnits[enemyId])
-		elif(x >= 0 and x <= 10 and y > 10 and y <= 20):
-			mapParts[0][1].addUnit(collectiveUnits[enemyId])
-		elif(x >= 0 and x <= 10 and y > 20 and y <= 30):
-			mapParts[0][2].addUnit(collectiveUnits[enemyId])
+		x = collectiveUnits[enemyId].pos.x // int((size//resolution))
+		y = collectiveUnits[enemyId].pos.y // int((size//resolution))
+		debug_print(f"mpz: {int((size//resolution))} ### {collectiveUnits[enemyId].pos.x} -> {x}, {collectiveUnits[enemyId].pos.y} -> {y}")
+		mapParts[x][y].addUnit(collectiveUnits[enemyId])
 
-		elif(x > 10 and x <= 20 and y >= 0 and y <= 10):
-			mapParts[1][0].addUnit(collectiveUnits[enemyId])
-		elif(x > 10 and x <= 20 and y > 10 and y <= 20):
-			mapParts[1][1].addUnit(collectiveUnits[enemyId])
-		elif(x > 10 and x <= 20 and y > 20 and y <= 30):
-			mapParts[1][2].addUnit(collectiveUnits[enemyId])
+		# if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
+		# 	mapParts[0][0].addUnit(collectiveUnits[enemyId])
+		# elif(x >= 0 and x <= 10 and y > 10 and y <= 20):
+		# 	mapParts[0][1].addUnit(collectiveUnits[enemyId])
+		# elif(x >= 0 and x <= 10 and y > 20 and y <= 30):
+		# 	mapParts[0][2].addUnit(collectiveUnits[enemyId])
 
-		elif(x > 20 and x <= 30 and y >= 0 and y <= 10):
-			mapParts[0][0].addUnit(collectiveUnits[enemyId])
-		elif(x > 20 and x <= 30 and y > 10 and y <= 20):
-			mapParts[0][1].addUnit(collectiveUnits[enemyId])
-		elif(x > 20 and x <= 30 and y > 20 and y <= 30):
-			mapParts[0][2].addUnit(collectiveUnits[enemyId])
+		# elif(x > 10 and x <= 20 and y >= 0 and y <= 10):
+		# 	mapParts[1][0].addUnit(collectiveUnits[enemyId])
+		# elif(x > 10 and x <= 20 and y > 10 and y <= 20):
+		# 	mapParts[1][1].addUnit(collectiveUnits[enemyId])
+		# elif(x > 10 and x <= 20 and y > 20 and y <= 30):
+		# 	mapParts[1][2].addUnit(collectiveUnits[enemyId])
+
+		# elif(x > 20 and x <= 30 and y >= 0 and y <= 10):
+		# 	mapParts[0][0].addUnit(collectiveUnits[enemyId])
+		# elif(x > 20 and x <= 30 and y > 10 and y <= 20):
+		# 	mapParts[0][1].addUnit(collectiveUnits[enemyId])
+		# elif(x > 20 and x <= 30 and y > 20 and y <= 30):
+		# 	mapParts[0][2].addUnit(collectiveUnits[enemyId])
 
 
 	for cpId in collectiveControlPoints:
-		x = collectiveControlPoints[cpId].pos.x
-		y = collectiveControlPoints[cpId].pos.y
-		if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
-			mapParts[0][0].addCp(collectiveControlPoints[cpId])
-		elif(x >= 0 and x <= 10 and y > 10 and y <= 20):
-			mapParts[0][1].addCp(collectiveControlPoints[cpId])
-		elif(x >= 0 and x <= 10 and y > 20 and y <= 30):
-			mapParts[0][2].addCp(collectiveControlPoints[cpId])
+		x = collectiveUnits[enemyId].pos.x // int((size//resolution))
+		y = collectiveUnits[enemyId].pos.y // int((size//resolution))
+		mapParts[x][y].addCp(collectiveControlPoints[cpId])
+		# if(x >= 0 and x <= 10 and y >= 0 and y <= 10):
+		# 	mapParts[0][0].addCp(collectiveControlPoints[cpId])
+		# elif(x >= 0 and x <= 10 and y > 10 and y <= 20):
+		# 	mapParts[0][1].addCp(collectiveControlPoints[cpId])
+		# elif(x >= 0 and x <= 10 and y > 20 and y <= 30):
+		# 	mapParts[0][2].addCp(collectiveControlPoints[cpId])
 
-		elif(x > 10 and x <= 20 and y >= 0 and y <= 10):
-			mapParts[1][0].addCp(collectiveControlPoints[cpId])
-		elif(x > 10 and x <= 20 and y > 10 and y <= 20):
-			mapParts[1][1].addCp(collectiveControlPoints[cpId])
-		elif(x > 10 and x <= 20 and y > 20 and y <= 30):
-			mapParts[1][2].addCp(collectiveControlPoints[cpId])
+		# elif(x > 10 and x <= 20 and y >= 0 and y <= 10):
+		# 	mapParts[1][0].addCp(collectiveControlPoints[cpId])
+		# elif(x > 10 and x <= 20 and y > 10 and y <= 20):
+		# 	mapParts[1][1].addCp(collectiveControlPoints[cpId])
+		# elif(x > 10 and x <= 20 and y > 20 and y <= 30):
+		# 	mapParts[1][2].addCp(collectiveControlPoints[cpId])
 
-		elif(x > 20 and x <= 30 and y >= 0 and y <= 10):
-			mapParts[0][0].addCp(collectiveControlPoints[cpId])
-		elif(x > 20 and x <= 30 and y > 10 and y <= 20):
-			mapParts[0][1].addCp(collectiveControlPoints[cpId])
-		elif(x > 20 and x <= 30 and y > 20 and y <= 30):
-			mapParts[0][2].addCp(collectiveControlPoints[cpId])
+		# elif(x > 20 and x <= 30 and y >= 0 and y <= 10):
+		# 	mapParts[0][0].addCp(collectiveControlPoints[cpId])
+		# elif(x > 20 and x <= 30 and y > 10 and y <= 20):
+		# 	mapParts[0][1].addCp(collectiveControlPoints[cpId])
+		# elif(x > 20 and x <= 30 and y > 20 and y <= 30):
+		# 	mapParts[0][2].addCp(collectiveControlPoints[cpId])
 
 	# for r in mapParts:
 	# 	for c in r:
@@ -146,10 +152,10 @@ def makeGroups(units):
 	closest = units[0]
 	furthest = units[1]
 	
-	closestDist = math.sqrt((closest.field.pos.x**2 + closest.field.pos.y**2))
-	furthestDist = math.sqrt((furthest.field.pos.x**2 + furthest.field.pos.y**2))
+	closestDist = closest.field.pos.dist(Pos([0, 0]))
+	furthestDist = furthest.field.pos.dist(Pos([0, 0]))
 	for u in units:
-		currDist = math.sqrt((u.field.pos.x**2 + u.field.pos.y**2))
+		currDist = u.field.pos.dist(Pos([0, 0]))
 		if(currDist < closestDist):
 			closest = u
 			closestDist = currDist
@@ -162,8 +168,8 @@ def makeGroups(units):
 		if(u == closest or u == furthest):
 			continue
 		else:
-			dist1 = abs(math.sqrt((u.field.pos.x**2 + u.field.pos.y**2)) - closestDist)
-			dist2 = abs(math.sqrt((u.field.pos.x**2 + u.field.pos.y**2)) - furthestDist)
+			dist1 = u.field.pos.dist(closest.field.pos)
+			dist2 = u.field.pos.dist(furthest.field.pos)
 			if(dist1 < dist2):
 				group1.append(u)
 			else:
@@ -172,7 +178,7 @@ def makeGroups(units):
 	groups.append(group1)
 	groups.append(group2)
 
-prevState = None
+prevState_idx = None
 prevAction = None
 reward = 0
 
@@ -187,15 +193,15 @@ def commanndeer(group, groupIndex):
 
 	Q_table = q_tables[groupIndex]
 	current_state_idx = toidx(group[0].field.pos)
-	global prevState
+	global prevState_idx
 	global prevAction
 	global reward
-	if(prevState is not None):
-		prevState_idx = toidx(prevState)
+	if(prevState_idx is not None):
+		debug_print(f"idx: {prevState_idx}")
 		Q_table[prevState_idx, prevAction] = (1-lr) * Q_table[prevState_idx, prevAction] + lr*(reward + gamma*max(Q_table[current_state_idx,:] - Q_table[prevState_idx, prevAction]))
 
 
-	prevState = fromidx(current_state_idx)
+	prevState_idx = current_state_idx
 
 	if np.random.uniform(0,1) < exploration_proba:
 		action = random.randint(0, 1)
@@ -235,6 +241,7 @@ def attack(group):
 	return commands
 
 
+
 def retreat(group):
 	commands = list()
 	if(len(collectiveControlPoints) != 0):
@@ -246,17 +253,17 @@ def retreat(group):
 
 
 def toidx(pos):
-	return (pos.x//10) * 3 + (pos.y//10)
+	return (pos.x//int((size//resolution))) * resolution + (pos.y//int((size//resolution)))
 
 def fromidx(idx):
-	return Pos([idx // 3, idx % 3])
+	return Pos([idx // resolution, idx % resolution])
 
 def rewardCalc(group, action):
 	if(len(group[0].seenControlPoints) == 0):
 		return -10
 	currDist = group[0].field.pos.dist(group[0].seenControlPoints[0].pos)
 	if(group[0].field.pos.euclDist(group[0].seenControlPoints[0].pos) < group[0].seenControlPoints[0].size):
-		return 200
+		return 30
 	return (30 - currDist)
 
 
@@ -287,7 +294,7 @@ def tLAction(units):
 	total_rewards_per_episode.append(total_episode_reward)
 	runcounter += 1
 
-	if(totalCounter > 300):
+	if(totalCounter > 1000):
 		plotData()
 
 	if(runcounter == max_iter_episode):
@@ -307,11 +314,16 @@ def tLAction(units):
 
 
 # ez itt egy picit kókány
-	mapParts = [[MapPart(i, j) for i in range(3)] for j in range(3)]
+	mapParts = [[MapPart(i, j) for i in range(resolution)] for j in range(resolution)]
 
 	teamCommands.append("endTurn")
 	debug_print(teamCommands)
 	return teamCommands
+
+
+def tlInit(s):
+	global size 
+	size = s;
 
 
 def plotData():

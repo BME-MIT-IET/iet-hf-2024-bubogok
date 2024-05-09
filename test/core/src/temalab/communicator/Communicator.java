@@ -15,7 +15,7 @@ public class Communicator {
 	Thread errorThread;
 	Process process;
 
-	public Communicator( Team team, String fileName, String strategy) {
+	public Communicator(Team team, String fileName, String strategy) {
 		this.team = team;
 		String currDir = System.getProperty("user.dir");
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName, strategy);
@@ -47,6 +47,7 @@ public class Communicator {
 		});
 		errorThread.start();
 		out.println(team.getName());
+		out.println(team.getMainModel().width());
 	}
 
 	public void registerUnit() {
@@ -99,10 +100,9 @@ public class Communicator {
 			out.println("commPhase");
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
-			System.err.println("itt kene jonnie");
 			if(!sc.hasNext()) {
 				System.err.println("\033[0;35mdebug from " + "SZAR1" + "\033[0m");
-				return;
+				throw new RuntimeException("roooosz");
 			}
 			String answer = sc.nextLine();
 			System.err.println("\033[0;35mdebug from " + "pytohnból jött:" + answer + "\033[0m");

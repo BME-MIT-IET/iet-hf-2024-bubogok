@@ -102,7 +102,8 @@ public class Unit {
 			throw new RuntimeException("move is not steppable id: " + this.ID);
 		}
 		if(!dest.arrive(this)) {
-			throw new RuntimeException("move cannot arrive id: " + this.ID);
+			// throw new RuntimeException("move cannot arrive id: " + this.ID);
+			return;
 		}
 		if(dest == field) {
 			return;

@@ -128,4 +128,8 @@ public final class Team {
 			u.setField(mm.getField(u.getStartingPos()));
 		});
 	}
+
+	public MainModel getMainModel() {
+		return mm;
+	}
 }

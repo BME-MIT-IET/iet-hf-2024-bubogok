@@ -66,6 +66,7 @@ public class ControlPoint {
             } // megnézzük, hogy melyik csapathoz tartozik a ControlPoint
 
             if (!twoTeams && controlTeam != null) {
+                System.err.println("Színt kellene váltani");
                 if(listener != null) {
                     listener.onColorChange(controlTeam.getColor());
                 } //színállítás
