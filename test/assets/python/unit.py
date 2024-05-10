@@ -53,10 +53,11 @@ class Unit:
         return f"id:{self.id}, aps: {self.actionPoints} type:{self.type}, pos: {self.field.getPos()},\n\thealth: {self.health}, ammo: {self.ammo}, fuel:{self.fuel}"
 
     def astar(self, dest):
-        closedSet = []
-        openSet = []
-        path = []
+        
+        debug_print(f"{self.id}, dest: {dest}")
+
         if(self.field.pos.dist(dest) > self.viewRange):
+            # stappable check
             x = self.field.pos.x
             y = self.field.pos.y
             if(dest.x >= x and dest.y >= y):
@@ -80,6 +81,10 @@ class Unit:
                         debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
                         return f
 
+
+        closedSet = []
+        openSet = []
+        path = []
         openSet.append(self.field)
         while(len(openSet) > 0):
             winner = openSet[0]
@@ -112,7 +117,7 @@ class Unit:
                 if(not n in closedSet and n.type in self.steppables):
                     tempG = current.g + max(abs(n.pos.x - current.pos.x), abs(n.pos.y - current.pos.y))
                     newPath = False
-                    if n in openSet:
+                    if(n in openSet):
                         if(tempG < n.g):
                             n.g = tempG
                             newPath = True
@@ -125,8 +130,9 @@ class Unit:
                         n.f = n.g + n.h
                         n.parent = current
 
-
+    # nem is kell dummy move, ha van spread: ha nem látnak senki, spreadeljenek
     def dummyMove(self):
+        debug_print(f"in dummy move {self.id}")
         neighbours = []
         for f in self.seenFields:
             if(abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1

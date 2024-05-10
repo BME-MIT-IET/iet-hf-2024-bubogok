@@ -37,7 +37,7 @@ lr = 0.01
 
 
 
-
+# menekülés esetleg
 
 			# 0 		1 			2
 actions = ["attack", "retreat", "spread"]
@@ -66,6 +66,10 @@ groups = []
 
 
 def collectiveSight(units):
+	global collectiveUnits
+	global collectiveControlPoints
+	collectiveUnits = {}
+	collectiveControlPoints = {}
 	for u in units:
 		if(u.id not in collectiveUnits.keys()):
 				collectiveUnits[u.id] = UnitView([u.field.pos.x, u.field.pos.y, u.team, u.type, u.id, u.health])
@@ -76,7 +80,7 @@ def collectiveSight(units):
 		for cp in u.seenControlPoints:
 			if(cp.id not in collectiveControlPoints.keys()):
 				collectiveControlPoints[cp.id] = cp
-	debug_print(f"enemys: {collectiveUnits}, cps: {collectiveControlPoints}")
+	debug_print(f"units: {collectiveUnits}, cps: {collectiveControlPoints}")
 
 # fel kellene bontani a pályát részekre, és minden térrészbe a megfelelő egységeket és kontollpontokat beletenni
 def participator():
@@ -102,7 +106,6 @@ def participator():
 def makeGroups(units):
 	global groups
 	groups = []
-	# erre itt valami sokkal okosabbat kellene kitalálni, mert 1 uniutnál nincs group, ez okés, de kettőnél van, kettő külön, még ha egymás mellett is vannak
 	global group1
 	group1 = list()
 	closest = units[0]
@@ -145,7 +148,6 @@ reward = 0
 
 def commanndeer(group, groupIndex):
 	commandQueue = list()
-
 	for u in group:
 		if(u.actionPoints != 0):
 			break
@@ -153,13 +155,13 @@ def commanndeer(group, groupIndex):
 		return None
 
 	Q_table = q_tables[groupIndex]
-	current_state_idx = toidx(group[0].field.pos)
+	current_state_idx = toidx(group[0])
 	global prevState_idx
 	global prevAction
 	global reward
 	if(prevState_idx is not None):
 		debug_print(f"idx: {prevState_idx}")
-		Q_table[prevState_idx, prevAction] = (1-lr) * Q_table[prevState_idx, prevAction] + lr*(reward + gamma*max(Q_table[current_state_idx,:] - Q_table[prevState_idx, prevAction]))
+		Q_table[prevState_idx[0], prevAction] = (1-lr) * Q_table[prevState_idx[0], prevAction] + lr*(reward + gamma*max(Q_table[current_state_idx[0],:] - Q_table[prevState_idx[0], prevAction]))
 
 
 	prevState_idx = current_state_idx
@@ -167,37 +169,43 @@ def commanndeer(group, groupIndex):
 	if np.random.uniform(0,1) < exploration_proba:
 		action = random.randint(0, 1)
 	else:
-		action = np.argmax(Q_table[current_state_idx,:])
-	debug_print(f"action: {action}")
+		action = np.argmax(Q_table[current_state_idx[0],:])
+	debug_print(f"groupIndex: {groupIndex}, action: {action}")
 
 	prevAction = action
 	reward = rewardCalc(group, action)
 
 	if(action == 0):
 		commandQueue += attack(group)
-	else:
+	elif(action == 1):
 		commandQueue += retreat(group)
-
-	debug_print(f"current reward: {reward}")
 	return commandQueue
 
 
 def attack(group):
 	commands = list()
 	collectiveEnemys = []
+	global collectiveUnits
+	debug_print(f"cu: {collectiveUnits}")
 	for key in collectiveUnits:
+		debug_print(f"collectiveUnits[key].team: {collectiveUnits[key].team}, group[0].team: {group[0].team}")
 		if(collectiveUnits[key].team != group[0].team):
 			collectiveEnemys.append(collectiveUnits[key])
+	debug_print(f"collectiveEnemys: {collectiveEnemys}")
 	if(len(collectiveEnemys) != 0):
 		for unit in group:
 			move = unit.astar(collectiveEnemys[0].pos)
 			if(move is not None):
 				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+			else:
+				debug_print(f"move is None {unit.id}")
 	else:
 		for unit in group:
 			move = unit.dummyMove()
 			if(move is not None):
 				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+			else:
+				debug_print(f"move is None {unit.id}")
 
 	return commands
 
@@ -210,14 +218,26 @@ def retreat(group):
 			move = unit.astar(collectiveControlPoints[0].pos)
 			if(move is not None):
 				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+			else:
+				debug_print(f"move is None {unit.id}")
+	else:
+		for unit in group:
+			move = unit.dummyMove()
+			if(move is not None):
+				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+			else:
+				debug_print(f"move is None {unit.id}")
+
 	return commands
 
 def spread(group):
 	commands = list()
 
 
-def toidx(pos):
-	return (pos.x//int((size//resolution))) * resolution + (pos.y//int((size//resolution)))
+def toidx(unit):
+	x = (unit.field.pos.x//int((size//resolution)))
+	y = (unit.field.pos.y//int((size//resolution)))
+	return x * resolution + y, mapParts[x][y].getTeamScore(unit.team)
 
 def fromidx(idx):
 	return Pos([idx // resolution, idx % resolution])
@@ -246,7 +266,6 @@ def tLAction(units):
 	# 	for c in r:
 	# 		debug_print(c.printStatus())
 	# debug_print("mapPartsDONE")
-
 	for i, g in enumerate(groups):
 		debug_print(f"groups: {[[str(unit) for unit in group] for group in groups]}")
 		teamCommands += commanndeer(g, i)
@@ -267,20 +286,8 @@ def tLAction(units):
 		total_episode_reward = 0
 		teamCommands.append("reset")
 
-	# debug_print("g1:")
-	# for u in group1:
-	# 	debug_print(u.id)
-	# debug_print("g2:")
-	# for u in group2:
-	# 	debug_print(u.id)
-	# debug_print(f"g1:{u.id for u in group1}, g2:{u.id for u in group2}")
-
-	
-
-
-# ez itt egy picit kókány
+	# ez itt egy picit kókány
 	mapParts = [[MapPart(i, j) for i in range(resolution)] for j in range(resolution)]
-
 	teamCommands.append("endTurn")
 	debug_print(teamCommands)
 	return teamCommands
