@@ -130,6 +130,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		shapeRenderer.dispose();
 		batch.dispose();
 		font.dispose();
+		mc.stop();
 		System.exit(0);
 	}
 	
