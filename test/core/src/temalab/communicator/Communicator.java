@@ -88,7 +88,7 @@ public class Communicator {
 		runCounter++;
 		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + runCounter + "\033[0m");
 		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
-		loop: while (true) { // TODO: a true helyett kell majd egy n seces timer, hogy ne várhasson so kideig a python
+		loop: while (true) {
 			messageCounter++;
 			try {
 				Thread.sleep(17);
@@ -101,7 +101,6 @@ public class Communicator {
 			out.println(team.units().size());
 			out.println(team.teamMembersToString(false).toString());
 			if(!sc.hasNext()) {
-				System.err.println("\033[0;35mdebug from " + "SZAR1" + "\033[0m");
 				throw new RuntimeException("roooosz");
 			}
 			String answer = sc.nextLine();

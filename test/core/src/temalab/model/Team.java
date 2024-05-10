@@ -2,6 +2,8 @@ package temalab.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Color;
 
 import temalab.common.MainModel;
@@ -13,6 +15,7 @@ public final class Team {
 	private final HashMap<Integer, Unit> units;
 	private int budget = 0;
 	private MainModel mm;
+	Random rand = new Random();
 	
 	public Team(String name, String strategy, int budget, MainModel mm) {
 		units = new HashMap<Integer, Unit>();
@@ -89,6 +92,10 @@ public final class Team {
 	}
 
 	public void fireUnit(int id, Position newPos) {
+			double spreadChance = rand.nextDouble();
+			if(spreadChance > 0.75) {
+				newPos =  new Position(newPos.x() + 2*rand.nextInt(2) - 1, newPos.y() + 2*rand.nextInt(2) - 1);
+			}
 			var newField = mm.getField(newPos);
 			var u = units.get(id);
 			if(newField == null || u == null) {
