@@ -57,11 +57,11 @@ public class Unit {
 		this.statingPos = f.pos();
         try {
 			if(type == Unit.Type.TANK) {
-				sc = new Scanner(new File("desciptors/TANK.txt"));
+				sc = new Scanner(getClass().getResourceAsStream("/desciptors/TANK.txt"));
 			} else if(type == Unit.Type.INFANTRY) {
-				sc = new Scanner(new File("desciptors/INFANTRY.txt"));
+				sc = new Scanner(getClass().getResourceAsStream("/desciptors/INFANTRY.txt"));
 			} else if(type == Unit.Type.SCOUT) {
-				sc = new Scanner(new File("desciptors/SCOUT.txt"));
+				sc = new Scanner(getClass().getResourceAsStream("/desciptors/SCOUT.txt"));
 			}
             while(sc.hasNextLine()) {
                 maxHealth = Integer.parseInt(sc.nextLine());
