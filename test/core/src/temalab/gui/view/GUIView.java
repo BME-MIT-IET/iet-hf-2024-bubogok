@@ -40,6 +40,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 	private Map<Team, TeamView> teamViews;
 	private MainModel mm;
 	private MainCommunicator mc;
+	private Thread shutdownHook;
 
 	public void init(MainModel mm, MainCommunicator mc, float sizingFactor, boolean steppable) {
 		universalDistanceConstant = sizingFactor;
@@ -68,6 +69,8 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		controlPointViews = new HashMap<>();
 		teamViews = new HashMap<>();
 		mm.addListener(this);
+		shutdownHook = new Thread(this::dispose);
+		Runtime.getRuntime().addShutdownHook(shutdownHook);
 	}
 
 	@Override
@@ -127,6 +130,11 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 
 	@Override
 	public void dispose() {
+		synchronized(shutdownHook) {
+			if (!Runtime.getRuntime().removeShutdownHook(shutdownHook)) {
+				return;
+			}
+		}
 		shapeRenderer.dispose();
 		batch.dispose();
 		font.dispose();

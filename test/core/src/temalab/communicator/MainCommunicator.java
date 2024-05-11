@@ -12,6 +12,7 @@ public class MainCommunicator{
     private boolean pause;
     private List<Communicator> communictors;
     private boolean runCommThread;
+    private Thread shutdownHook;
 
     public MainCommunicator(MainModel mm) {
         communictors = new ArrayList<>();
@@ -50,9 +51,16 @@ public class MainCommunicator{
 			}
 		};
 		commThread.start();
+		shutdownHook = new Thread(this::stop);
+		Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 
     public void stop() {
+        synchronized(shutdownHook) {
+            if (!Runtime.getRuntime().removeShutdownHook(shutdownHook)) {
+                return;
+            }
+        }
         runCommThread = false;
         commThread.interrupt();
         try {
