@@ -7,19 +7,19 @@ project.ext.assetsDir = new File("../assets")
 
 import org.gradle.internal.os.OperatingSystem
 
-tasks.register('run', JavaExec) {
-    dependsOn classes
-    mainClass = project.mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    workingDir = project.assetsDir
-    ignoreExitValue = true
-    jvmArgs=['-Xmx2048m']
-    if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
-        // Required to run on macOS
-        jvmArgs += "-XstartOnFirstThread"
-    }
-}
+// tasks.register('run', JavaExec) {
+//     dependsOn classes
+//     mainClass = project.mainClassName
+//     classpath = sourceSets.main.runtimeClasspath
+//     standardInput = System.in
+//     workingDir = project.assetsDir
+//     ignoreExitValue = true
+//     jvmArgs=['-Xmx2048m']
+//     if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
+//         // Required to run on macOS
+//         jvmArgs += "-XstartOnFirstThread"
+//     }
+// }
 
 
 
