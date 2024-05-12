@@ -115,6 +115,13 @@ public class MainModel {
         return teams.get(name);
     }
 
+	// this method should call the final thread closer as of #15
+	public void winEvent(String winnerTeam) {
+		System.out.println(winnerTeam + " team won!");
+		
+		System.exit(0);
+	}
+
     public ArrayList<Unit> requestUnits(Position pos, float size) {
 		var view = new ArrayList<Unit>();
 		for (var t : teams.values()) {

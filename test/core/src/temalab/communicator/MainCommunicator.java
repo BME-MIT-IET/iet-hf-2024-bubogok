@@ -31,7 +31,11 @@ public class MainCommunicator{
                         }
                     }
                     for(var c : communictors) {
-                        c.communicate();
+                        try {
+                            c.communicate();
+                        } catch (RuntimeException e) {
+                            mm.winEvent(c.getTeam().getName());
+                        }
                         mm.ControlPointsUpdate();
                         System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
                         if(manualResetEvent) {

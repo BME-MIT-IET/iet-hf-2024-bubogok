@@ -83,7 +83,7 @@ public class Communicator {
 	}
 
 
-	public void communicate() {
+	public void communicate() throws RuntimeException {
 		team.refillActionPoints();
 		runCounter++;
 		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + runCounter + "\033[0m");
@@ -108,8 +108,7 @@ public class Communicator {
 			String[] split = answer.split(" ");
 			switch (split[0]) {
 				case "endTurn":
-					break loop;
-
+					throw new RuntimeException("out of units");
 				case "reset":
 					team.reset();
 				case "move": {
