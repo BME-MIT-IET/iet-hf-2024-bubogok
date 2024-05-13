@@ -1,0 +1,24 @@
+name: Java Gradle Tests
+on:
+  push:
+    branches:
+      - master
+  #maybe even on PR-s?
+
+jobs:
+  build:
+    runs-on: ubuntu-latest #?
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: JDK setup
+        uses: actions/setup-java@v2
+        with:
+          java-version: 'latest' #or any specific version?
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Run Tests
+        run: ./gradlew test
+      
