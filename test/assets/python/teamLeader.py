@@ -80,7 +80,7 @@ def collectiveSight(units):
 		for cp in u.seenControlPoints:
 			if(cp.id not in collectiveControlPoints.keys()):
 				collectiveControlPoints[cp.id] = cp
-	debug_print(f"units: {collectiveUnits}, cps: {collectiveControlPoints}")
+	# debug_print(f"units: {collectiveUnits}, cps: {collectiveControlPoints}")
 
 # fel kellene bontani a pályát részekre, és minden térrészbe a megfelelő egységeket és kontollpontokat beletenni
 def participator():
@@ -160,7 +160,7 @@ def commanndeer(group, groupIndex):
 	global prevAction
 	global reward
 	if(prevState_idx is not None):
-		debug_print(f"idx: {prevState_idx}")
+		# debug_print(f"idx: {prevState_idx}")
 		Q_table[prevState_idx[0], prevAction] = (1-lr) * Q_table[prevState_idx[0], prevAction] + lr*(reward + gamma*max(Q_table[current_state_idx[0],:] - Q_table[prevState_idx[0], prevAction]))
 
 
@@ -176,9 +176,12 @@ def commanndeer(group, groupIndex):
 	reward = rewardCalc(group, action)
 
 	if(action == 0):
-		commandQueue += attack(group)
+		commandQueue += retreat(group)
 	elif(action == 1):
 		commandQueue += retreat(group)
+	elif(action == 2):
+		commandQueue += retreat(group)
+	debug_print(commandQueue)
 	return commandQueue
 
 
@@ -186,24 +189,23 @@ def attack(group):
 	commands = list()
 	collectiveEnemys = []
 	global collectiveUnits
-	debug_print(f"cu: {collectiveUnits}")
+	# debug_print(f"cu: {collectiveUnits}")
 	for key in collectiveUnits:
-		debug_print(f"collectiveUnits[key].team: {collectiveUnits[key].team}, group[0].team: {group[0].team}")
 		if(collectiveUnits[key].team != group[0].team):
 			collectiveEnemys.append(collectiveUnits[key])
-	debug_print(f"collectiveEnemys: {collectiveEnemys}")
 	if(len(collectiveEnemys) != 0):
 		for unit in group:
 			move = unit.astar(collectiveEnemys[0].pos)
 			if(move is not None):
-				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+				commands.append(f"move {unit.id} {move.x} {move.y}")
 			else:
 				debug_print(f"move is None {unit.id}")
 	else:
+		# itt kellene terjeszkedni
 		for unit in group:
 			move = unit.dummyMove()
 			if(move is not None):
-				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+				commands.append(f"move {unit.id} {move.x} {move.y}")
 			else:
 				debug_print(f"move is None {unit.id}")
 
@@ -216,15 +218,17 @@ def retreat(group):
 	if(len(collectiveControlPoints) != 0):
 		for unit in group:
 			move = unit.astar(collectiveControlPoints[0].pos)
+			debug_print(f"move: {type(move)}")
 			if(move is not None):
-				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+				commands.append(f"move {unit.id} {move.x} {move.y}")
 			else:
 				debug_print(f"move is None {unit.id}")
 	else:
+		# itt kellene tömörülni
 		for unit in group:
 			move = unit.dummyMove()
 			if(move is not None):
-				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
+				commands.append(f"move {unit.id} {move.x} {move.y}")
 			else:
 				debug_print(f"move is None {unit.id}")
 
@@ -278,7 +282,7 @@ def tLAction(units):
 	total_rewards_per_episode.append(total_episode_reward)
 	runcounter += 1
 
-	if(totalCounter > 1000):
+	if(totalCounter > 2000):
 		plotData()
 
 	if(runcounter == max_iter_episode):

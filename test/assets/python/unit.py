@@ -52,87 +52,99 @@ class Unit:
     def state(self):
         return f"id:{self.id}, aps: {self.actionPoints} type:{self.type}, pos: {self.field.getPos()},\n\thealth: {self.health}, ammo: {self.ammo}, fuel:{self.fuel}"
 
-    def astar(self, dest):
-        
-        debug_print(f"{self.id}, dest: {dest}")
+    def astar2(self, dest):
+        debug_print(f" INITIAL CHECK {self.id} seenFileds: {[str(f.pos) for f in self.seenFields]}")
+        frontier = list()
+        frontier.append(self.field.pos)
+        came_from = dict()
+        came_from[self.field.pos] = None
 
-        if(self.field.pos.dist(dest) > self.viewRange):
-            # stappable check
+        while(len(frontier) > 0):
+            current = frontier.pop(0)
+            if(current == dest):
+                break
+            # ----------------------------------------------------------
+            neighbours = [] #stores positions of fields
+            for f in self.seenFields:
+                if(abs(f.pos.x - current.x) <= 1 
+                    and abs(f.pos.y - current.y) <= 1
+                    and f.pos not in [u.pos for u in self.seenUnits] 
+                    and f.type in self.steppables):
+                    neighbours.append(f.pos)
+            # ----------------------------------------------------------
+            debug_print(f"neighbours: {[str(n) for n in neighbours]}")
+            for n in neighbours:
+                if(n not in came_from):
+                    frontier.append(n)
+                    came_from[n] = current
+        current = dest
+        path = []
+        iter = 0
+        while current != self.field.pos:
+            debug_print(f"cf: {[str(p) for p in came_from]}")
+            debug_print(f"iter: {iter}")
+            iter += 1
+            path.append(current)
+            current = came_from[current]
+        path.append(self.field.pos)
+        debug_print(f"astar2 returning: {[str(n) for n in path]}")
+        if(len(path) < 2):
+            return None
+        return path[-2]
+
+
+
+
+    def astar(self, dest):
+        # this whole bruteForce part should be wwwaaayyy way way more sophisticated, but at this point im happy if it runs
+        debug_print(f"{self.id} in astar, current is: {self.field.pos}, dest is: {dest}")
+        debug_print(f"dist is : {self.field.pos.dist(dest)}, viewrange is : {self.viewRange}")
+
+        if(self.field.pos.dist(dest) >= self.viewRange):
+            debug_print(f"{self.id} in bruteforce, current is: {self.field.pos}, dest is: {dest}")
             x = self.field.pos.x
             y = self.field.pos.y
-            if(dest.x >= x and dest.y >= y):
-                for f in self.seenFields:
-                    if(f.pos.x == x+1 and f.pos.y == y+1):
-                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
-                        return f
-            if(dest.x <= x and dest.y >= y):
-                for f in self.seenFields:
-                    if(f.pos.x == x-1 and f.pos.y == y+1):
-                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
-                        return f
-            if(dest.x >= x and dest.y <= y):
-                for f in self.seenFields:
-                    if(f.pos.x == x+1 and f.pos.y == y-1):
-                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
-                        return f
-            if(dest.x <= x and dest.y <= y):
-                for f in self.seenFields:
-                    if(f.pos.x == x-1 and f.pos.y == y-1):
-                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
-                        return f
-
-
-        closedSet = []
-        openSet = []
-        path = []
-        openSet.append(self.field)
-        while(len(openSet) > 0):
-            winner = openSet[0]
-            for f in openSet:
-                if(f.f < winner.f):
-                    winner = f
-
-            current = winner
-            if(current.pos == dest):
-                temp = current
-                path.append(temp)
-                while(temp.parent is not None):
-                    path.append(temp.parent)
-                    temp = temp.parent
-                if(len(path) == 1):
-                    return None
-                debug_print(f"{self.id}: {self.field.pos}, astar path: {[str(field.pos) for field in path]}")
-                return path[-2]
-
-            openSet.remove(current)
-            closedSet.append(current)
 
             neighbours = []
             for f in self.seenFields:
-                if(abs(f.pos.x - current.pos.x) <= 1 and abs(f.pos.y - current.pos.y) <= 1
+                if(abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1
                     and f.pos not in [u.pos for u in self.seenUnits]):
-                    neighbours.append(f)
+                    neighbours.append(f.pos)
 
-            for n in neighbours:
-                if(not n in closedSet and n.type in self.steppables):
-                    tempG = current.g + max(abs(n.pos.x - current.pos.x), abs(n.pos.y - current.pos.y))
-                    newPath = False
-                    if(n in openSet):
-                        if(tempG < n.g):
-                            n.g = tempG
-                            newPath = True
+            if(dest.x >= x and dest.y >= y):
+                for f in neighbours:
+                    if(f.x == x+1 and f.y == y+1 and f.type in self.steppables):
+                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
+                        return f
                     else:
-                        n.g = tempG
-                        newPath = True
-                        openSet.append(n)
-                    if(newPath):
-                        n.h = max(abs(n.pos.x - dest.x), abs(n.pos.y - dest.y))
-                        n.f = n.g + n.h
-                        n.parent = current
+                        return self.dummyMove()
+            if(dest.x <= x and dest.y >= y):
+                for f in neighbours:
+                    if(f.x == x-1 and f.y == y+1 and f.type in self.steppables):
+                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
+                        return f
+                    else:
+                        return self.dummyMove()
+            if(dest.x >= x and dest.y <= y):
+                for f in neighbours:
+                    if(f.x == x+1 and f.y == y-1 and f.type in self.steppables):
+                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
+                        return f
+                    else:
+                        return self.dummyMove()
+            if(dest.x <= x and dest.y <= y):
+                for f in neighbours:
+                    if(f.x == x-1 and f.y == y-1 and f.type in self.steppables):
+                        debug_print(f"{self.id}: {self.field.pos}, bruteForce result: {str(f)}")
+                        return f
+                    else:
+                        return self.dummyMove()
+
+        return self.astar2(dest)
 
     # nem is kell dummy move, ha van spread: ha nem látnak senki, spreadeljenek
     def dummyMove(self):
-        debug_print(f"in dummy move {self.id}")
+        debug_print(f"bruteForceFailed, in dummy move {self.id}")
         neighbours = []
         for f in self.seenFields:
             if(abs(f.pos.x - self.field.pos.x) <= 1 and abs(f.pos.y - self.field.pos.y) <= 1
@@ -141,7 +153,7 @@ class Unit:
         for n in neighbours:
             if(n.type in self.steppables and n.pos != self.field.pos
                 and f.pos not in [u.pos for u in self.seenUnits]):
-                return n
+                return n.pos
 
 
     def __str__(self):

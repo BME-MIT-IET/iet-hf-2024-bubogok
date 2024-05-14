@@ -15,7 +15,7 @@ class Pos:
         return self.y
 
     def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
+        return ((self.x == other.x) and (self.y == other.y))
 
     # Chebyshev distance
     def dist(self, other):
@@ -26,4 +26,7 @@ class Pos:
 
     def __str__(self):
         return f"{self.x}, {self.y}"
+
+    def __hash__(self):
+        return hash((self.x, self.y))
 
