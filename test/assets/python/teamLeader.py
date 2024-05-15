@@ -3,7 +3,7 @@ from unitView import UnitView
 from pos import Pos
 from logger import debug_print
 from mapPart import MapPart
-
+from group import Group
 
 import math
 import numpy as np
@@ -189,7 +189,6 @@ def attack(group):
 	commands = list()
 	collectiveEnemys = []
 	global collectiveUnits
-	# debug_print(f"cu: {collectiveUnits}")
 	for key in collectiveUnits:
 		if(collectiveUnits[key].team != group[0].team):
 			collectiveEnemys.append(collectiveUnits[key])
@@ -217,10 +216,11 @@ def retreat(group):
 	commands = list()
 	if(len(collectiveControlPoints) != 0):
 		for unit in group:
-			move = unit.astar(collectiveControlPoints[0].pos)
-			debug_print(f"move: {type(move)}")
-			if(move is not None):
-				commands.append(f"move {unit.id} {move.x} {move.y}")
+			if(unit.field.pos.dist(collectiveControlPoints[0].pos) >= collectiveControlPoints[0].size):
+				move = unit.astar(collectiveControlPoints[0].pos)
+				debug_print(f"move: {type(move)}")
+				if(move is not None):
+					commands.append(f"move {unit.id} {move.x} {move.y}")
 			else:
 				debug_print(f"move is None {unit.id}")
 	else:

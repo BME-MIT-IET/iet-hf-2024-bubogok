@@ -3,11 +3,17 @@ from controlPoint import ControlPoint
 from unitView import UnitView
 from field import Field
 from logger import debug_print
+# from priorityQueue import PriorityQueue
 
 import time
 import math
 import os
 from datetime import datetime
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+
+nextTo = [-1, 1]
 
 class Unit:
     def __init__(self, id, tipus, posWType, seenFields, seenUnits, seenControlPoints, health, ammo, fuel, actionPoints, team):
@@ -53,7 +59,10 @@ class Unit:
         return f"id:{self.id}, aps: {self.actionPoints} type:{self.type}, pos: {self.field.getPos()},\n\thealth: {self.health}, ammo: {self.ammo}, fuel:{self.fuel}"
 
     def astar2(self, dest):
-        debug_print(f" INITIAL CHECK {self.id} seenFileds: {[str(f.pos) for f in self.seenFields]}")
+        debug_print(f" INITIAL CHECK {self.id}")
+        if(dest in [u.pos for u in self.seenUnits] or self.field.pos == dest):
+            dest.x = dest.x + random.choice(nextTo)
+            dest.y = dest.y + random.choice(nextTo)
         frontier = list()
         frontier.append(self.field.pos)
         came_from = dict()
@@ -72,22 +81,33 @@ class Unit:
                     and f.type in self.steppables):
                     neighbours.append(f.pos)
             # ----------------------------------------------------------
-            debug_print(f"neighbours: {[str(n) for n in neighbours]}")
+            # debug_print(f"neighbours: {[str(n) for n in neighbours]}")
             for n in neighbours:
                 if(n not in came_from):
                     frontier.append(n)
                     came_from[n] = current
         current = dest
         path = []
-        iter = 0
         while current != self.field.pos:
-            debug_print(f"cf: {[str(p) for p in came_from]}")
-            debug_print(f"iter: {iter}")
-            iter += 1
+            # debug_print(f"cf: {[str(p) for p in came_from]}")
+
             path.append(current)
             current = came_from[current]
         path.append(self.field.pos)
         debug_print(f"astar2 returning: {[str(n) for n in path]}")
+
+
+        # maze = np.zeros((60, 60))
+        # for p in path:
+        #     maze[p.y][p.x] = 1
+        # graph, (Q_plot1) = plt.subplots(1, 1)
+        # Q_plot1.set_title(f"{self.id} a* way pos:{str(self.field.pos)}, dest: {dest}")
+        # Q_plot1.imshow(maze, cmap='binary', interpolation='nearest')
+        # plt.gca().invert_yaxis()
+        # plt.show()
+
+
+
         if(len(path) < 2):
             return None
         return path[-2]
