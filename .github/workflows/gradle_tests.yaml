@@ -3,11 +3,13 @@ on:
   push:
     branches:
       - master
-  #maybe even on PR-s?
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
-    runs-on: ubuntu-latest #?
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -15,7 +17,7 @@ jobs:
       - name: JDK setup
         uses: actions/setup-java@v2
         with:
-          java-version: 'latest' #or any specific version?
+          java-version: '11'
       - name: Build with Gradle
         run: ./gradlew build
 
