@@ -1,0 +1,31 @@
+name: Java Gradle Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: JDK setup
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          
+      - name: Build with Gradle
+        working-directory: ./test
+        run: ./gradlew build
+
+      - name: Run Tests
+        working-directory: ./test
+        run: ./gradlew test
+      
