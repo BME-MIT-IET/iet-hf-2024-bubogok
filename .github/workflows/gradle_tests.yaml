@@ -1,4 +1,5 @@
 name: Java Gradle Tests
+
 on:
   push:
     branches:
@@ -19,9 +20,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          
       - name: Build with Gradle
-        run: ./test/gradlew build
+        working-directory: ./test
+        run: ./gradlew build
 
       - name: Run Tests
-        run: ./test/gradlew test
+        working-directory: ./test
+        run: ./gradlew test
       
