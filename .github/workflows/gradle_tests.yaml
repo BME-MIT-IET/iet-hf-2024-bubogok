@@ -20,8 +20,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./test/gradlew build
 
       - name: Run Tests
-        run: ./gradlew test
+        run: ./test/gradlew test
       
