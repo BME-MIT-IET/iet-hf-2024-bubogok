@@ -36,7 +36,6 @@ public class Unit {
 	private int actionPoints;
 	private Position statingPos;
 
-	private static Scanner sc; //TODO ez miért volt itt
 	private static int idCounter = 0;
 
 	public enum Type {
@@ -52,9 +51,9 @@ public class Unit {
 	}
 
 	public Unit(Field f, Team team, Type type) {
-		seenFields = new ArrayList<Field>();
-		seenUnits = new ArrayList<PerceivedUnit>();
-		steppableTypes = new ArrayList<Field.Type>();
+		seenFields = new ArrayList<>();
+		seenUnits = new ArrayList<>();
+		steppableTypes = new ArrayList<>();
 		ID = idCounter++;
 		this.field = f;
 		field.arrive(this);
@@ -62,21 +61,17 @@ public class Unit {
 		team.addUnit(this);
 		this.type = type;
 		this.statingPos = f.pos();
-		try {
-			sc = new Scanner(descriptorDir.resolve(type.path));
-			while (sc.hasNextLine()) {
-				maxHealth = Integer.parseInt(sc.nextLine());
-				viewRange = Integer.parseInt(sc.nextLine());
-				shootRange = Integer.parseInt(sc.nextLine());
-				damage = Integer.parseInt(sc.nextLine());
-				maxAmmo = Integer.parseInt(sc.nextLine());
-				maxFuel = Integer.parseInt(sc.nextLine());
-				consumption = Integer.parseInt(sc.nextLine());
-				maxActionPoints = Integer.parseInt(sc.nextLine());
-				price = Integer.parseInt(sc.nextLine());
-				int dummy = Integer.parseInt(sc.nextLine());
-				break;
-			}
+		try (Scanner sc = new Scanner(descriptorDir.resolve(type.path))) {
+			maxHealth = Integer.parseInt(sc.nextLine());
+			viewRange = Integer.parseInt(sc.nextLine());
+			shootRange = Integer.parseInt(sc.nextLine());
+			damage = Integer.parseInt(sc.nextLine());
+			maxAmmo = Integer.parseInt(sc.nextLine());
+			maxFuel = Integer.parseInt(sc.nextLine());
+			consumption = Integer.parseInt(sc.nextLine());
+			maxActionPoints = Integer.parseInt(sc.nextLine());
+			price = Integer.parseInt(sc.nextLine());
+			int dummy = Integer.parseInt(sc.nextLine());
 			while (sc.hasNextLine()) {
 				steppableTypes.add(Field.Type.valueOf(sc.nextLine()));
 			}
@@ -159,7 +154,7 @@ public class Unit {
 	public void updateSelf(int percentage) {
 		int updateAmount;
 		if (health <= maxHealth) {
-			updateAmount = (int) Math.ceil(maxHealth * (percentage / 100));
+			updateAmount = (int) Math.ceil(maxHealth * (percentage / 100f));
 
 			health = Math.min(maxHealth, health + updateAmount);
 		}
