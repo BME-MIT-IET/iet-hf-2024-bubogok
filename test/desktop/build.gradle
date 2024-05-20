@@ -1,39 +1,27 @@
 sourceCompatibility = 1.17
-sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = ["../assets"]
+sourceSets.main.java.srcDirs = ["src/"]
 
 project.ext.mainClassName = "temalab.test.DesktopLauncher"
-project.ext.assetsDir = new File("../assets")
+project.ext.rootDir = new File("..")
 
 import org.gradle.internal.os.OperatingSystem
 
-// tasks.register('run', JavaExec) {
-//     dependsOn classes
-//     mainClass = project.mainClassName
-//     classpath = sourceSets.main.runtimeClasspath
-//     standardInput = System.in
-//     workingDir = project.assetsDir
-//     ignoreExitValue = true
-//     jvmArgs=['-Xmx2048m']
-//     if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
-//         // Required to run on macOS
-//         jvmArgs += "-XstartOnFirstThread"
-//     }
-// }
-
-
-
-tasks.register('debug', JavaExec) {
+tasks.register('run', JavaExec) {
     dependsOn classes
     mainClass = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
+    workingDir = project.rootDir
     ignoreExitValue = true
-    debug = true
+    jvmArgs = ['-Xmx2048m']
+    if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
+        // Required to run on macOS
+        jvmArgs += "-XstartOnFirstThread"
+    }
 }
 
-tasks.register('dist', Jar) {
+
+jar {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
         attributes 'Main-Class': project.mainClassName
@@ -42,8 +30,5 @@ tasks.register('dist', Jar) {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
-    with jar
+
 }
-
-
-dist.dependsOn classes
