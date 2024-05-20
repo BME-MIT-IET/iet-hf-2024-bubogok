@@ -12,5 +12,5 @@ gradle run
 
 ## Grafikus felülettel
 ```sh
-gradle run --args#"graf"
+gradle run --args="graf"
 ```
