@@ -12,14 +12,14 @@ public final class Field {
 		BUILDING,
 		MARSH
 	}
-	
+
 	public Field(Position pos, Type t) {
 		type = t;
 		this.pos = pos;
 	}
 
 	public boolean arrive(Unit u) {
-		if(unit != null && unit != u) {
+		if (unit != null && unit != u) {
 			return false;
 		}
 		unit = u;
@@ -31,11 +31,11 @@ public final class Field {
 	}
 
 	public void takeShot(int damage) {
-		if(unit != null) {
+		if (unit != null) {
 			unit.takeShot(damage);
 		}
 	}
-	
+
 	public boolean isNeighbouring(Field f) {
 		return pos.isNeighbouring(f.pos);
 	}
@@ -51,8 +51,13 @@ public final class Field {
 	public Field.Type getType() {
 		return type;
 	}
+
 	public Position pos() {
 		return pos;
+	}
+
+	public Unit getUnit() {
+		return unit;
 	}
 
 	public void setPos(Position p) {
