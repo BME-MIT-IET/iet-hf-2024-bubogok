@@ -33,14 +33,15 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
     }
+
     dependencies {
-        
         implementation 'com.google.guava:guava:31.1-jre'
         testImplementation 'junit:junit:4.13.2'
         implementation 'junit:junit:4.13.2'
         implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-        
+        testImplementation 'io.cucumber:cucumber-java:7.18.0'
+        testImplementation 'io.cucumber:cucumber-junit:7.18.0'
     }
 }
 
