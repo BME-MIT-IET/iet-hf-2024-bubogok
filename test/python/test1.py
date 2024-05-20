@@ -53,7 +53,7 @@ def main():
                 case "commPhase":
                     units = inputHandler.makeUnits()
                     if(len(units) == 0):
-                        print("endTurn", file=sys.__stdout__, flush=True)
+                        teamCommands.append("endTurn")
                     if(len(teamCommands) == 0):
                         teamCommands += tLAction(units)
                     if(len(teamCommands) == 0):
