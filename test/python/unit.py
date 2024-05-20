@@ -29,7 +29,7 @@ class Unit:
             self.seenControlPoints.append(ControlPoint(cp))
         self.actionPoints = actionPoints
         self.team = team
-        descriptorFile = open(f"{os.getcwd()}/assets/desciptors/{self.type}.txt", "r")
+        descriptorFile = open(f"{os.getcwd()}/assets/descriptors/{self.type}.txt", "r")
         self.maxHealth = int(descriptorFile.readline())
         self.viewRange = int(descriptorFile.readline())
         self.shootRange = int(descriptorFile.readline())
