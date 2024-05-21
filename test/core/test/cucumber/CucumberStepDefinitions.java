@@ -4,6 +4,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 import temalab.model.Field;
 import temalab.model.Position;
 import temalab.model.Team;
@@ -38,6 +39,6 @@ public class CucumberStepDefinitions {
 
 	@Then("the infantry takes {int} damage")
 	public void theInfantryTakesDamage(int damage) {
-		assert (infantry.getMaxHealth() >= 30 ? infantry.getHealth() == infantry.getMaxHealth() - damage : infantry.getHealth() <= 0 && infantryField.getUnit() == null);
+		Assert.assertTrue(infantry.getMaxHealth() >= damage ? infantry.getHealth() == infantry.getMaxHealth() - damage : infantry.getHealth() <= 0 && infantryField.getUnit() == null);
 	}
 }
