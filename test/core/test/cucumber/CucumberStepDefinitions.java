@@ -5,12 +5,15 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import temalab.common.MainModel;
+import temalab.common.map_generation.AllGreenMapGeneratorStrategy;
 import temalab.model.Field;
 import temalab.model.Position;
 import temalab.model.Team;
 import temalab.model.Unit;
 
 public class CucumberStepDefinitions {
+	MainModel mainModel = new MainModel(3, new AllGreenMapGeneratorStrategy());
 	Field infantryField;
 	Field tankField;
 	Team red;
@@ -26,13 +29,13 @@ public class CucumberStepDefinitions {
 
 	@Given("the infantry is on the field")
 	public void theInfantryIsOnTheField() {
-		infantryField = new Field(new Position(0, 0), Field.Type.GRASS);
+		infantryField = mainModel.getField(new Position(0, 0));
 		infantry = new Unit(infantryField, red, Unit.Type.INFANTRY);
 	}
 
 	@When("a tank shoots on the field")
 	public void aTankShootsOnTheField() {
-		tankField = new Field(new Position(1, 0), Field.Type.GRASS);
+		tankField = mainModel.getField(new Position(0, 1));
 		tank = new Unit(infantryField, white, Unit.Type.TANK);
 		tank.shoot(infantryField);
 	}

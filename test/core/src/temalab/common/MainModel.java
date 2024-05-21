@@ -1,8 +1,9 @@
 package temalab.common;
 
+import temalab.common.map_generation.MapGeneratorStrategy;
+import temalab.common.map_generation.SimplexMapGeneratorStrategy;
 import temalab.model.*;
 import temalab.model.Unit.Type;
-import temalab.util.SimplexNoise;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,31 +12,31 @@ import java.util.Map;
 
 public class MainModel {
 	//measured in fields
-	private int mapSize;
+	private final int mapSize;
 
 	public int ackNumber = 1;
 
-	private Map<String, Team> teams;
-	private Map<Position, Field> fields;
-	private ArrayList<ControlPoint> controlPoints;
-	private List<MainModelListener> listeners;
-	private MainModelCommunicatorListener mmcl;
+	private final Map<String, Team> teams;
+	private final Map<Position, Field> fields;
+	private final ArrayList<ControlPoint> controlPoints;
+	private final List<MainModelListener> listeners;
+	private MainModelCommunicatorListener mainModelCommunicatorListener;
 
-	public MainModel(int w) {
-		mapSize = w;
-		fields = new HashMap<Position, Field>();
-		controlPoints = new ArrayList<ControlPoint>();
+	public MainModel(int size, MapGeneratorStrategy mapGeneratorStrategy) {
+		mapSize = size;
+		controlPoints = new ArrayList<>();
 		teams = new HashMap<>();
 		teams.put("white", new Team("white", "sarlMove", 5000, this));
 		teams.put("red", new Team("red", "heuristic", 5000, this));
 		listeners = new ArrayList<>();
-		// makeAllGreenMap();
-		makeSimplexNoiseMap();
-		testUnits();
-		testControlPoints();
+		fields = mapGeneratorStrategy.generateMap(size);
 	}
 
-	private void testUnits() {
+	public MainModel(int size) {
+		this(size, new SimplexMapGeneratorStrategy());
+	}
+
+	public void placeDefaultUnits() {
 		new Unit(fields.get(new Position(38, 20)), teams.get("white"), Type.SCOUT);
 		new Unit(fields.get(new Position(0, 0)), teams.get("red"), Type.TANK);
 		new Unit(fields.get(new Position(40, 40)), teams.get("red"), Type.SCOUT);
@@ -44,48 +45,8 @@ public class MainModel {
 		new Unit(fields.get(new Position(38, 25)), teams.get("red"), Type.TANK);
 	}
 
-	private void testControlPoints() {
+	public void placeDefaultControlPoints() {
 		controlPoints.add(new ControlPoint(new Position(40, 50), 10, 3, this));
-	}
-
-	private void makeSimplexNoiseMap() {
-		for (int i = 0; i < mapSize; i++) {
-			for (int j = 0; j < mapSize; j++) {
-				var temPos = new Position(i, j);
-				var noiseProb = SimplexNoise.noise(i / 30.0, j / 30.0, 10);
-				if (-1 < noiseProb && noiseProb <= 0) {
-					fields.put(temPos, new Field(temPos, Field.Type.GRASS));
-				} else if (0 < noiseProb && noiseProb <= 0.2) {
-					fields.put(temPos, new Field(temPos, Field.Type.WATER));
-				} else if (0.2 < noiseProb && noiseProb <= 0.4) {
-					fields.put(temPos, new Field(temPos, Field.Type.FOREST));
-				} else if (0.4 < noiseProb && noiseProb <= 0.6) {
-					fields.put(temPos, new Field(temPos, Field.Type.BUILDING));
-				} else if (0.6 < noiseProb && noiseProb <= 1) {
-					fields.put(temPos, new Field(temPos, Field.Type.MARSH));
-				}
-			}
-		}
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
-				fields.replace(new Position(i, j), new Field(new Position(i, j), Field.Type.GRASS));
-			}
-		}
-		for (int i = mapSize - 1; i > mapSize - 3; i--) {
-			for (int j = mapSize - 1; j > mapSize - 3; j--) {
-				fields.replace(new Position(i, j), new Field(new Position(i, j), Field.Type.GRASS));
-			}
-		}
-
-	}
-
-	private void makeAllGreenMap() {
-		for (int i = 0; i < mapSize; i++) {
-			for (int j = 0; j < mapSize; j++) {
-				var temPos = new Position(i, j);
-				fields.put(temPos, new Field(temPos, Field.Type.GRASS));
-			}
-		}
 	}
 
 	public void addListener(MainModelListener mml) {
@@ -108,10 +69,10 @@ public class MainModel {
 	}
 
 	public void addListener(MainModelCommunicatorListener mmcl) {
-		this.mmcl = mmcl;
+		this.mainModelCommunicatorListener = mmcl;
 	}
 
-	public void removeistener(MainModelListener mml) {
+	public void removeListener(MainModelListener mml) {
 		this.listeners.remove(mml);
 
 	}
@@ -176,8 +137,8 @@ public class MainModel {
 	}
 
 	public void teamLost(String name) {
-		if (this.mmcl != null) {
-			mmcl.teamLost(name);
+		if (this.mainModelCommunicatorListener != null) {
+			mainModelCommunicatorListener.teamLost(name);
 		}
 	}
 }
