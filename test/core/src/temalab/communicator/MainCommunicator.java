@@ -11,6 +11,8 @@ public class MainCommunicator{
     private Object waiter = new Object();
     private boolean pause;
     private List<Communicator> communictors;
+    private boolean runCommThread;
+    private Thread shutdownHook;
 
     public MainCommunicator(MainModel mm) {
         communictors = new ArrayList<>();
@@ -18,15 +20,22 @@ public class MainCommunicator{
         for(var t : teams) {
             communictors.add(new Communicator(t, "python/test1.py", t.getStrategy()));
         }
+        runCommThread = true;
         commThread = new Thread() {
 			public void run() {
-				while (true) {
+				outer: while (runCommThread) {
                     synchronized (waiter) {
                         while (pause) {
                             try {
                                 waiter.wait();
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                if (!runCommThread) {
+                                    break outer;
+                                } else {
+                                    // ha más forrásból jött az interrupt,
+                                    // akkor legyen valami nyoma
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -42,9 +51,23 @@ public class MainCommunicator{
 			}
 		};
 		commThread.start();
+		shutdownHook = new Thread(this::stop);
+		Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 
     public void stop() {
+        synchronized(shutdownHook) {
+            if (!Runtime.getRuntime().removeShutdownHook(shutdownHook)) {
+                return;
+            }
+        }
+        runCommThread = false;
+        commThread.interrupt();
+        try {
+            commThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for(var c : communictors) {
             c.closeThread();
         }
