@@ -23,9 +23,12 @@ jobs:
           
       - name: Build with Gradle
         working-directory: ./test
-        run: ./gradlew build
+        run: ./gradlew jar
 
-      - name: Run Tests
+      - name: Run Junit Tests
         working-directory: ./test
         run: ./gradlew test
       
+      - name: Check Cucumber Feature Shooting
+        working-directory: ./test
+        run: ./gradlew cucumber
