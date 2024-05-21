@@ -1,3 +1,5 @@
+package cucumber;
+
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -22,7 +24,7 @@ public class CucumberStepDefinitions {
 	}
 
 	@Given("the infantry is on the field")
-	public void asdf() {
+	public void theInfantryIsOnTheField() {
 		infantryField = new Field(new Position(0, 0), Field.Type.GRASS);
 		infantry = new Unit(infantryField, red, Unit.Type.INFANTRY);
 	}
