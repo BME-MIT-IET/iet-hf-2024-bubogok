@@ -119,6 +119,9 @@ public final class Team {
 	
 	public void unitDied(int id) {
 		units.remove(id);
+		if(units.isEmpty()) {
+			mm.teamLost(name);
+		}
 	}
 	
 	public ArrayList<String> teamMembersToString(boolean toMonitor) {

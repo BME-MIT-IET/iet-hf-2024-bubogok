@@ -19,6 +19,7 @@ public class MainModel {
 	private Map<Position, Field> fields;
 	private ArrayList<ControlPoint> controlPoints;
     private List<MainModelListener> listeners;
+	private mainModelCommunicatorListener mmcl;
 
     public MainModel(int w) {
         mapSize = w;
@@ -106,6 +107,10 @@ public class MainModel {
         }
     }
 
+	public void addListener(mainModelCommunicatorListener mmcl) {
+		this.mmcl = mmcl;
+	}
+
     public void removeistener(MainModelListener mml) {
         this.listeners.remove(mml);
     
@@ -175,4 +180,10 @@ public class MainModel {
     public List<Team> getTeams() {
         return new ArrayList<Team>(teams.values());
     }
+
+	public void teamLost(String name) {
+		if(this.mmcl != null) {
+			mmcl.teamLost(name);
+		}
+	}
 }
