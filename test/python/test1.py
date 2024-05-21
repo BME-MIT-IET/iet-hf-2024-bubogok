@@ -31,7 +31,6 @@ def communicate(units):
 
 def endPhase(units):
     result = input()
-    logger.debug_print("ASDF:", result)
     print("reset", file=sys.__stdout__, flush=True)
 
 
