@@ -41,4 +41,17 @@ public class CucumberStepDefinitions {
 	public void theInfantryTakesDamage(int damage) {
 		Assert.assertTrue(infantry.getMaxHealth() >= damage ? infantry.getHealth() == infantry.getMaxHealth() - damage : infantry.getHealth() <= 0 && infantryField.getUnit() == null);
 	}
+
+	@Given("nothing")
+	public void _nothing() {
+	}
+
+	@When("nothing happens")
+	public void nothing() {
+	}
+
+	@Then("true")
+	public void _true() {
+		Assert.assertTrue(true);
+	}
 }

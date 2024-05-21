@@ -5,13 +5,13 @@ sourceSets.main.java.srcDirs = ["src/"]
 sourceSets.test.java.srcDirs = ["test/"]
 
 tasks.register("cucumber", Test) {
-    outputs.upToDateWhen {false}
+    outputs.upToDateWhen { false }
     doLast {
         javaexec {
             classpath = project.configurations.runtimeClasspath + sourceSets.test.runtimeClasspath
             mainClass = "io.cucumber.core.cli.Main"
             workingDir = new File("..")
-            args=["core/test/resources/Shoot.feature"]
+            args = new File("test/resources").listFiles().collect { "core/" + it.toString() }
         }
     }
 }

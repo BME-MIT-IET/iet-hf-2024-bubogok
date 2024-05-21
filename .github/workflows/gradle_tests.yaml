@@ -29,6 +29,6 @@ jobs:
         working-directory: ./test
         run: ./gradlew test
       
-      - name: Check Cucumber Feature Shooting
+      - name: Check Cucumber Features
         working-directory: ./test
         run: ./gradlew cucumber
