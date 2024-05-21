@@ -1,6 +1,6 @@
 package temalab.common;
 
-public interface mainModelCommunicatorListener {
+public interface MainModelCommunicatorListener {
 
     public void teamLost(String name);
 }

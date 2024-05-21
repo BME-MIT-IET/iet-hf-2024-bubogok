@@ -90,7 +90,7 @@ public class Communicator {
 		runCounter++;
 		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + runCounter + "\033[0m");
 		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
-		if(!simuEnded) {
+
 			loop:
 			while (true) {
 				messageCounter++;
@@ -101,9 +101,16 @@ public class Communicator {
 				}
 				team.updateUnits();
 				out.println(messageCounter);
-				out.println("commPhase");
-				out.println(team.units().size());
-				out.println(team.teamMembersToString(false).toString());
+				if(!simuEnded) {
+					out.println("commPhase");
+					out.println(team.units().size());
+					out.println(team.teamMembersToString(false).toString());
+				} else {
+					System.out.println("SIMUSHOULDEND");
+					out.println("endPhase");
+					out.println(team.getName() +  " " + weWon);
+					simuEnded = false;
+				}
 				if (!sc.hasNext()) {
 					throw new RuntimeException("roooosz");
 				}
@@ -114,7 +121,9 @@ public class Communicator {
 					case "endTurn":
 						break loop;
 					case "reset":
+						System.out.println("reset shuold happen");
 						team.reset();
+						break loop;
 					case "move": {
 						if (split.length == 4) {
 							team.moveUnit(Integer.parseInt(split[1]),
@@ -134,10 +143,7 @@ public class Communicator {
 						break loop;
 				}
 			}
-		} else {
-			out.println("endPhase");
-			out.println(team.getName() +  " " + weWon);
-		}
+
 		System.err.println("\033[0;35mdebug from " + "ENDcommunicating" + "\033[0m");
 	}
 

@@ -19,7 +19,7 @@ public class MainModel {
 	private Map<Position, Field> fields;
 	private ArrayList<ControlPoint> controlPoints;
     private List<MainModelListener> listeners;
-	private mainModelCommunicatorListener mmcl;
+	private MainModelCommunicatorListener mmcl;
 
     public MainModel(int w) {
         mapSize = w;
@@ -107,7 +107,7 @@ public class MainModel {
         }
     }
 
-	public void addListener(mainModelCommunicatorListener mmcl) {
+	public void addListener(MainModelCommunicatorListener mmcl) {
 		this.mmcl = mmcl;
 	}
 
@@ -182,12 +182,5 @@ public class MainModel {
 		if(this.mmcl != null) {
 			mmcl.teamLost(name);
 		}
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		System.out.println("here");
-		System.exit(0);
 	}
 }
