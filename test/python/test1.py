@@ -31,7 +31,7 @@ def communicate(units):
 
 def endPhase(units):
     result = input()
-    logger.debug_print(result)
+    print("reset", file=sys.__stdout__, flush=True)
 
 
 def main():
@@ -64,6 +64,7 @@ def main():
                     sys.stdout = open(os.devnull, 'w')
                     # print(communicate(units))
                 case "endPhase":
+                    teamCommands.clear()
                     endPhase(units)
     except Exception as err:
         logger.debug_print(f"valami rák, {err=}, {type(err)=}")

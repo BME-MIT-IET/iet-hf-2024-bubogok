@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import temalab.common.MainModel;
+import temalab.common.MainModelCommunicatorListener;
 
-public class MainCommunicator{
+public class MainCommunicator implements MainModelCommunicatorListener {
     private boolean manualResetEvent = false;
     private Thread commThread;
     private Object waiter = new Object();
@@ -89,5 +90,16 @@ public class MainCommunicator{
             }
         }
         System.out.println("paused = " + pause);
+    }
+
+    @Override
+    public void teamLost(String name) {
+        for (var c : communictors) {
+            if (c.getTeam().getName() == name) {
+                c.endSimu(false);
+            } else {
+                c.endSimu(true);
+            }
+        }
     }
 }

@@ -157,7 +157,8 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 
 	@Override
 	public void unitDestoryed(Unit u) {
-		unitViews.remove(u);
+		var uv = unitViews.get(u);
+		uv.unitDied();
 	}
 	
 	@Override

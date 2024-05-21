@@ -21,6 +21,7 @@ public class UnitView implements UnitListener {
 	private Color c;
 	private Texture texture;
 	private GUIView gv;
+	private boolean visible = true;
 
 	public UnitView(Unit u, GUIView guiv) {
 		this.u = u;
@@ -40,31 +41,32 @@ public class UnitView implements UnitListener {
 	}
 
 	public void render(ShapeRenderer sr, SpriteBatch sb) {
-		float size = gv.squareSize();
-		Vector2 center = u.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
+		if(visible) {
+			float size = gv.squareSize();
+			Vector2 center = u.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
 
-		sr.begin(ShapeRenderer.ShapeType.Filled);
-		sr.setColor(c);
-		sr.circle(center.x, center.y, size / 2);
-		sr.end();
+			sr.begin(ShapeRenderer.ShapeType.Filled);
+			sr.setColor(c);
+			sr.circle(center.x, center.y, size / 2);
+			sr.end();
 
-		sb.begin();
-		sb.draw(texture, center.x - (size / 2), center.y - (size / 2), size, size);
-		sb.end();
+			sb.begin();
+			sb.draw(texture, center.x - (size / 2), center.y - (size / 2), size, size);
+			sb.end();
 
-		sr.begin(ShapeRenderer.ShapeType.Line);
-		sr.setColor(c);
-		sr.circle(center.x, center.y, gv.universalDistanceConstant() * size * shootRange);
-		sr.circle(center.x, center.y, gv.universalDistanceConstant() * size * viewRange);
-		sr.end();
-		if (currentlyShooting) {
 			sr.begin(ShapeRenderer.ShapeType.Line);
 			sr.setColor(c);
-			sr.line(center, shootingPos.screenCoords(gv.squareSize(), gv.universalDistanceConstant()));
+			sr.circle(center.x, center.y, gv.universalDistanceConstant() * size * shootRange);
+			sr.circle(center.x, center.y, gv.universalDistanceConstant() * size * viewRange);
 			sr.end();
-			currentlyShooting = false;
+			if (currentlyShooting) {
+				sr.begin(ShapeRenderer.ShapeType.Line);
+				sr.setColor(c);
+				sr.line(center, shootingPos.screenCoords(gv.squareSize(), gv.universalDistanceConstant()));
+				sr.end();
+				currentlyShooting = false;
+			}
 		}
-
 	}
 
 	@Override
@@ -75,6 +77,11 @@ public class UnitView implements UnitListener {
 
 	@Override
 	public void unitDied() {
-		gv.unitDestoryed(u);
+		visible = false;
+	}
+
+	@Override
+	public void unitReseted() {
+		visible = true;
 	}
 }

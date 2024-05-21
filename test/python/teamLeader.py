@@ -194,6 +194,8 @@ def attack(group):
 	debug_print(f"collectiveEnemys: {collectiveEnemys}")
 	if(len(collectiveEnemys) != 0):
 		for unit in group:
+			if (unit.field.pos.euclDist(collectiveEnemys[0].pos) < unit.shootRange):
+				commands.append(f"shoot {unit.id} {collectiveEnemys[0].pos.x} {collectiveEnemys[0].pos.y}")
 			move = unit.astar(collectiveEnemys[0].pos)
 			if(move is not None):
 				commands.append(f"move {unit.id} {move.pos.x} {move.pos.y}")
