@@ -11,7 +11,7 @@ tasks.register("cucumber", Test) {
             classpath = project.configurations.runtimeClasspath + sourceSets.test.runtimeClasspath
             mainClass = "io.cucumber.core.cli.Main"
             workingDir = new File("..")
-            args=["--name", "^shoot\$", "core/test/resources/Shoot.feature"]
+            args=["core/test/resources/Shoot.feature"]
         }
     }
 }
