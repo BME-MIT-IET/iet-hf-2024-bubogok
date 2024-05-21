@@ -1,16 +1,16 @@
-== Fordítás
+## Fordítás
 ```sh
-gradle desktop:dist
+gradle build
 ```
 
-== Futtatás
+## Futtatás
 
-=== Grafikus felület nélkül
+### Grafikus felület nélkül
 ```sh
-java -jar desktop/build/libs/desktop-1.0.jar
+gradle run
 ```
 
-== Grafikus felülettel
+## Grafikus felülettel
 ```sh
-java -jar desktop/build/libs/desktop-1.0.jar graf
+gradle run --args="graf"
 ```

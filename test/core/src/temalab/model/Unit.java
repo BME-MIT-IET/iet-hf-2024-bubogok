@@ -1,15 +1,16 @@
 package temalab.model;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import com.badlogic.gdx.graphics.Color;
-
 import temalab.common.MainModel;
 import temalab.common.UnitListener;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Unit {
+	private static final Path descriptorDir = Path.of("assets", "descriptors");
+
 	private final int ID;
 	private Field field;
 	private ArrayList<Field> seenFields;
@@ -35,19 +36,24 @@ public class Unit {
 	private int actionPoints;
 	private Position statingPos;
 
-	private static Scanner sc;
 	private static int idCounter = 0;
-	
+
 	public enum Type {
-		SCOUT,
-		TANK,
-		INFANTRY
+		SCOUT("SCOUT.txt"),
+		TANK("TANK.txt"),
+		INFANTRY("INFANTRY.txt");
+
+		public final Path path;
+
+		Type(String sourceFileName) {
+			path = Path.of(sourceFileName);
+		}
 	}
 
 	public Unit(Field f, Team team, Type type) {
-		seenFields = new ArrayList<Field>();
-		seenUnits = new ArrayList<PerceivedUnit>();
-		steppableTypes = new ArrayList<Field.Type>();
+		seenFields = new ArrayList<>();
+		seenUnits = new ArrayList<>();
+		steppableTypes = new ArrayList<>();
 		ID = idCounter++;
 		this.field = f;
 		field.arrive(this);
@@ -55,96 +61,86 @@ public class Unit {
 		team.addUnit(this);
 		this.type = type;
 		this.statingPos = f.pos();
-        try {
-			if(type == Unit.Type.TANK) {
-				sc = new Scanner(getClass().getResourceAsStream("/desciptors/TANK.txt"));
-			} else if(type == Unit.Type.INFANTRY) {
-				sc = new Scanner(getClass().getResourceAsStream("/desciptors/INFANTRY.txt"));
-			} else if(type == Unit.Type.SCOUT) {
-				sc = new Scanner(getClass().getResourceAsStream("/desciptors/SCOUT.txt"));
-			}
-            while(sc.hasNextLine()) {
-                maxHealth = Integer.parseInt(sc.nextLine());
-                viewRange = Integer.parseInt(sc.nextLine());
-                shootRange = Integer.parseInt(sc.nextLine());
-                damage = Integer.parseInt(sc.nextLine());
-                maxAmmo = Integer.parseInt(sc.nextLine());
-                maxFuel = Integer.parseInt(sc.nextLine());
-                consumption = Integer.parseInt(sc.nextLine());
-                maxActionPoints = Integer.parseInt(sc.nextLine());
-                price = Integer.parseInt(sc.nextLine());
-				int dummy = Integer.parseInt(sc.nextLine());
-				break;
-            }
-			while(sc.hasNextLine()) {
+		try (Scanner sc = new Scanner(descriptorDir.resolve(type.path))) {
+			maxHealth = Integer.parseInt(sc.nextLine());
+			viewRange = Integer.parseInt(sc.nextLine());
+			shootRange = Integer.parseInt(sc.nextLine());
+			damage = Integer.parseInt(sc.nextLine());
+			maxAmmo = Integer.parseInt(sc.nextLine());
+			maxFuel = Integer.parseInt(sc.nextLine());
+			consumption = Integer.parseInt(sc.nextLine());
+			maxActionPoints = Integer.parseInt(sc.nextLine());
+			price = Integer.parseInt(sc.nextLine());
+			int dummy = Integer.parseInt(sc.nextLine());
+			while (sc.hasNextLine()) {
 				steppableTypes.add(Field.Type.valueOf(sc.nextLine()));
 			}
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        health = maxHealth;
-        ammo = maxAmmo;
-        fuel = maxFuel;
-        actionPoints = maxActionPoints;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		health = maxHealth;
+		ammo = maxAmmo;
+		fuel = maxFuel;
+		actionPoints = maxActionPoints;
 	}
 
 	public void move(Field dest) {
-		if(actionPoints <= 0) {
+		if (actionPoints <= 0) {
 			throw new RuntimeException("move out of actionPoints: " + this.actionPoints + " id: " + this.ID);
 		}
-		if(fuel < consumption) {
+		if (fuel < consumption) {
 			throw new RuntimeException("move out of fuel: " + this.fuel + " id: " + this.ID);
 		}
-		if(!field.isNeighbouring(dest)) {
+		if (!field.isNeighbouring(dest)) {
 			throw new RuntimeException("move is not neightbouring id: " + this.ID + " dest: " + dest.toString() + " curr: " + this.field.pos().toString());
 		}
-		if(!steppableTypes.contains(dest.getType())) {
+		if (!steppableTypes.contains(dest.getType())) {
 			throw new RuntimeException("move is not steppable id: " + this.ID);
 		}
-		if(!dest.arrive(this)) {
+		if (!dest.arrive(this)) {
 			// throw new RuntimeException("move cannot arrive id: " + this.ID);
 			return;
 		}
-		if(dest == field) {
+		if (dest == field) {
 			return;
 		}
 		field.leave();
 		field = dest;
 		// fuel -= consumption;
 		actionPoints--;
-		
+
 	}
 
 	public void shoot(Field target) {
-		if(actionPoints <= 0) {
+		if (actionPoints <= 0) {
 			throw new RuntimeException("shoot out of actionPoints: " + this.actionPoints + " id: " + this.ID);
 		}
-		if(ammo <= 0) {
+		if (ammo <= 0) {
 			throw new RuntimeException("shoot out of ammo: " + this.ammo + " id: " + this.ID);
 		}
-		if(!field.inDistance(target, shootRange + 0.5f)) {
+		if (!field.inDistance(target, shootRange + 0.5f)) {
 			throw new RuntimeException("shoot is not in dist: " + this.ID);
 		}
 
 		target.takeShot(damage);
-		if(listener != null) {
+		if (listener != null) {
 			listener.onShoot(target.pos());
 		}
 		ammo--;
 		actionPoints--;
 	}
 
-	public void takeShot(int recievedDamage) {	
+	public void takeShot(int recievedDamage) {
 		health -= recievedDamage;
-		if(health <= 0) {
+		if (health <= 0) {
 			field.leave();
 			team.unitDied(ID);
-			if(listener != null) {
+			if (listener != null) {
 				listener.unitDied();
 			}
 		}
 	}
-	
+
 	public void updateWorld(MainModel mm) {
 		seenFields = mm.requestFileds(field.pos(), viewRange + 0.5f);
 		seenUnits = mm.requestPerceivedUnits(field.pos(), viewRange + 0.5f);
@@ -157,18 +153,18 @@ public class Unit {
 
 	public void updateSelf(int percentage) {
 		int updateAmount;
-		if(health <= maxHealth) {
-			updateAmount = (int)Math.ceil(maxHealth * (percentage/100));
-			
+		if (health <= maxHealth) {
+			updateAmount = (int) Math.ceil(maxHealth * (percentage / 100f));
+
 			health = Math.min(maxHealth, health + updateAmount);
 		}
-		if(ammo  <= maxAmmo) {
-			updateAmount = (int)Math.ceil(maxAmmo * (percentage/100f));
+		if (ammo <= maxAmmo) {
+			updateAmount = (int) Math.ceil(maxAmmo * (percentage / 100f));
 			ammo = Math.min(maxAmmo, ammo + updateAmount);
 		}
-		if(fuel <= maxFuel) {
-			updateAmount = (int)Math.ceil(maxHealth * (percentage/100f));
-			fuel =  Math.min(maxFuel, fuel + updateAmount);
+		if (fuel <= maxFuel) {
+			updateAmount = (int) Math.ceil(maxHealth * (percentage / 100f));
+			fuel = Math.min(maxFuel, fuel + updateAmount);
 		}
 	}
 
@@ -183,12 +179,15 @@ public class Unit {
 	public Team team() {
 		return team;
 	}
+
 	public int shootRange() {
 		return shootRange;
 	}
+
 	public Color color() {
 		return team.getColor();
 	}
+
 	public int viewRange() {
 		return viewRange;
 	}
@@ -212,7 +211,7 @@ public class Unit {
 	public PerceivedUnit getPerception() {
 		return new PerceivedUnit(field.pos().toString(), team.getName(), type.toString(), ID, health);
 	}
-	
+
 	public int actionPoints() {
 		return actionPoints;
 	}
@@ -222,25 +221,25 @@ public class Unit {
 	}
 
 	public String toString(boolean toMonitor) {
-		if(toMonitor) {
+		if (toMonitor) {
 			return "ID: " + ID + "\n"
-			+ "Type: " + type.toString() + "\n"
-			+ "Pos: " + field.pos().toString() + "\n"
-			+ "Health: " + health  + "/" + maxHealth + "\n"
-			+ "Ammo: " + ammo  + "/" + maxAmmo + "\n"
-			+ "Fuel: " + fuel  + "/" + maxFuel + "\n";
+					+ "Type: " + type.toString() + "\n"
+					+ "Pos: " + field.pos().toString() + "\n"
+					+ "Health: " + health + "/" + maxHealth + "\n"
+					+ "Ammo: " + ammo + "/" + maxAmmo + "\n"
+					+ "Fuel: " + fuel + "/" + maxFuel + "\n";
 		}
 		return "\n" + ID + "\n"
-		+ type.toString() + "\n"
-		+ field.pos().toString() + " " + field.getType().toString() + "\n"
-	 	+ seenFields.toString() + "\n"
-		+ seenUnits.toString() + "\n"
-		+ seenControlPoints.toString() + "\n"
-		+ health + "\n"
-		+ ammo + "\n"
-		+ fuel + "\n"
-		+ actionPoints + "\n"
-		+ team.getName() + "\n";
+				+ type.toString() + "\n"
+				+ field.pos().toString() + " " + field.getType().toString() + "\n"
+				+ seenFields.toString() + "\n"
+				+ seenUnits.toString() + "\n"
+				+ seenControlPoints.toString() + "\n"
+				+ health + "\n"
+				+ ammo + "\n"
+				+ fuel + "\n"
+				+ actionPoints + "\n"
+				+ team.getName() + "\n";
 	}
 
 	public void setField(Field f) {
