@@ -29,8 +29,6 @@ def communicate(units):
     return "endTurn"
         
 
-
-# majd a revard functionon itt kell hogy számoljanak lhgy nyertunk vagy sem
 def endPhase(units):
     result = input()
     logger.debug_print(result)
@@ -54,6 +52,8 @@ def main():
                     pass
                 case "commPhase":
                     units = inputHandler.makeUnits()
+                    if(len(units) == 0):
+                        teamCommands.append("endTurn")
                     if(len(teamCommands) == 0):
                         teamCommands += tLAction(units)
                     if(len(teamCommands) == 0):
