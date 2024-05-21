@@ -13,12 +13,14 @@ public final class Team {
 	private String name;
 	private String strategy;
 	private final HashMap<Integer, Unit> units;
+	private final HashMap<Integer, Unit> deadUnits;
 	private int budget = 0;
 	private MainModel mm;
 	Random rand = new Random();
 	
 	public Team(String name, String strategy, int budget, MainModel mm) {
 		units = new HashMap<Integer, Unit>();
+		deadUnits = new HashMap<Integer, Unit>();
 		if(name == "white") {
 			this.color = new Color(1, 1, 1, 1);
 		} else if(name == "red") {
@@ -118,7 +120,8 @@ public final class Team {
 
 	
 	public void unitDied(int id) {
-		units.remove(id);
+		var deadUnit = units.remove(id);
+		deadUnits.put(id, deadUnit);
 		if(units.isEmpty()) {
 			mm.teamLost(name);
 		}
@@ -133,9 +136,12 @@ public final class Team {
 	}
 
 	public void reset() {
+		deadUnits.forEach((id, u) -> {
+			units.put(id, u);
+		});
 		units.forEach((id, u) -> {
-			// u.setField(Map.instance().getField(new Position(Map.instance().r.nextInt(0, 16), Map.instance().r.nextInt(0, 16))));
-			u.setField(mm.getField(u.getStartingPos()));
+			u.reset(mm.getField(u.getStartingPos()));
+
 		});
 	}
 

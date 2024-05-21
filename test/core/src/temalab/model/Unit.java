@@ -242,9 +242,17 @@ public class Unit {
 				+ team.getName() + "\n";
 	}
 
-	public void setField(Field f) {
+
+	public void reset(Field f) {
+		health = maxHealth;
+		ammo = maxAmmo;
+		fuel = maxFuel;
+		actionPoints = maxActionPoints;
 		this.field.leave();
 		f.arrive(this);
 		this.field = f;
+		if(listener != null) {
+			listener.unitReseted();
+		}
 	}
 }
