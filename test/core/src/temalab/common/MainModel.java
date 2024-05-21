@@ -120,12 +120,7 @@ public class MainModel {
         return teams.get(name);
     }
 
-	// this method should call the final thread closer as of #15
-	public void winEvent(String winnerTeam) {
-		System.out.println(winnerTeam + " team won!");
-		
-		System.exit(0);
-	}
+
 
     public ArrayList<Unit> requestUnits(Position pos, float size) {
 		var view = new ArrayList<Unit>();
@@ -181,9 +176,18 @@ public class MainModel {
         return new ArrayList<Team>(teams.values());
     }
 
+
+	// this method should call the final thread closer as of #15
 	public void teamLost(String name) {
 		if(this.mmcl != null) {
 			mmcl.teamLost(name);
 		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		System.out.println("here");
+		System.exit(0);
 	}
 }

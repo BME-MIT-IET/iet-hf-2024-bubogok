@@ -32,6 +32,7 @@ def communicate(units):
 def endPhase(units):
     result = input()
     logger.debug_print(result)
+    sys.exit(0)
 
 
 def main():

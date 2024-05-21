@@ -71,8 +71,8 @@ public class MainCommunicator implements mainModelCommunicatorListener {
 
     @Override
     public void teamLost(String name) {
-        for(var c : communictors) {
-            if(c.getTeam().getName() == name) {
+        for (var c : communictors) {
+            if (c.getTeam().getName() == name) {
                 c.endSimu(false);
             } else {
                 c.endSimu(true);
