@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.sonarqube" version "4.4.1.3373"
+}
+
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "java"
@@ -73,5 +77,14 @@ project(":core") {
         // implementation 'com.google.guava:guava:31.1-jre'
         // testImplementation 'junit:junit:4.13.2'
         // implementation 'junit:junit:4.13.2'
+    }
+}
+
+
+sonar {
+    properties {
+        property "sonar.projectKey", "BME-MIT-IET_iet-hf-2024-bubogok"
+        property "sonar.organization", "bme-mit-iet-org"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
