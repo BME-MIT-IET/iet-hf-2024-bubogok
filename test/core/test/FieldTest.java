@@ -12,22 +12,23 @@ import temalab.model.Unit;
 import temalab.model.Field.Type;
 
 public class FieldTest {
+    
+    private Field field;
+
     @Mock
-    Field field;
-    @Mock
-    Field otherField;
+    private Field otherField;
     @Mock
 	private MainModel mockMainModel;
     @Mock
-    Unit unit;
+    private Unit unit;
 
     @BeforeEach
     public void init(){
         field = new Field(new Position(0,0), Type.GRASS);
-        otherField = new Field(new Position(0,1), Type.GRASS);
+        // otherField = new Field(new Position(0,1), Type.GRASS);
 
-        Team team = new Team("TestTeam", "null", 10, null);
-        unit = new Unit(otherField, team, Unit.Type.TANK);
+        // Team team = new Team("TestTeam", "null", 10, mockMainModel);
+        //unit = new Unit(otherField, team, Unit.Type.TANK);
     }
 
     @Test
@@ -37,9 +38,11 @@ public class FieldTest {
 
     @Test
     public void unitTakesShot(){
+        when(unit.getHealth()).thenReturn(1).thenReturn(0);
         int unitDefaultHealth = unit.getHealth();
         field.takeShot(1);
         Assert.assertEquals(unitDefaultHealth-1, unit.getHealth());
+        verify(unit, times(1)).takeShot(1);
     }
 
     @Test
