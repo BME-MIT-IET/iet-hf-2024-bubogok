@@ -3,6 +3,7 @@ package temalab.communicator;
 import temalab.logger.Log;
 import temalab.model.Position;
 import temalab.model.Team;
+import temalab.logger.Label;
 
 import java.io.*;
 import java.util.Scanner;
@@ -20,11 +21,21 @@ public class Communicator {
 	Thread errorThread;
 	Process process;
 
-	private final String logLabel;
+	private final Label javaLogLabel;
+	private final Label pythonLogLabel;
 
 	public Communicator(Team team, String fileName, String strategy) {
 		this.team = team;
-		logLabel = team.getName() + " java";
+		javaLogLabel = new Label(
+			team.getName() + " java",
+			Label.Color.Black,
+			team.getName() == "red" ? Label.Color.Red : Label.Color.White
+		);
+		pythonLogLabel = new Label(
+			team.getName() + " python",
+			Label.Color.Black,
+			team.getName() == "red" ? Label.Color.Red : Label.Color.White
+		);
 		String currDir = System.getProperty("user.dir");
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName, strategy);
 		try {
@@ -40,7 +51,7 @@ public class Communicator {
 		out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		BufferedReader erroReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		errorThread = new Thread(() -> {
-			erroReader.lines().forEach(s -> Log.d(team.getName() + " python", s));
+			erroReader.lines().forEach(s -> Log.d(pythonLogLabel, s));
 		});
 		errorThread.start();
 		out.println(team.getName());
@@ -83,8 +94,8 @@ public class Communicator {
 	public void communicate() {
 		team.refillActionPoints();
 		runCounter++;
-		Log.d(logLabel, "RUN:" + runCounter);
-		Log.d(logLabel, "communicating");
+		Log.d(javaLogLabel, "RUN:" + runCounter);
+		Log.d(javaLogLabel, "communicating");
 
 		loop:
 		while (true) {
@@ -109,13 +120,13 @@ public class Communicator {
 				throw new RuntimeException("No answer from python");
 			}
 			String answer = sc.nextLine();
-			Log.d(logLabel, "anwser from python: " + answer);
+			Log.d(javaLogLabel, "anwser from python: " + answer);
 			String[] split = answer.split(" ");
 			switch (split[0]) {
 				case "endTurn":
 					break loop;
 				case "reset":
-					Log.d(logLabel, "reset shuold happen");
+					Log.d(javaLogLabel, "reset shuold happen");
 					team.reset();
 					break loop;
 				case "move": {
@@ -127,11 +138,11 @@ public class Communicator {
 				}
 				break;
 				default:
-					Log.w(logLabel, "anwser starting with: " + split[0] + " could not be interpreted");
+					Log.w(javaLogLabel, "anwser starting with: " + split[0] + " could not be interpreted");
 					break loop;
 			}
 		}
-		Log.d(logLabel, "ENDcommunicating");
+		Log.d(javaLogLabel, "ENDcommunicating");
 	}
 
 	private void unitMove(String[] split) {

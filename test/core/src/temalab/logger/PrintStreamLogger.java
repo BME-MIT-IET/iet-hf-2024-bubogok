@@ -9,32 +9,32 @@ public class PrintStreamLogger extends LoggerBase {
 		this.printStream = printStream;
 	}
 
-	protected void printLines(String label, String message) {
+	protected void printLines(Label label, String message) {
 		for (String line : message.split("\n")) {
-			printStream.println(String.format("\t%s - %s", label, line));
+			printStream.println(String.format("\t%s - %s", label.label, line.stripTrailing()));
 		}
 	}
 
 	@Override
-	public void debug(String label, String message) {
+	public void debug(Label label, String message) {
 		printStream.println(getInfos("DEBUG"));
 		printLines(label, message);
 	}
 
 	@Override
-	public void info(String label, String message) {
+	public void info(Label label, String message) {
 		printStream.print(getInfos("INFO"));
 		printLines(label, message);
 	}
 
 	@Override
-	public void warning(String label, String message) {
+	public void warning(Label label, String message) {
 		printStream.print(getInfos("WARNING"));
 		printLines(label, message);
 	}
 
 	@Override
-	public void error(String label, String message) {
+	public void error(Label label, String message) {
 		printStream.print(getInfos("ERROR"));
 		printLines(label, message);
 	}
