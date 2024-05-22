@@ -3,7 +3,6 @@ package temalab.model;
 import com.badlogic.gdx.graphics.Color;
 import temalab.common.ControlPointListener;
 import temalab.common.MainModel;
-import temalab.logger.Log;
 
 import java.util.HashMap;
 import java.util.List;

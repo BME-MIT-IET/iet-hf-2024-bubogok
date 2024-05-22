@@ -1,6 +1,9 @@
 package temalab.logger;
 
 public final class Log {
+
+	private Log() { }
+
 	private static Logger logger = new ConsoleLogger();
 
 	/**
