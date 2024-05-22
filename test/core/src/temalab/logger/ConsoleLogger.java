@@ -1,43 +1,46 @@
 package temalab.logger;
-public class ConsoleLogger extends PrintStreamLogger{
-    static final String ANSI_RESET = "\u001B[0m";
-    static final String ANSI_RED = "\u001B[31m";
-    static final String ANSI_YELLOW = "\u001B[33m";
-    static final String ANSI_BLUE = "\u001B[34m";
 
-    public ConsoleLogger(){
-        setPrintStream(System.out);
-    }
+import java.io.PrintStream;
 
-    //TODO maybe can be placed elsewhere, e.g. Base or Logger interface and then it could be overriden
-    private void printLines(String label, String message){
-        for (String line : message.split("\n")) {
-            printStream.println(String.format("\t%s - %s", label, line));
-        }
-        printStream.print(ANSI_RESET);
-    }
+public class ConsoleLogger extends PrintStreamLogger {
+	private static final String ANSI_RESET = "\u001B[0m";
+	private static final String ANSI_RED = "\u001B[31m";
+	private static final String ANSI_YELLOW = "\u001B[33m";
+	private static final String ANSI_BLUE = "\u001B[34m";
 
-    @Override
-    public void debug(String label, String message){
-        printStream.println(ANSI_RESET + getInfos("DEBUG"));
-        printLines(label, message);
-    }
+	public ConsoleLogger() {
+		this(System.err);
+	}
 
-    @Override
-    public void info(String label, String message){
-        printStream.print(ANSI_BLUE + getInfos("INFO"));
-        printLines(label, message);
-    }
+	public ConsoleLogger(PrintStream printStream) {
+		super(printStream);
+	}
 
-    @Override
-    public void warning(String label, String message){
-        printStream.print(ANSI_YELLOW + getInfos("WARNING"));
-        printLines(label, message);
-    }
+	@Override
+	public void debug(String label, String message) {
+		printStream.println(ANSI_RESET);
+		super.debug(label, message);
+		printStream.print(ANSI_RESET);
+	}
 
-    @Override
-    public void error(String label, String message){
-        printStream.print(ANSI_RED + getInfos("ERROR"));     
-        printLines(label, message);   
-    }
+	@Override
+	public void info(String label, String message) {
+		printStream.print(ANSI_BLUE);
+		super.info(label, message);
+		printStream.print(ANSI_RESET);
+	}
+
+	@Override
+	public void warning(String label, String message) {
+		printStream.print(ANSI_YELLOW);
+		super.warning(label, message);
+		printStream.print(ANSI_RESET);
+	}
+
+	@Override
+	public void error(String label, String message) {
+		printStream.print(ANSI_RED);
+		super.error(label, message);
+		printStream.print(ANSI_RESET);
+	}
 }
