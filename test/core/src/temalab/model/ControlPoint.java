@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class ControlPoint {
-	//TODO: pos helyett field kellene
 	private Position pos;
 	private int size;
 	private int percentage;
@@ -20,7 +19,7 @@ public class ControlPoint {
 	private Team prevControlTeam;
 	private int controlLenght;
 	private MainModel mm;
-	private final int ID;
+	private final int id;
 	private static int idCounter = 0;
 
 	public ControlPoint(Position p, int percentage, int size, MainModel mm) {
@@ -28,7 +27,7 @@ public class ControlPoint {
 		this.size = size;
 		this.percentage = percentage;
 		this.mm = mm;
-		this.ID = idCounter++;
+		this.id = idCounter++;
 	}
 
 	private Map<Team, Integer> countUnits(List<Unit> seenUnits) {
@@ -71,7 +70,6 @@ public class ControlPoint {
 
 	private void healUnits(boolean twoTeams, List<Unit> seenUnits) {
 		if (!twoTeams && controlTeam != null) {
-//            System.err.println("Színt kellene váltani");
 			if (listener != null) {
 				listener.onColorChange(controlTeam.getColor());
 			} //színállítás
@@ -86,7 +84,7 @@ public class ControlPoint {
 	public void updateNearbyUnits() {
 		boolean twoContolrTeams = false;
 		var seenUnits = mm.requestUnits(pos, size + 0.5f);
-		if (seenUnits.size() != 0) {
+		if (!seenUnits.isEmpty()) {
 			var unitCount = countUnits(seenUnits);
 			//eddig csak megszámoltuk, hogy melyik csapathoz hány egység tartozik
 
@@ -116,7 +114,7 @@ public class ControlPoint {
 	}
 
 	public int getId() {
-		return ID;
+		return id;
 	}
 
 	public void registerListener(ControlPointListener cpl) {
@@ -124,6 +122,6 @@ public class ControlPoint {
 	}
 
 	public String toString() {
-		return this.pos.toString() + " " + this.percentage + " " + this.size + " " + this.ID;
+		return this.pos.toString() + " " + this.percentage + " " + this.size + " " + this.id;
 	}
 }
