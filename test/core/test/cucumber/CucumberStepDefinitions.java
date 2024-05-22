@@ -23,8 +23,8 @@ public class CucumberStepDefinitions {
 
 	@Before
 	public void setup() {
-		red = new Team("red", null, 0, null);
-		white = new Team("white", null, 0, null);
+		red = new Team("red", null, 0, mainModel);
+		white = new Team("white", null, 0, mainModel);
 	}
 
 	@Given("the infantry is on the field")
