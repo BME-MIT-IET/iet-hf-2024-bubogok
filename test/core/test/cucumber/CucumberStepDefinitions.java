@@ -27,7 +27,7 @@ public class CucumberStepDefinitions {
 	}
 
 	@Given("^a (.*) (.*) on (\\d*), (\\d*)$")
-	public void there_is_a(String teamName, String unitType, int x, int y) {
+	public void aOn(String teamName, String unitType, int x, int y) {
 		Team team;
 		if (teams.containsKey(teamName)) {
 			team = teams.get(teamName);
@@ -103,7 +103,7 @@ public class CucumberStepDefinitions {
 	}
 
 	@When("^the (.*) tries to move to (-?\\d*), (-?\\d*)$")
-	public void theRedTankTriesToMoveTo(String unitName, int x, int y) {
+	public void theTriesToMoveTo(String unitName, int x, int y) {
 		Unit unit = units.get(unitName);
 		if (unit.actionPoints() > 0 && mainModel.getField(new Position(x, y)) != null
 				&& Math.abs(unit.getField().pos().x() - x) <= 1
