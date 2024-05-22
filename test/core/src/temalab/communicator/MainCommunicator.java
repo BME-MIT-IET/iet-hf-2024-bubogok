@@ -2,6 +2,7 @@ package temalab.communicator;
 
 import temalab.common.MainModel;
 import temalab.common.MainModelCommunicatorListener;
+import temalab.logger.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +54,7 @@ public class MainCommunicator implements MainModelCommunicatorListener {
 		for (var c : communictors) {
 			c.communicate();
 			mm.controlPointsUpdate();
-
-			System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
+			Log.d("Communication", "--------Egy kor lement--------");
 			if (manualResetEvent) {
 				pause = true;
 			}
@@ -88,13 +88,14 @@ public class MainCommunicator implements MainModelCommunicatorListener {
 			if (pause) {
 				pause = false;
 				waiter.notifyAll();
-				System.out.println("RESUMED");
+				Log.d("Communication", "RESUMED");
 			} else {
 				pause = true;
 				System.out.println("PAUSED");
+				Log.d("Communication", "PAUSED");
 			}
 		}
-		System.out.println("paused = " + pause);
+		Log.d("Communication", "paused = " + pause);
 	}
 
 	@Override

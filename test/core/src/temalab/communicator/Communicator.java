@@ -1,5 +1,6 @@
 package temalab.communicator;
 
+import temalab.logger.Log;
 import temalab.model.Position;
 import temalab.model.Team;
 
@@ -9,7 +10,7 @@ import java.util.Scanner;
 public class Communicator {
 	private final OutputStream outputStream;
 	private final InputStream inputStream;
-	private Team team;
+	private final Team team;
 	private Scanner sc;
 	private PrintWriter out;
 	private int runCounter = 0;
@@ -19,8 +20,11 @@ public class Communicator {
 	Thread errorThread;
 	Process process;
 
+	private final String logLabel;
+
 	public Communicator(Team team, String fileName, String strategy) {
 		this.team = team;
+		logLabel = team.getName() + " java";
 		String currDir = System.getProperty("user.dir");
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName, strategy);
 		try {
@@ -36,17 +40,7 @@ public class Communicator {
 		out = new PrintWriter(new OutputStreamWriter(outputStream), true);
 		BufferedReader erroReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		errorThread = new Thread(() -> {
-			var color = team.getName();
-			if (color.equals("white")) {
-				erroReader.lines().forEach(s -> System.err.println("\033[47;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
-			} else if (color.equals("red")) {
-				erroReader.lines().forEach(s -> System.err.println("\033[41;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
-			}
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			erroReader.lines().forEach(s -> Log.d(team.getName() + " python", s));
 		});
 		errorThread.start();
 		out.println(team.getName());
@@ -54,7 +48,7 @@ public class Communicator {
 	}
 
 	public void registerUnit() {
-		// System.err.print("registering");
+		// Log.d(logLabel, "registering");
 		// out.println("regPhase");
 		// out.println(team.getBudget());
 		// String answer = sc.nextLine();
@@ -82,15 +76,15 @@ public class Communicator {
 		// 	answer = sc.nextLine();
 		// 	split = answer.split(" ");
 		// }
-		// System.err.println(team.getName() + " " + "ENDregistering");
+		// Log.d(logLabel, "ENDregistering");
 	}
 
 
 	public void communicate() {
 		team.refillActionPoints();
 		runCounter++;
-		System.err.println("\033[0;35mdebug from " + team.getName() + "RUN:" + runCounter + "\033[0m");
-		System.err.println("\033[0;35mdebug from " + team.getName() + " " + "communicating" + "\033[0m");
+		Log.d(logLabel, "RUN:" + runCounter);
+		Log.d(logLabel, "communicating");
 
 		loop:
 		while (true) {
@@ -115,13 +109,13 @@ public class Communicator {
 				throw new RuntimeException("No answer from python");
 			}
 			String answer = sc.nextLine();
-			System.err.println("\033[0;35m pytohnból jött:" + answer + "\033[0m");
+			Log.d(logLabel, "anwser from python: " + answer);
 			String[] split = answer.split(" ");
 			switch (split[0]) {
 				case "endTurn":
 					break loop;
 				case "reset":
-					System.out.println("reset should happen");
+					Log.d(logLabel, "reset shuold happen");
 					team.reset();
 					break loop;
 				case "move": {
@@ -133,12 +127,11 @@ public class Communicator {
 				}
 				break;
 				default:
-					System.err.println("\033[0;35mdebug from " + "message starting with: " + split[0] + " could not be interpreted" + "\033[0m");
+					Log.w(logLabel, "anwser starting with: " + split[0] + " could not be interpreted");
 					break loop;
 			}
 		}
-
-		System.err.println("\033[0;35mdebug from " + "ENDcommunicating" + "\033[0m");
+		Log.d(logLabel, "ENDcommunicating");
 	}
 
 	private void unitMove(String[] split) {
