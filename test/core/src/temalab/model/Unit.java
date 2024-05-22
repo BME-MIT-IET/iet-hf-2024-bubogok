@@ -261,11 +261,35 @@ public class Unit {
 		this.field = f;
 	}
 
+	public void setActionPoints(int actionPoints) {
+		this.actionPoints = actionPoints;
+	}
+
+	public void setAmmo(int ammo) {
+		this.ammo = ammo;
+	}
+
+	public int getAmmo() {
+		return ammo;
+	}
+
+	public int getActionPoints() {
+		return actionPoints;
+	}
+
+	public Field getField() {
+		return field;
+	}
+
 	public int getMaxHealth() {
 		return maxHealth;
 	}
 
 	public int getHealth() {
 		return health;
+	}
+
+	public Team getTeam() {
+		return team;
 	}
 }

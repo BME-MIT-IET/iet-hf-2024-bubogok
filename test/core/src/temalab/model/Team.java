@@ -49,6 +49,14 @@ public final class Team {
 		return budget;
 	}
 
+	public HashMap<Integer, Unit> getUnits() {
+		return units;
+	}
+
+	public HashMap<Integer, Unit> getDeadUnits() {
+		return deadUnits;
+	}
+
 	public void addUnit(Unit v) {
 		int currentBalance = 0;
 		for (java.util.Map.Entry<Integer, Unit> entry : units.entrySet()) {
