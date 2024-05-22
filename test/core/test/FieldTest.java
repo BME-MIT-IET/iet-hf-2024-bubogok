@@ -1,7 +1,3 @@
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.errorprone.annotations.DoNotMock;
 
 import temalab.common.MainModel;
@@ -10,7 +6,13 @@ import temalab.model.Position;
 import temalab.model.Team;
 import temalab.model.Unit;
 import temalab.model.Field.Type;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(MockitoExtension.class)
 public class FieldTest {
     
     private Field field;
@@ -33,7 +35,7 @@ public class FieldTest {
 
     @Test
     public void unitArrivesOnFieldSuccess(){
-        Assert.assertTrue(field.arrive(unit));
+        assertTrue(field.arrive(unit));
     }
 
     @Test
@@ -41,18 +43,18 @@ public class FieldTest {
         when(unit.getHealth()).thenReturn(1).thenReturn(0);
         int unitDefaultHealth = unit.getHealth();
         field.takeShot(1);
-        Assert.assertEquals(unitDefaultHealth-1, unit.getHealth());
+        assertEquals(unitDefaultHealth-1, unit.getHealth());
         verify(unit, times(1)).takeShot(1);
     }
 
     @Test
     public void fieldsNeighbouring(){
-        Assert.assertTrue(field.isNeighbouring(otherField));
+        assertTrue(field.isNeighbouring(otherField));
     }
 
     @Test
     public void fieldIsInDistance(){
-        Assert.assertTrue(field.inDistance(otherField, 1));
+        assertTrue(field.inDistance(otherField, 1));
     }
 
 }
