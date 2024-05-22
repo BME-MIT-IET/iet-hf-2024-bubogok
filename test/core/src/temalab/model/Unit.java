@@ -242,7 +242,6 @@ public class Unit {
 				+ team.getName() + "\n";
 	}
 
-
 	public void reset(Field f) {
 		health = maxHealth;
 		ammo = maxAmmo;
@@ -254,5 +253,19 @@ public class Unit {
 		if(listener != null) {
 			listener.unitReseted();
 		}
+	}
+
+	public void setField(Field f) {
+		this.field.leave();
+		f.arrive(this);
+		this.field = f;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public int getHealth() {
+		return health;
 	}
 }

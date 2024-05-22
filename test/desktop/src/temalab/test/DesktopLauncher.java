@@ -7,11 +7,13 @@ import temalab.communicator.MainCommunicator;
 import temalab.gui.view.GUIView;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main(String[] arg) {
 		MainModel mm = new MainModel(60);
+		mm.placeDefaultUnits();
+		mm.placeDefaultControlPoints();
 		MainCommunicator mc = new MainCommunicator(mm);
 		mm.addListener(mc);
-		if(arg.length >= 1 && arg[0].equals("graf")) {
+		if (arg.length >= 1 && arg[0].equals("graf")) {
 			Lwjgl3ApplicationConfiguration simu = new Lwjgl3ApplicationConfiguration();
 			simu.setTitle("float");
 			simu.setWindowedMode(1600, 1000);
