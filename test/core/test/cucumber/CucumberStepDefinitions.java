@@ -1,60 +1,123 @@
 package cucumber;
 
-import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
+import org.junit.Assume;
 import temalab.common.MainModel;
 import temalab.common.map_generation.AllGreenMapGeneratorStrategy;
-import temalab.model.Field;
 import temalab.model.Position;
 import temalab.model.Team;
 import temalab.model.Unit;
+import temalab.model.Unit.Type;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 public class CucumberStepDefinitions {
-	MainModel mainModel = new MainModel(3, new AllGreenMapGeneratorStrategy());
-	Field infantryField;
-	Field tankField;
-	Team red;
-	Team white;
-	Unit infantry;
-	Unit tank;
+	MainModel mainModel;
+	Map<String, Team> teams = new HashMap<>();
+	Map<String, Unit> units = new HashMap<>();
 
-	@Before
-	public void setup() {
-		red = new Team("red", null, 0, mainModel);
-		white = new Team("white", null, 0, mainModel);
+	@Given("the map size is {int}")
+	public void theMapSizeIs(int mapSize) {
+		mainModel = new MainModel(mapSize, new AllGreenMapGeneratorStrategy());
 	}
 
-	@Given("the infantry is on the field")
-	public void theInfantryIsOnTheField() {
-		infantryField = mainModel.getField(new Position(0, 0));
-		infantry = new Unit(infantryField, red, Unit.Type.INFANTRY);
+	@Given("^a (.*) (.*) on (\\d*), (\\d*)$")
+	public void there_is_a(String teamName, String unitType, int x, int y) {
+		Team team;
+		if (teams.containsKey(teamName)) {
+			team = teams.get(teamName);
+		} else {
+			team = new Team(teamName, "", 0, mainModel);
+		}
+
+		Unit unit = new Unit(mainModel.getField(new Position(x, y)), team, Type.valueOf(unitType.toUpperCase()));
+		units.put(teamName + " " + unitType, unit);
 	}
 
-	@When("a tank shoots on the field")
-	public void aTankShootsOnTheField() {
-		tankField = mainModel.getField(new Position(0, 1));
-		tank = new Unit(infantryField, white, Unit.Type.TANK);
-		tank.shoot(infantryField);
+	@When("^the (.*) shoots the (.*)$")
+	public void theShootsThe(String shooterName, String shotName) {
+		Unit shooter = units.get(shooterName);
+		Unit shot = units.get(shotName);
+		if (shooter.getAmmo() > 0) {
+			shooter.shoot(shot.getField());
+		} else {
+			assertThrows(Exception.class, () -> shooter.shoot(shot.getField()));
+		}
 	}
 
-	@Then("the infantry takes {int} damage")
-	public void theInfantryTakesDamage(int damage) {
-		Assert.assertTrue(infantry.getMaxHealth() >= damage ? infantry.getHealth() == infantry.getMaxHealth() - damage : infantry.getHealth() <= 0 && infantryField.getUnit() == null);
+	@Then("^the (.*) is (\\d*) below full health$")
+	public void theIsBelowFullHealth(String unitName, int missingHealth) {
+		Unit unit = units.get(unitName);
+		int currentHealth = unit.getHealth();
+		int maxHealth = unit.getMaxHealth();
+		assertEquals(maxHealth - missingHealth, currentHealth);
 	}
 
-	@Given("nothing")
-	public void _nothing() {
+	@Then("^the (.*) dies$")
+	public void theDies(String unitName) {
+		Unit unit = units.get(unitName);
+		assertFalse(isUnitAlive(unit));
 	}
 
-	@When("nothing happens")
-	public void nothing() {
+	@Then("^the (.*) stays alive$")
+	public void theStaysAlive(String unitName) {
+		Unit unit = units.get(unitName);
+		assertTrue(isUnitAlive(unit));
 	}
 
-	@Then("true")
-	public void _true() {
-		Assert.assertTrue(true);
+	private boolean isUnitAlive(Unit unit) {
+		boolean alive = unit.getTeam().getUnits().containsValue(unit);
+		boolean notDead = !unit.getTeam().getDeadUnits().containsValue(unit);
+		Assume.assumeTrue(alive == notDead);
+		return alive;
+	}
+
+
+	@Given("^the (.*) has (\\d*) action points$")
+	public void theHasActionPoints(String unitName, int actionPoints) {
+		Unit unit = units.get(unitName);
+		unit.setActionPoints(actionPoints);
+	}
+
+	@Then("^the (.*) has (\\d*) action points left$")
+	public void theHasActionPointsLeft(String unitName, int actionPoints) {
+		Unit unit = units.get(unitName);
+		assertEquals(actionPoints, unit.getActionPoints());
+	}
+
+	@Given("^the (.*) has (\\d*) ammo$")
+	public void theHasAmmo(String unitName, int ammo) {
+		Unit unit = units.get(unitName);
+		unit.setAmmo(ammo);
+	}
+
+	@Then("^the (.*) has (\\d*) ammo left$")
+	public void thenTheHasAmmoLeft(String unitName, int ammo) {
+		Unit unit = units.get(unitName);
+		assertEquals(ammo, unit.getAmmo());
+	}
+
+	@When("^the (.*) tries to move to (-?\\d*), (-?\\d*)$")
+	public void theRedTankTriesToMoveTo(String unitName, int x, int y) {
+		Unit unit = units.get(unitName);
+		if (unit.actionPoints() > 0 && mainModel.getField(new Position(x, y)) != null
+				&& Math.abs(unit.getField().pos().x() - x) <= 1
+				&& Math.abs(unit.getField().pos().y() - y) <= 1) {
+			unit.move(mainModel.getField(new Position(x, y)));
+		} else {
+			assertThrows(Exception.class, () -> unit.move(mainModel.getField(new Position(x, y))));
+		}
+	}
+
+	@Then("^the (.*) is on (\\d*), (\\d*)$")
+	public void theIsOn(String unitName, int x, int y) {
+		Unit unit = units.get(unitName);
+		assertEquals(mainModel.getField(new Position(x, y)), unit.getField());
+
 	}
 }
