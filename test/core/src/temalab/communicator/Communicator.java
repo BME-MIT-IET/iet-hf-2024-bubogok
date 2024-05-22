@@ -28,13 +28,13 @@ public class Communicator {
 		this.team = team;
 		javaLogLabel = new Label(
 			team.getName() + " java",
-			Label.Color.Black,
-			team.getName() == "red" ? Label.Color.Red : Label.Color.White
+			Label.Color.BLACK,
+			team.getName().equals("red") ? Label.Color.RED : Label.Color.WHITE
 		);
 		pythonLogLabel = new Label(
 			team.getName() + " python",
-			Label.Color.Black,
-			team.getName() == "red" ? Label.Color.Red : Label.Color.White
+			Label.Color.BLACK,
+			team.getName().equals("red") ? Label.Color.RED : Label.Color.WHITE
 		);
 		String currDir = System.getProperty("user.dir");
 		ProcessBuilder processBuilder = new ProcessBuilder("python3", currDir + '/' + fileName, strategy);

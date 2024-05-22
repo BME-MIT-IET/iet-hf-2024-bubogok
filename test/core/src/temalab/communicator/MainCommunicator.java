@@ -2,6 +2,7 @@ package temalab.communicator;
 
 import temalab.common.MainModel;
 import temalab.common.MainModelCommunicatorListener;
+import temalab.logger.Label;
 import temalab.logger.Log;
 
 import java.util.ArrayList;
@@ -16,8 +17,11 @@ public class MainCommunicator implements MainModelCommunicatorListener {
 	private boolean runCommThread;
 	private Thread shutdownHook;
 
+	private final Label communicationLogLabel;
+
 	public MainCommunicator(MainModel mm) {
 		communictors = new ArrayList<>();
+		communicationLogLabel = new Label("Communication", Label.Color.NONE, Label.Color.NONE);
 		var teams = mm.getTeams();
 		for (var t : teams) {
 			communictors.add(new Communicator(t, "python/test1.py", t.getStrategy()));
@@ -54,7 +58,7 @@ public class MainCommunicator implements MainModelCommunicatorListener {
 		for (var c : communictors) {
 			c.communicate();
 			mm.controlPointsUpdate();
-			Log.d("Communication", "--------Egy kor lement--------");
+			Log.d(communicationLogLabel, "--------Egy kor lement--------");
 			if (manualResetEvent) {
 				pause = true;
 			}
@@ -88,14 +92,13 @@ public class MainCommunicator implements MainModelCommunicatorListener {
 			if (pause) {
 				pause = false;
 				waiter.notifyAll();
-				Log.d("Communication", "RESUMED");
+				Log.d(communicationLogLabel, "RESUMED");
 			} else {
 				pause = true;
-				System.out.println("PAUSED");
-				Log.d("Communication", "PAUSED");
+				Log.d(communicationLogLabel, "PAUSED");
 			}
 		}
-		Log.d("Communication", "paused = " + pause);
+		Log.d(communicationLogLabel, "paused = " + pause);
 	}
 
 	@Override

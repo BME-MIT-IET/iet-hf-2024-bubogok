@@ -2,16 +2,16 @@ package temalab.logger;
 
 public class Label {
 	public enum Color {
-		Black(30, 40),
-		Red(31, 41),
-		Green(32, 42),
-		Yellow(33, 43),
-		Blue(34, 44),
-		Magenta(35, 45),
-		Cyan(36, 46),
-		White(37, 47),
-		Default(39, 49),
-		None(0, 0);
+		BLACK(30, 40),
+		RED(31, 41),
+		GREEN(32, 42),
+		YELLOW(33, 43),
+		BLUE(34, 44),
+		MAGENTA(35, 45),
+		CYAN(36, 46),
+		WHITE(37, 47),
+		DEFAULT(39, 49),
+		NONE(0, 0);
 
 		final String foreground;
 		final String background;
@@ -28,7 +28,7 @@ public class Label {
 	public Label(String label, Label.Color foregroundColor, Label.Color backgroundColor) {
 		this.label = label;
 		this.color = 
-			(foregroundColor.equals(Label.Color.None) ? "" : foregroundColor.foreground)
-			+ (backgroundColor.equals(Label.Color.None) ? "" : backgroundColor.background);
+			(foregroundColor.equals(Label.Color.NONE) ? "" : foregroundColor.foreground)
+			+ (backgroundColor.equals(Label.Color.NONE) ? "" : backgroundColor.background);
 	}
 }

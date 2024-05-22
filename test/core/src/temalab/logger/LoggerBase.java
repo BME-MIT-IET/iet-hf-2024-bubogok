@@ -27,7 +27,7 @@ public abstract class LoggerBase implements Logger {
 		var callIndex = 0;
 		var maxCallIndex = stackTrace.length - 2;
 		while (
-			stackTrace[callIndex].getClassName() != Log.class.getName()
+			!stackTrace[callIndex].getClassName().equals(Log.class.getName())
 			&& callIndex <= maxCallIndex
 		) {
 			++callIndex;
