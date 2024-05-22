@@ -1,9 +1,5 @@
 package temalab.gui.view;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import temalab.common.MainModel;
 import temalab.common.MainModelListener;
 import temalab.communicator.MainCommunicator;
@@ -21,8 +16,11 @@ import temalab.model.Field;
 import temalab.model.Team;
 import temalab.model.Unit;
 
+import java.util.HashMap;
+import java.util.Map;
 
-public class GUIView extends ApplicationAdapter implements MainModelListener{
+
+public class GUIView extends ApplicationAdapter implements MainModelListener {
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch;
 	BitmapFont font;
@@ -36,7 +34,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 	private float universalDistanceConstant;
 	private Map<Unit, UnitView> unitViews;
 	private Map<Field, FieldView> fieldViews;
-    private Map<ControlPoint, ControlPointView> controlPointViews;
+	private Map<ControlPoint, ControlPointView> controlPointViews;
 	private Map<Team, TeamView> teamViews;
 	private MainModel mm;
 	private MainCommunicator mc;
@@ -63,7 +61,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		int size = Math.min(width, height);
 		squareSize = (size / universalDistanceConstant) / mm.width();
 
-		
+
 		fieldViews = new HashMap<>();
 		unitViews = new HashMap<>();
 		controlPointViews = new HashMap<>();
@@ -95,14 +93,14 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		controlPointViews.forEach((cp, cpv) -> {
 			cpv.render(shapeRenderer, batch);
 		});
-		Gdx.gl.glDisable(GL20.GL_BLEND);	
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 		shapeRenderer.flush();
 		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
 
 		int i = 1;
-		for(var tv : teamViews.values()) {
-			int x = (width - height) *  i / (teamViews.size() + 1);
-			tv.render(batch, font, height + x,  990);
+		for (var tv : teamViews.values()) {
+			int x = (width - height) * i / (teamViews.size() + 1);
+			tv.render(batch, font, height + x, 990);
 			i++;
 		}
 
@@ -130,7 +128,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 
 	@Override
 	public void dispose() {
-		synchronized(shutdownHook) {
+		synchronized (shutdownHook) {
 			if (!Runtime.getRuntime().removeShutdownHook(shutdownHook)) {
 				return;
 			}
@@ -141,11 +139,11 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		mc.stop();
 		System.exit(0);
 	}
-	
+
 	public float squareSize() {
 		return squareSize;
 	}
-	
+
 	public float universalDistanceConstant() {
 		return universalDistanceConstant;
 	}
@@ -160,7 +158,7 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		var uv = unitViews.get(u);
 		uv.unitDied();
 	}
-	
+
 	@Override
 	public void controlPointCreated(ControlPoint cp) {
 		controlPointViews.put(cp, new ControlPointView(cp, this));
@@ -176,8 +174,6 @@ public class GUIView extends ApplicationAdapter implements MainModelListener{
 		fieldViews.put(f, new FieldView(f, this));
 	}
 
-	@Override
-	public void fieldDestroyed(temalab.model.Field f) {}
 
 	@Override
 	public void teamCreated(Team t) {
