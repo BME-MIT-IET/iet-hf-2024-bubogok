@@ -37,9 +37,9 @@ public class Communicator {
 		BufferedReader erroReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		errorThread = new Thread(() -> {
 			var color = team.getName();
-			if (color == "white") {
+			if (color.equals("white")) {
 				erroReader.lines().forEach(s -> System.err.println("\033[47;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
-			} else if (color == "red") {
+			} else if (color.equals("red")) {
 				erroReader.lines().forEach(s -> System.err.println("\033[41;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
 			}
 			try {
