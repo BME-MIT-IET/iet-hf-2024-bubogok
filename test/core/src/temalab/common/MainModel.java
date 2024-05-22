@@ -118,7 +118,7 @@ public class MainModel {
 		return view;
 	}
 
-	public void ControlPointsUpdate() {
+	public void controlPointsUpdate() {
 		for (var cp : controlPoints) {
 			cp.updateNearbyUnits();
 		}

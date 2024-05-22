@@ -37,15 +37,14 @@ public class Communicator {
 		BufferedReader erroReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		errorThread = new Thread(() -> {
 			var color = team.getName();
-			if (color == "white") {
+			if (color.equals("white")) {
 				erroReader.lines().forEach(s -> System.err.println("\033[47;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
-			} else if (color == "red") {
+			} else if (color.equals("red")) {
 				erroReader.lines().forEach(s -> System.err.println("\033[41;30mdebug from " + team.getName() + " : " + s + "\033[0m"));
 			}
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -95,12 +94,12 @@ public class Communicator {
 
 		loop:
 		while (true) {
-			messageCounter++;
 			try {
 				Thread.sleep(17);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			messageCounter++;
 			team.updateUnits();
 			out.println(messageCounter);
 			if (!simuEnded) {
@@ -108,36 +107,29 @@ public class Communicator {
 				out.println(team.units().size());
 				out.println(team.teamMembersToString(false).toString());
 			} else {
-				System.out.println("SIMUSHOULDEND");
 				out.println("endPhase");
 				out.println(team.getName() + " " + weWon);
 				simuEnded = false;
 			}
 			if (!sc.hasNext()) {
-				throw new RuntimeException("roooosz");
+				throw new RuntimeException("No answer from python");
 			}
 			String answer = sc.nextLine();
-			System.err.println("\033[0;35mdebug from " + "pytohnból jött:" + answer + "\033[0m");
+			System.err.println("\033[0;35m pytohnból jött:" + answer + "\033[0m");
 			String[] split = answer.split(" ");
 			switch (split[0]) {
 				case "endTurn":
 					break loop;
 				case "reset":
-					System.out.println("reset shuold happen");
+					System.out.println("reset should happen");
 					team.reset();
 					break loop;
 				case "move": {
-					if (split.length == 4) {
-						team.moveUnit(Integer.parseInt(split[1]),
-								new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])));
-					}
+					unitMove(split);
 				}
 				break;
 				case "shoot": {
-					if (split.length == 4) {
-						team.fireUnit(Integer.parseInt(split[1]),
-								new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])));
-					}
+					unitShoot(split);
 				}
 				break;
 				default:
@@ -147,6 +139,20 @@ public class Communicator {
 		}
 
 		System.err.println("\033[0;35mdebug from " + "ENDcommunicating" + "\033[0m");
+	}
+
+	private void unitMove(String[] split) {
+		if (split.length == 4) {
+			team.moveUnit(Integer.parseInt(split[1]),
+					new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+		}
+	}
+
+	private void unitShoot(String[] split) {
+		if (split.length == 4) {
+			team.fireUnit(Integer.parseInt(split[1]),
+					new Position(Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+		}
 	}
 
 	public void endSimu(boolean win) {
