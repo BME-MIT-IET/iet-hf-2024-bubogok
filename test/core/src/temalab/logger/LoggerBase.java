@@ -1,20 +1,8 @@
 package temalab.logger;
-import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public abstract class LoggerBase implements Logger {
-    private PrintStream printStream = null;
-    protected PrintStream getPrintStream() {return printStream;}
-
-    public void setPrintStream(PrintStream p){
-        printStream.close(); //TODO Cleaner
-        printStream = p;
-    }
-
-    public LoggerBase(){
-        printStream = System.err;
-    }
 
     protected String getInfos(String level) {
         String res = "";
@@ -43,14 +31,13 @@ public abstract class LoggerBase implements Logger {
         return Thread.currentThread().getStackTrace()[5].getMethodName();
     }
 
-    //TODO any better way to do it?
     @Override
-    public void debug(String label, String message){}
+    public abstract void debug(String label, String message);
     @Override
-    public void info(String label, String message){}
+    public abstract void info(String label, String message);
     @Override
-    public void warning(String label, String message){}
+    public abstract void warning(String label, String message);
     @Override
-    public void error(String label, String message){}
+    public abstract void error(String label, String message);
     
 }
