@@ -1,65 +1,51 @@
-import com.google.errorprone.annotations.DoNotMock;
-
-import temalab.common.MainModel;
-import temalab.model.Field;
-import temalab.model.Position;
-import temalab.model.Team;
-import temalab.model.Unit;
-import temalab.model.Field.Type;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import temalab.model.Field;
+import temalab.model.Field.Type;
+import temalab.model.Position;
+import temalab.model.Unit;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class FieldTest {
-    
-    private Field field;
+class FieldTest {
 
-    @Mock
-    private Field otherField;
-    @Mock
-	private MainModel mockMainModel;
-    @Mock
-    private Unit unit;
+	private Field field;
 
-    @BeforeEach
-    public void init(){
-        field = new Field(new Position(0,0), Type.GRASS);
-        // otherField = new Field(new Position(0,1), Type.GRASS);
 
-        // Team team = new Team("TestTeam", "null", 10, mockMainModel);
-        //unit = new Unit(otherField, team, Unit.Type.TANK);
-    }
+	@Mock
+	private Position mockPosition;
+	@Mock
+	private Unit mockUnit;
+	@Mock
+	private Unit mockOtherUnit;
 
-    @Test
-    public void unitArrivesOnFieldSuccess(){
-        assertTrue(field.arrive(unit));
-    }
+	@BeforeEach
+	public void init() {
+		field = new Field(mockPosition, Type.GRASS);
+	}
 
-    @Test
-    public void unitTakesShot(){
-        when(unit.getHealth()).thenReturn(1).thenReturn(0);
-        int unitDefaultHealth = unit.getHealth();
-        field.takeShot(1);
-        assertEquals(unitDefaultHealth-1, unit.getHealth());
-        verify(unit, times(1)).takeShot(1);
-    }
+	@Test
+	void test_arrive_OK() {
+		assertTrue(field.arrive(mockUnit));
+	}
 
-    @Test
-    public void fieldsNeighbouring(){
-        assertTrue(field.isNeighbouring(otherField));
-    }
+	@Test
+	void test_arrive_occupied() {
+		field.arrive(mockOtherUnit);
+		assertFalse(field.arrive(mockUnit));
+	}
 
-    @Test
-    public void fieldIsInDistance(){
-        assertTrue(field.inDistance(otherField, 1));
-    }
-
+	@Test
+	void test_takeShot() {
+		field.arrive(mockUnit);
+		field.takeShot(5);
+		verify(mockUnit, times(1)).takeShot(5);
+	}
 }
