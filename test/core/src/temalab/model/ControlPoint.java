@@ -5,6 +5,8 @@ import temalab.common.ControlPointListener;
 import temalab.common.MainModel;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -29,52 +31,70 @@ public class ControlPoint {
 		this.ID = idCounter++;
 	}
 
-	public void updateNearbyUnits() {
+	private Map<Team, Integer> countUnits(List<Unit> seenUnits) {
+		var unitCount = new HashMap<Team, Integer>();
+		for (var u : seenUnits) {
+			if (unitCount.containsKey(u.team())) {
+				var val = unitCount.get(u.team());
+				unitCount.put(u.team(), val++);
+			} else {
+				unitCount.put(u.team(), 1);
+			}
+		}
+		return unitCount;
+	}
+
+	private boolean defineControlTeam(Map<Team, Integer> unitCount) {
 		boolean twoTeams = false;
+		int max = Integer.MIN_VALUE;
+		Set<java.util.Map.Entry<Team, Integer>> entries = unitCount.entrySet();
+		for (Entry<Team, Integer> entry : entries) {
+			if (entry.getValue() > max) {
+				max = entry.getValue();
+				controlTeam = entry.getKey();
+				if (prevControlTeam == controlTeam) {
+					controlLenght++;
+				} else {
+					prevControlTeam = controlTeam;
+					controlLenght = 1;
+				}
+			}
+			if (entry.getValue() == max && entry.getKey() != controlTeam) {
+				twoTeams = true;
+				prevControlTeam = null;
+				controlLenght = 0;
+
+			}
+		}
+		return twoTeams;
+	}
+
+	private void healUnits(boolean twoTeams, List<Unit> seenUnits) {
+		if (!twoTeams && controlTeam != null) {
+//            System.err.println("Színt kellene váltani");
+			if (listener != null) {
+				listener.onColorChange(controlTeam.getColor());
+			} //színállítás
+			for (var u : seenUnits) {
+				if (u.team() == controlTeam) {
+					u.updateSelf(percentage);
+				}
+			}
+		}
+	}
+
+	public void updateNearbyUnits() {
+		boolean twoContolrTeams = false;
 		var seenUnits = mm.requestUnits(pos, size + 0.5f);
 		if (seenUnits.size() != 0) {
-			var unitCount = new HashMap<Team, Integer>();
-			for (var u : seenUnits) {
-				if (unitCount.containsKey(u.team())) {
-					var val = unitCount.get(u.team());
-					unitCount.put(u.team(), val++);
-				} else {
-					unitCount.put(u.team(), 1);
-				}
-			} //eddig csak megszámoltuk, hogy melyik csapathoz hány egység tartozik
+			var unitCount = countUnits(seenUnits);
+			//eddig csak megszámoltuk, hogy melyik csapathoz hány egység tartozik
 
-			int max = Integer.MIN_VALUE;
-			Set<java.util.Map.Entry<Team, Integer>> entries = unitCount.entrySet();
-			for (Entry<Team, Integer> entry : entries) {
-				if (entry.getValue() > max) {
-					max = entry.getValue();
-					controlTeam = entry.getKey();
-					if (prevControlTeam == controlTeam) {
-						controlLenght++;
-					} else {
-						prevControlTeam = controlTeam;
-						controlLenght = 1;
-					}
-				}
-				if (entry.getValue() == max && entry.getKey() != controlTeam) {
-					twoTeams = true;
-					prevControlTeam = null;
-					controlLenght = 0;
+			twoContolrTeams = defineControlTeam(unitCount);
+			// megnézzük, hogy melyik csapathoz tartozik a ControlPoint
 
-				}
-			} // megnézzük, hogy melyik csapathoz tartozik a ControlPoint
-
-			if (!twoTeams && controlTeam != null) {
-				System.err.println("Színt kellene váltani");
-				if (listener != null) {
-					listener.onColorChange(controlTeam.getColor());
-				} //színállítás
-				for (var u : seenUnits) {
-					if (u.team() == controlTeam) {
-						u.updateSelf(percentage);
-					}
-				} //controlTeam healelése
-			}
+			healUnits(twoContolrTeams, seenUnits);
+			//controlTeam healelése
 		} else {
 			if (listener != null) {
 				listener.onColorChange(Color.CYAN);
