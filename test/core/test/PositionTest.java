@@ -1,6 +1,8 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import temalab.model.Position;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class PositionTest {
@@ -10,21 +12,21 @@ class PositionTest {
 
 	@Test
 	void test_inDistance_true() {
-		Assertions.assertTrue(p1.inDistance(p3, 2f));
+		assertTrue(p1.inDistance(p3, 2f));
 	}
 
 	@Test
 	void test_inDistance_false() {
-		Assertions.assertFalse(p1.inDistance(p2, 2f));
+		assertFalse(p1.inDistance(p2, 2f));
 	}
 
 	@Test
 	void test_isNeighbouring_true() {
-		Assertions.assertTrue(p1.isNeighbouring(p3));
+		assertTrue(p1.isNeighbouring(p3));
 	}
 
 	@Test
 	void test_isNeighbouring_false() {
-		Assertions.assertFalse(p1.isNeighbouring(p2));
+		assertFalse(p1.isNeighbouring(p2));
 	}
 }
