@@ -106,15 +106,11 @@ public final class Team {
 	}
 
 	public void updateUnits() {
-		units.forEach((id, u) -> {
-			u.updateWorld(mm);
-		});
+		units.forEach((id, u) -> u.updateWorld(mm));
 	}
 
 	public void refillActionPoints() {
-		units.forEach((id, u) -> {
-			u.refillActionPoints();
-		});
+		units.forEach((id, u) -> u.refillActionPoints());
 	}
 
 
@@ -128,20 +124,14 @@ public final class Team {
 
 	public ArrayList<String> teamMembersToString(boolean toMonitor) {
 		var res = new ArrayList<String>();
-		units.forEach((id, u) -> {
-			res.add(u.toString(toMonitor));
-		});
+		units.forEach((id, u) -> res.add(u.toString(toMonitor)));
 		return res;
 	}
 
 	public void reset() {
-		deadUnits.forEach((id, u) -> {
-			units.put(id, u);
-		});
-		units.forEach((id, u) -> {
-			u.reset(mm.getField(u.getStartingPos()));
-
-		});
+		units.putAll(deadUnits);
+		deadUnits.clear();
+		units.forEach((id, u) -> u.reset(mm.getField(u.getStartingPos())));
 	}
 
 	public MainModel getMainModel() {

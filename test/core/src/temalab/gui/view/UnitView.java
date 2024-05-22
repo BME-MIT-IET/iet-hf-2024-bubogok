@@ -12,7 +12,7 @@ import temalab.model.Unit;
 import temalab.model.Unit.Type;
 
 public class UnitView implements UnitListener {
-	private static final String imagesPath = "assets/images/";
+	private static final String IMAGES_PATH = "assets/images/";
 	private Unit u;
 	private boolean currentlyShooting;
 	private Position shootingPos;
@@ -32,16 +32,16 @@ public class UnitView implements UnitListener {
 		viewRange = u.viewRange();
 		this.c = u.color();
 		if (u.type() == Type.TANK && texture == null) {
-			texture = new Texture(Gdx.files.internal(imagesPath + "tank.png"));
+			texture = new Texture(Gdx.files.internal(IMAGES_PATH + "tank.png"));
 		} else if (u.type() == Type.SCOUT && texture == null) {
-			texture = new Texture(Gdx.files.internal(imagesPath + "scout.png"));
+			texture = new Texture(Gdx.files.internal(IMAGES_PATH + "scout.png"));
 		} else if (u.type() == Type.INFANTRY && texture == null) {
-			texture = new Texture(Gdx.files.internal(imagesPath + "infantry.png"));
+			texture = new Texture(Gdx.files.internal(IMAGES_PATH + "infantry.png"));
 		}
 	}
 
 	public void render(ShapeRenderer sr, SpriteBatch sb) {
-		if(visible) {
+		if (visible) {
 			float size = gv.squareSize();
 			Vector2 center = u.pos().screenCoords(gv.squareSize(), gv.universalDistanceConstant());
 

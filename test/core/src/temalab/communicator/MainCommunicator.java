@@ -22,40 +22,43 @@ public class MainCommunicator implements MainModelCommunicatorListener {
 			communictors.add(new Communicator(t, "python/test1.py", t.getStrategy()));
 		}
 		runCommThread = true;
-		commThread = new Thread() {
-			public void run() {
-				outer:
-				while (runCommThread) {
-					synchronized (waiter) {
-						while (pause) {
-							try {
-								waiter.wait();
-							} catch (InterruptedException e) {
-								if (!runCommThread) {
-									break outer;
-								} else {
-									// ha más forrásból jött az interrupt,
-									// akkor legyen valami nyoma
-									e.printStackTrace();
-								}
+		commThreadStart(mm);
+		shutdownHook = new Thread(this::stop);
+		Runtime.getRuntime().addShutdownHook(shutdownHook);
+	}
+
+	private void commThreadStart(MainModel mm) {
+		commThread = new Thread(() -> {
+			while (runCommThread) {
+				synchronized (waiter) {
+					while (pause) {
+						try {
+							waiter.wait();
+						} catch (InterruptedException e) {
+							if (!runCommThread) {
+								return;
+							} else {
+								e.printStackTrace();
 							}
 						}
 					}
-					for (var c : communictors) {
-						c.communicate();
-						mm.controlPointsUpdate();
-
-						System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
-						if (manualResetEvent) {
-							pause = true;
-						}
-					}
 				}
+				communicate(mm);
 			}
-		};
+		});
 		commThread.start();
-		shutdownHook = new Thread(this::stop);
-		Runtime.getRuntime().addShutdownHook(shutdownHook);
+	}
+
+	private void communicate(MainModel mm) {
+		for (var c : communictors) {
+			c.communicate();
+			mm.controlPointsUpdate();
+
+			System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
+			if (manualResetEvent) {
+				pause = true;
+			}
+		}
 	}
 
 	public void stop() {
@@ -97,7 +100,7 @@ public class MainCommunicator implements MainModelCommunicatorListener {
 	@Override
 	public void teamLost(String name) {
 		for (var c : communictors) {
-			if (c.getTeam().getName() == name) {
+			if (c.getTeam().getName().equals(name)) {
 				c.endSimu(false);
 			} else {
 				c.endSimu(true);
