@@ -1,12 +1,11 @@
 package temalab.model;
 
+import com.badlogic.gdx.graphics.Color;
+import temalab.common.MainModel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
-import com.badlogic.gdx.graphics.Color;
-
-import temalab.common.MainModel;
 
 public final class Team {
 	private Color color;
@@ -17,13 +16,13 @@ public final class Team {
 	private int budget = 0;
 	private MainModel mm;
 	Random rand = new Random();
-	
+
 	public Team(String name, String strategy, int budget, MainModel mm) {
 		units = new HashMap<Integer, Unit>();
 		deadUnits = new HashMap<Integer, Unit>();
-		if(name == "white") {
+		if (name.equals("white")) {
 			this.color = new Color(1, 1, 1, 1);
-		} else if(name == "red") {
+		} else if (name.equals("red")) {
 			this.color = new Color(1, 0, 0, 1);
 		} else {
 			this.color = new Color(0f, 0f, 0f, 1);
@@ -45,7 +44,7 @@ public final class Team {
 	public String getStrategy() {
 		return strategy;
 	}
-	
+
 	public int getBudget() {
 		return budget;
 	}
@@ -54,8 +53,8 @@ public final class Team {
 		int currentBalance = 0;
 		for (java.util.Map.Entry<Integer, Unit> entry : units.entrySet()) {
 			currentBalance += entry.getValue().price();
-        }
-		if(currentBalance + v.price() <= budget) {
+		}
+		if (currentBalance + v.price() <= budget) {
 			this.units.put(v.getUUID(), v);
 		}
 	}
@@ -63,11 +62,11 @@ public final class Team {
 	public HashMap<Integer, Unit> units() {
 		return this.units;
 	}
-	
+
 	public ArrayList<Unit> requestUnits(Position pos, float size) {
 		var view = new ArrayList<Unit>();
 		units.forEach((id, u) -> {
-			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
+			if (pos.inDistance(u.pos(), size) && u.pos() != pos) {
 				view.add(u);
 			}
 		});
@@ -77,33 +76,33 @@ public final class Team {
 	public ArrayList<PerceivedUnit> requestPerceivedUnits(Position pos, float size) {
 		var view = new ArrayList<PerceivedUnit>();
 		units.forEach((id, u) -> {
-			if(pos.inDistance(u.pos(), size) && u.pos() != pos) {
+			if (pos.inDistance(u.pos(), size) && u.pos() != pos) {
 				view.add(u.getPerception());
 			}
 		});
 		return view;
 	}
-	
+
 	public void moveUnit(int id, Position newPos) {
-			var newField = mm.getField(newPos);
-			var u = units.get(id);
-			if(newField == null || u == null) {
-				return;
-			}
-			u.move(newField);
+		var newField = mm.getField(newPos);
+		var u = units.get(id);
+		if (newField == null || u == null) {
+			return;
+		}
+		u.move(newField);
 	}
 
 	public void fireUnit(int id, Position newPos) {
-			double spreadChance = rand.nextDouble();
-			if(spreadChance > 0.75) {
-				newPos =  new Position(newPos.x() + 2*rand.nextInt(2) - 1, newPos.y() + 2*rand.nextInt(2) - 1);
-			}
-			var newField = mm.getField(newPos);
-			var u = units.get(id);
-			if(newField == null || u == null) {
-				return;
-			}
-			u.shoot(newField);
+		double spreadChance = rand.nextDouble();
+		if (spreadChance > 0.75) {
+			newPos = new Position(newPos.x() + 2 * rand.nextInt(2) - 1, newPos.y() + 2 * rand.nextInt(2) - 1);
+		}
+		var newField = mm.getField(newPos);
+		var u = units.get(id);
+		if (newField == null || u == null) {
+			return;
+		}
+		u.shoot(newField);
 	}
 
 	public void updateUnits() {
@@ -118,15 +117,15 @@ public final class Team {
 		});
 	}
 
-	
+
 	public void unitDied(int id) {
 		var deadUnit = units.remove(id);
 		deadUnits.put(id, deadUnit);
-		if(units.isEmpty()) {
+		if (units.isEmpty()) {
 			mm.teamLost(name);
 		}
 	}
-	
+
 	public ArrayList<String> teamMembersToString(boolean toMonitor) {
 		var res = new ArrayList<String>();
 		units.forEach((id, u) -> {

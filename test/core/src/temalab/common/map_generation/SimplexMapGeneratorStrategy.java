@@ -28,6 +28,11 @@ public class SimplexMapGeneratorStrategy implements MapGeneratorStrategy {
 				}
 			}
 		}
+		replaceCorners(fields, mapSize);
+		return fields;
+	}
+
+	private void replaceCorners(Map<Position, Field> fields, int mapSize) {
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
 				fields.replace(new Position(i, j), new Field(new Position(i, j), Field.Type.GRASS));
@@ -38,6 +43,5 @@ public class SimplexMapGeneratorStrategy implements MapGeneratorStrategy {
 				fields.replace(new Position(i, j), new Field(new Position(i, j), Field.Type.GRASS));
 			}
 		}
-		return fields;
 	}
 }

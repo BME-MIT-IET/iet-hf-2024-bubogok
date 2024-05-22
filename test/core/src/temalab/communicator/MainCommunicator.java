@@ -43,7 +43,7 @@ public class MainCommunicator implements MainModelCommunicatorListener {
 					}
 					for (var c : communictors) {
 						c.communicate();
-						mm.ControlPointsUpdate();
+						mm.controlPointsUpdate();
 
 						System.err.println("\033[0;35mdebug from " + "--------Egy kor lement--------" + "\033[0m");
 						if (manualResetEvent) {
