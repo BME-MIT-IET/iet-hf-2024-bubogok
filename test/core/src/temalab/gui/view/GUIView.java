@@ -82,17 +82,11 @@ public class GUIView extends ApplicationAdapter implements MainModelListener {
 		Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 		Gdx.gl.glScissor(0, 0, height, height);
 
-		fieldViews.forEach((f, fv) -> {
-			fv.render(shapeRenderer, batch);
-		});
-		unitViews.forEach((u, uv) -> {
-			uv.render(shapeRenderer, batch);
-		});
+		fieldViews.forEach((f, fv) -> fv.render(shapeRenderer));
+		unitViews.forEach((u, uv) -> uv.render(shapeRenderer, batch));
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		controlPointViews.forEach((cp, cpv) -> {
-			cpv.render(shapeRenderer, batch);
-		});
+		controlPointViews.forEach((cp, cpv) -> cpv.render(shapeRenderer));
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		shapeRenderer.flush();
 		Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
@@ -103,22 +97,6 @@ public class GUIView extends ApplicationAdapter implements MainModelListener {
 			tv.render(batch, font, height + x, 990);
 			i++;
 		}
-
-		// if (t1.units().isEmpty()) {
-		// 	try {
-		// 		Thread.sleep(10000);
-		// 	} catch (InterruptedException e) {}
-		// 	TL1.endSimu(false);
-		// 	TL2.endSimu(true);
-		// 	dispose();
-		// } else if (t2.units().isEmpty()) {
-		// 	try {
-		// 		Thread.sleep(10000);
-		// 	} catch (InterruptedException e) {}
-		// 	TL1.endSimu(true);
-		// 	TL2.endSimu(false);
-		// 	dispose();
-		// }
 
 		if (Gdx.input.isKeyPressed(Input.Keys.Q)) dispose();
 		if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
