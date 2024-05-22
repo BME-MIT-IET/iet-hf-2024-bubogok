@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Unit {
 	private static final Path descriptorDir = Path.of("assets", "descriptors");
 
-	private final int ID;
+	private final int id;
 	private Field field;
 	private ArrayList<Field> seenFields;
 	private ArrayList<PerceivedUnit> seenUnits;
@@ -54,7 +54,7 @@ public class Unit {
 		seenFields = new ArrayList<>();
 		seenUnits = new ArrayList<>();
 		steppableTypes = new ArrayList<>();
-		ID = idCounter++;
+		id = idCounter++;
 		this.field = f;
 		field.arrive(this);
 		this.team = team;
@@ -86,16 +86,16 @@ public class Unit {
 
 	public void move(Field dest) {
 		if (actionPoints <= 0) {
-			throw new RuntimeException("move out of actionPoints: " + this.actionPoints + " id: " + this.ID);
+			throw new RuntimeException("move out of actionPoints: " + this.actionPoints + " id: " + this.id);
 		}
 		if (fuel < consumption) {
-			throw new RuntimeException("move out of fuel: " + this.fuel + " id: " + this.ID);
+			throw new RuntimeException("move out of fuel: " + this.fuel + " id: " + this.id);
 		}
 		if (!field.isNeighbouring(dest)) {
-			throw new RuntimeException("move is not neightbouring id: " + this.ID + " dest: " + dest.toString() + " curr: " + this.field.pos().toString());
+			throw new RuntimeException("move is not neightbouring id: " + this.id + " dest: " + dest.toString() + " curr: " + this.field.pos().toString());
 		}
 		if (!steppableTypes.contains(dest.getType())) {
-			throw new RuntimeException("move is not steppable id: " + this.ID);
+			throw new RuntimeException("move is not steppable id: " + this.id);
 		}
 		if (!dest.arrive(this)) {
 			// throw new RuntimeException("move cannot arrive id: " + this.ID);
@@ -113,13 +113,13 @@ public class Unit {
 
 	public void shoot(Field target) {
 		if (actionPoints <= 0) {
-			throw new RuntimeException("shoot out of actionPoints: " + this.actionPoints + " id: " + this.ID);
+			throw new RuntimeException("shoot out of actionPoints: " + this.actionPoints + " id: " + this.id);
 		}
 		if (ammo <= 0) {
-			throw new RuntimeException("shoot out of ammo: " + this.ammo + " id: " + this.ID);
+			throw new RuntimeException("shoot out of ammo: " + this.ammo + " id: " + this.id);
 		}
 		if (!field.inDistance(target, shootRange + 0.5f)) {
-			throw new RuntimeException("shoot is not in dist: " + this.ID);
+			throw new RuntimeException("shoot is not in dist: " + this.id);
 		}
 
 		target.takeShot(damage);
@@ -134,7 +134,7 @@ public class Unit {
 		health -= recievedDamage;
 		if (health <= 0) {
 			field.leave();
-			team.unitDied(ID);
+			team.unitDied(id);
 			if (listener != null) {
 				listener.unitDied();
 			}
@@ -169,7 +169,7 @@ public class Unit {
 	}
 
 	public int getUUID() {
-		return this.ID;
+		return this.id;
 	}
 
 	public Position pos() {
@@ -209,7 +209,7 @@ public class Unit {
 	}
 
 	public PerceivedUnit getPerception() {
-		return new PerceivedUnit(field.pos().toString(), team.getName(), type.toString(), ID, health);
+		return new PerceivedUnit(field.pos().toString(), team.getName(), type.toString(), id, health);
 	}
 
 	public int actionPoints() {
@@ -222,14 +222,14 @@ public class Unit {
 
 	public String toString(boolean toMonitor) {
 		if (toMonitor) {
-			return "ID: " + ID + "\n"
+			return "ID: " + id + "\n"
 					+ "Type: " + type.toString() + "\n"
 					+ "Pos: " + field.pos().toString() + "\n"
 					+ "Health: " + health + "/" + maxHealth + "\n"
 					+ "Ammo: " + ammo + "/" + maxAmmo + "\n"
 					+ "Fuel: " + fuel + "/" + maxFuel + "\n";
 		}
-		return "\n" + ID + "\n"
+		return "\n" + id + "\n"
 				+ type.toString() + "\n"
 				+ field.pos().toString() + " " + field.getType().toString() + "\n"
 				+ seenFields.toString() + "\n"
@@ -250,7 +250,7 @@ public class Unit {
 		this.field.leave();
 		f.arrive(this);
 		this.field = f;
-		if(listener != null) {
+		if (listener != null) {
 			listener.unitReseted();
 		}
 	}
